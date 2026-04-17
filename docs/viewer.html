@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UI/UED Coach Viewer</title>
+    <link rel="stylesheet" href="./assets/site.css" />
+  </head>
+  <body data-page="viewer">
+    <div class="viewer-shell">
+      <header class="viewer-topbar">
+        <a class="text-link" href="./index.html">返回首页</a>
+        <div id="viewer-nav" class="viewer-nav"></div>
+      </header>
+
+      <main class="viewer-layout">
+        <aside class="viewer-aside">
+          <p class="section-kicker">Document</p>
+          <h1 id="viewer-title">加载中...</h1>
+          <p id="viewer-meta" class="viewer-meta"></p>
+        </aside>
+
+        <article id="viewer-content" class="viewer-content"></article>
+      </main>
+    </div>
+
+    <script type="module" src="./assets/site.js"></script>
+  </body>
+</html>
+

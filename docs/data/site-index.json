@@ -1,0 +1,144 @@
+{
+  "siteTitle": "UI/UED Coach",
+  "outlineFile": "plans/14-day-outline.md",
+  "completionRules": [
+    "A day is complete only after exercise submission, coach feedback, and one revision or explicit pass."
+  ],
+  "days": [
+    {
+      "index": 1,
+      "day": 1,
+      "title": "页面不是长相，是结构",
+      "status": "completed",
+      "journalFile": "journal/day-01-page-structure.md",
+      "journalTitle": "Day 1 - 页面不是长相，是结构",
+      "summary": "Learn to judge a page by goal, structure, and attention flow before looking at visual style."
+    },
+    {
+      "index": 2,
+      "day": 2,
+      "title": "信息层级：用户先看到什么",
+      "status": "locked",
+      "journalFile": null,
+      "journalTitle": null,
+      "summary": ""
+    },
+    {
+      "index": 3,
+      "day": 3,
+      "title": "页面拆解：从整页到模块",
+      "status": "locked",
+      "journalFile": null,
+      "journalTitle": null,
+      "summary": ""
+    },
+    {
+      "index": 4,
+      "day": 4,
+      "title": "组件思维：不是画块，是定义规则",
+      "status": "locked",
+      "journalFile": null,
+      "journalTitle": null,
+      "summary": ""
+    },
+    {
+      "index": 5,
+      "day": 5,
+      "title": "布局基础：对齐、间距、栅格",
+      "status": "locked",
+      "journalFile": null,
+      "journalTitle": null,
+      "summary": ""
+    },
+    {
+      "index": 6,
+      "day": 6,
+      "title": "文案与界面协同",
+      "status": "locked",
+      "journalFile": null,
+      "journalTitle": null,
+      "summary": ""
+    },
+    {
+      "index": 7,
+      "day": 7,
+      "title": "Figma 入门：用对最核心的 20%",
+      "status": "locked",
+      "journalFile": null,
+      "journalTitle": null,
+      "summary": ""
+    },
+    {
+      "index": 8,
+      "day": 8,
+      "title": "Figma 组件化：从画页面到搭系统",
+      "status": "locked",
+      "journalFile": null,
+      "journalTitle": null,
+      "summary": ""
+    },
+    {
+      "index": 9,
+      "day": 9,
+      "title": "表单与控制台页面",
+      "status": "locked",
+      "journalFile": null,
+      "journalTitle": null,
+      "summary": ""
+    },
+    {
+      "index": 10,
+      "day": 10,
+      "title": "交互与状态设计",
+      "status": "locked",
+      "journalFile": null,
+      "journalTitle": null,
+      "summary": ""
+    },
+    {
+      "index": 11,
+      "day": 11,
+      "title": "从设计到前端",
+      "status": "locked",
+      "journalFile": null,
+      "journalTitle": null,
+      "summary": ""
+    },
+    {
+      "index": 12,
+      "day": 12,
+      "title": "AI 辅助设计：让 AI 出草稿，不替你判断",
+      "status": "locked",
+      "journalFile": null,
+      "journalTitle": null,
+      "summary": ""
+    },
+    {
+      "index": 13,
+      "day": 13,
+      "title": "改版练习：把差页面改好",
+      "status": "locked",
+      "journalFile": null,
+      "journalTitle": null,
+      "summary": ""
+    },
+    {
+      "index": 14,
+      "day": 14,
+      "title": "综合实战：独立完成一个基础产品页",
+      "status": "locked",
+      "journalFile": null,
+      "journalTitle": null,
+      "summary": ""
+    }
+  ],
+  "journal": [
+    {
+      "title": "Day 1 - 页面不是长相，是结构",
+      "file": "journal/day-01-page-structure.md",
+      "day": 1,
+      "status": "completed",
+      "summary": "Learn to judge a page by goal, structure, and attention flow before looking at visual style."
+    }
+  ]
+}
