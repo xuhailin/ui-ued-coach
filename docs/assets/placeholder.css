@@ -1,0 +1,230 @@
+/* ===== PLACEHOLDER PAGE — UI / 模板 / 灵感 / 文档 共用 =====
+   每个 placeholder 页只引用此 CSS，主题色通过 body[data-page]
+   触发 site-rail.css 里的 --rail-accent 覆盖，再被这里的样式消费。
+*/
+
+:root {
+  --pl-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  --pl-sans: 'Space Grotesk', 'PingFang SC', 'Hiragino Sans GB', system-ui, sans-serif;
+}
+
+/* ---- 每页底色 ---- */
+body[data-page="ui"]        { --pl-bg: #f6efe6; --pl-bg-2: #efe5d6; --pl-text: #2a1f15; --pl-text-dim: #7a6856; --pl-text-faint: #a89682; --pl-surface: rgba(255,255,255,0.7); --pl-border: rgba(60,40,20,0.10); --pl-border-hi: rgba(60,40,20,0.22); --pl-radius: 22px; }
+body[data-page="templates"] { --pl-bg: #0a1410; --pl-bg-2: #0f1d18; --pl-text: #d8f5e4; --pl-text-dim: #7ba892; --pl-text-faint: #456558; --pl-surface: rgba(15,30,24,0.7); --pl-border: rgba(120,255,180,0.10); --pl-border-hi: rgba(120,255,180,0.28); --pl-radius: 4px; }
+body[data-page="docs"]      { --pl-bg: #fdf6e0; --pl-bg-2: #f5ebc8; --pl-text: #3a2a05; --pl-text-dim: #7a6630; --pl-text-faint: #b59f5e; --pl-surface: rgba(255,255,255,0.7); --pl-border: rgba(120,80,20,0.10); --pl-border-hi: rgba(120,80,20,0.22); --pl-radius: 8px; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { min-height: 100vh; }
+body {
+  background:
+    radial-gradient(ellipse 70% 50% at 90% 0%, color-mix(in oklab, var(--rail-accent) 28%, transparent), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 10% 100%, color-mix(in oklab, var(--rail-accent) 18%, transparent), transparent 60%),
+    linear-gradient(180deg, var(--pl-bg) 0%, var(--pl-bg-2) 100%);
+  color: var(--pl-text);
+  font-family: var(--pl-sans);
+  font-size: 14px;
+  overflow-x: hidden;
+}
+
+/* 噪点叠层 */
+body::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/></svg>");
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+}
+
+.placeholder-shell {
+  position: relative; z-index: 2;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 56px clamp(16px, 4vw, 40px) 80px;
+}
+
+/* ---- HERO ---- */
+.placeholder-hero {
+  padding: 44px 44px 36px;
+  border-radius: calc(var(--pl-radius) + 6px);
+  background:
+    linear-gradient(135deg, color-mix(in oklab, var(--rail-accent) 14%, transparent), transparent 70%),
+    var(--pl-surface);
+  border: 1px solid var(--pl-border);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+.placeholder-hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 60% 80% at 100% 50%, var(--rail-accent), transparent 70%);
+  opacity: 0.12;
+}
+
+.placeholder-kicker {
+  font-family: var(--pl-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--rail-accent);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.placeholder-title {
+  font-size: clamp(36px, 4.4vw, 60px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 14px;
+  position: relative;
+}
+.placeholder-title em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--rail-accent), color-mix(in oklab, var(--rail-accent) 50%, white));
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+
+.placeholder-en {
+  font-family: var(--pl-mono);
+  font-size: 12px;
+  color: var(--pl-text-dim);
+  letter-spacing: 0.08em;
+  margin-bottom: 18px;
+  position: relative;
+}
+
+.placeholder-desc {
+  color: var(--pl-text-dim);
+  max-width: 60ch;
+  font-size: 15px;
+  line-height: 1.7;
+  position: relative;
+}
+
+.placeholder-meta {
+  display: flex; gap: 28px; flex-wrap: wrap;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--pl-border-hi);
+  position: relative;
+}
+.placeholder-meta-item {
+  font-family: var(--pl-mono);
+  font-size: 11px;
+  color: var(--pl-text-faint);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.placeholder-meta-item b {
+  display: block;
+  font-family: var(--pl-sans);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--pl-text);
+  letter-spacing: -0.01em;
+  margin-top: 4px;
+  text-transform: none;
+}
+
+/* ---- SECTION HEAD ---- */
+.placeholder-section-head {
+  display: flex; align-items: end; justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+.placeholder-section-head h2 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.placeholder-section-head h2 small {
+  font-family: var(--pl-mono);
+  font-size: 11px;
+  color: var(--pl-text-faint);
+  margin-left: 10px;
+  letter-spacing: 0.1em;
+  font-weight: 400;
+}
+
+/* ---- 占位卡网格 ---- */
+.placeholder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+  gap: 14px;
+}
+.placeholder-card {
+  position: relative;
+  border-radius: var(--pl-radius);
+  padding: 18px;
+  background: var(--pl-surface);
+  border: 1px dashed var(--pl-border-hi);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  min-height: 180px;
+  cursor: not-allowed;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.5,1.6,0.4,1), border-color 0.3s;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.placeholder-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--rail-accent);
+  border-style: solid;
+}
+.placeholder-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(135deg, transparent 0 12px, color-mix(in oklab, var(--rail-accent) 6%, transparent) 12px 13px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+.placeholder-card-tag {
+  font-family: var(--pl-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--pl-text-faint);
+  text-transform: uppercase;
+  position: relative;
+}
+.placeholder-card-glyph {
+  font-size: 56px;
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  color: color-mix(in oklab, var(--rail-accent) 60%, transparent);
+  line-height: 1;
+  margin: 12px 0;
+  position: relative;
+}
+.placeholder-card-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--pl-text-dim);
+  position: relative;
+}
+.placeholder-card-foot {
+  font-family: var(--pl-mono);
+  font-size: 9.5px;
+  color: var(--pl-text-faint);
+  letter-spacing: 0.08em;
+  margin-top: 6px;
+  position: relative;
+}
+
+/* ---- 底部说明 ---- */
+.placeholder-footnote {
+  margin-top: 36px;
+  padding-top: 18px;
+  border-top: 1px solid var(--pl-border);
+  font-family: var(--pl-mono);
+  font-size: 11px;
+  color: var(--pl-text-faint);
+  letter-spacing: 0.08em;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.placeholder-footnote a {
+  color: var(--rail-accent);
+  text-decoration: none;
+}
+.placeholder-footnote a:hover { text-decoration: underline; }

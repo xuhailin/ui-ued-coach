@@ -1,0 +1,174 @@
+/* ===== SITE RAIL — 全站统一 64px 左侧导航 =====
+   主题不再由用户切换，而是由 body[data-page] 决定。
+   每个页面有自己的 --rail-accent，rail 的发光环 / 当前指示条
+   会跟着变色，形成"切换页面 = 整体调色板换装"的多彩感。
+
+   未来要新加 page，只需要在下面加一行 accent 覆盖。
+*/
+
+:root {
+  --rail-width: 64px;
+
+  /* 默认 = 暗色 rail（motion-lab / templates 等深色页用） */
+  --rail-bg: rgba(20, 20, 30, 0.85);
+  --rail-border: rgba(255, 255, 255, 0.08);
+  --rail-border-hi: rgba(255, 255, 255, 0.16);
+  --rail-text: #e8e8f0;
+  --rail-text-dim: #8a8aa3;
+  --rail-text-faint: #4d4d66;
+  --rail-current-bg: #e8e8f0;
+  --rail-current-text: #06060c;
+  --rail-tooltip-bg: #11111e;
+
+  /* 默认 accent（被下面 body[data-page] 覆盖） */
+  --rail-accent: #00f0ff;
+
+  --rail-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+
+/* ---- 浅色页面：rail 用奶油白 ---- */
+body[data-page="home"],
+body[data-page="ui"],
+body[data-page="inspo"],
+body[data-page="docs"],
+body[data-page="style-atlas"],
+body[data-page="viewer"] {
+  --rail-bg: rgba(255, 252, 246, 0.92);
+  --rail-border: rgba(40, 30, 20, 0.1);
+  --rail-border-hi: rgba(40, 30, 20, 0.22);
+  --rail-text: #1f1a17;
+  --rail-text-dim: #65574c;
+  --rail-text-faint: #a99a8b;
+  --rail-current-bg: #1f1a17;
+  --rail-current-text: #fff9f0;
+  --rail-tooltip-bg: #fff9f0;
+}
+
+/* ---- 每页的 accent（rail 发光环 / 当前指示条 / hover 高亮的颜色） ---- */
+body[data-page="home"]       { --rail-accent: #a23926; }  /* Home = 图录红 */
+body[data-page="motion-lab"] { --rail-accent: #00f0ff; }  /* 动效 = 电青 */
+body[data-page="style-atlas"] { --rail-accent: #2f7a6d; } /* 图谱 = 孔雀绿 */
+body[data-page="docs"]       { --rail-accent: #d29304; }  /* 文档 = 琥珀黄 */
+body[data-page="ui"]         { --rail-accent: #d96f3e; }  /* UI = 桃子橘 */
+body[data-page="templates"]  { --rail-accent: #4ade80; }  /* 模板 = 终端绿 */
+body[data-page="inspo"]      { --rail-accent: #b06ce6; }  /* 灵感 = 薰衣草 */
+body[data-page="viewer"]     { --rail-accent: #ad4d28; }
+
+/* 给 body 让出 rail 占位 */
+body { padding-left: var(--rail-width); }
+
+.site-rail {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: var(--rail-width); z-index: 50;
+  background: var(--rail-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-right: 1px solid var(--rail-border);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 18px 0; gap: 4px;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+.rail-logo {
+  width: 36px; height: 36px; position: relative; margin-bottom: 18px;
+  border: 1px solid var(--rail-border-hi);
+  background: linear-gradient(135deg, #1a1a2e, #0e0e1a);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; text-decoration: none; color: var(--rail-text);
+  transition: border-color 0.4s ease;
+}
+.rail-logo::before {
+  content: ''; position: absolute; inset: 5px;
+  border: 1px solid var(--rail-accent);
+  animation: rail-spin 8s linear infinite;
+  transition: border-color 0.4s ease;
+}
+.rail-logo::after {
+  content: ''; position: absolute; inset: 11px;
+  border: 1px solid var(--rail-text-dim);
+  animation: rail-spin 4s linear infinite reverse;
+}
+@keyframes rail-spin { to { transform: rotate(360deg); } }
+
+.rail-btn {
+  position: relative; width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; border: 1px solid transparent;
+  color: var(--rail-text-dim); cursor: pointer;
+  text-decoration: none;
+  transition: color 0.18s, background 0.18s, border-color 0.18s;
+}
+.rail-btn:hover {
+  color: var(--rail-accent);
+  background: var(--rail-bg);
+  border-color: var(--rail-border-hi);
+}
+
+.rail-btn[data-featured="true"] {
+  margin: 8px 0;
+  color: var(--rail-accent);
+  border-color: color-mix(in srgb, var(--rail-accent) 42%, transparent);
+}
+
+.rail-btn[data-featured="true"]::before {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border: 1px solid color-mix(in srgb, var(--rail-accent) 34%, transparent);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.rail-btn[data-featured="true"].rail-btn-current {
+  color: var(--rail-current-text);
+  border-color: var(--rail-current-bg);
+}
+.rail-btn-current {
+  color: var(--rail-current-text);
+  background: var(--rail-current-bg);
+  border-color: var(--rail-current-bg);
+}
+.rail-btn-current::after {
+  content: ''; position: absolute; left: -10px; top: 50%; transform: translateY(-50%);
+  width: 2px; height: 22px; background: var(--rail-accent);
+  box-shadow: 0 0 8px var(--rail-accent);
+}
+.rail-btn svg { width: 20px; height: 20px; }
+
+.rail-tooltip {
+  position: absolute; left: calc(100% + 12px); top: 50%;
+  transform: translateY(-50%) translateX(-6px);
+  background: var(--rail-tooltip-bg);
+  color: var(--rail-text);
+  border: 1px solid var(--rail-border-hi);
+  padding: 6px 10px;
+  font-family: var(--rail-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em; white-space: nowrap; pointer-events: none;
+  opacity: 0; transition: opacity 0.18s, transform 0.18s;
+  box-shadow: 0 8px 24px -6px rgba(0,0,0,0.4);
+  z-index: 60;
+}
+.rail-tooltip::before {
+  content: ''; position: absolute; left: -5px; top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 8px; height: 8px; background: var(--rail-tooltip-bg);
+  border-left: 1px solid var(--rail-border-hi);
+  border-bottom: 1px solid var(--rail-border-hi);
+}
+.rail-tooltip small {
+  display: block; color: var(--rail-text-faint);
+  font-size: 9px; margin-top: 2px;
+}
+.rail-btn:hover .rail-tooltip { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+.rail-divider {
+  width: 28px; height: 1px; background: var(--rail-border); margin: 10px 0;
+}
+
+.rail-spacer { flex: 1; }
+
+@media (max-width: 640px) {
+  :root { --rail-width: 56px; }
+  .rail-btn { width: 40px; height: 40px; }
+}

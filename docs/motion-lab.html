@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Motion Lab — 动效实验室</title>
+<link rel="icon" href="data:," />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/site-rail.css?v=20260513-2" />
+<link rel="stylesheet" href="./assets/motion-lab.css?v=20260513-2" />
+<link rel="stylesheet" href="./assets/motion-effects-a.css?v=20260513-2" />
+<link rel="stylesheet" href="./assets/motion-effects-b.css?v=20260513-2" />
+<link rel="stylesheet" href="./assets/motion-effects-c.css?v=20260513-2" />
+<link rel="stylesheet" href="./assets/motion-effects-d.css?v=20260513-2" />
+<link rel="stylesheet" href="./assets/motion-effects-e.css?v=20260513-2" />
+<link rel="stylesheet" href="./assets/motion-effects-f.css?v=20260513-2" />
+<script src="./assets/style-registry.js?v=20260513-2"></script>
+<script src="./assets/site-rail.js?v=20260513-2"></script>
+<script src="./assets/motion-effects-a.js?v=20260513-2"></script>
+<script src="./assets/motion-effects-b.js?v=20260513-2"></script>
+<script src="./assets/motion-effects-c.js?v=20260513-2"></script>
+<script src="./assets/motion-effects-d.js?v=20260513-2"></script>
+<script src="./assets/motion-effects-e.js?v=20260513-2"></script>
+<script src="./assets/motion-effects-f.js?v=20260513-2"></script>
+</head>
+<body data-page="motion-lab">
+
+<div class="app" data-screen-label="01 Dashboard">
+
+  <header>
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div class="brand-text">
+        <h1>Motion Lab <span class="v">v0.2 — PRACTICAL MOTION</span></h1>
+        <div id="module-summary" class="sub"><span class="dot"></span>加载模块中...</div>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="stat"><div class="label">Implemented</div><div class="val"><span data-stat="implemented">00</span><em>/<span data-stat="total">0</span></em></div></div>
+      <div class="stat"><div class="label">Categories</div><div class="val" data-stat="categories">0</div></div>
+      <div class="stat"><div class="label">Last Sync</div><div class="val" style="font-size:14px;font-family:var(--mono)">2026·05·12</div></div>
+    </div>
+  </header>
+
+  <section id="motion-style-judgment" class="motion-style-slot" aria-label="Motion Lab 风格判断"></section>
+
+  <nav class="view-nav" aria-label="Motion Lab 视图">
+    <button class="view-nav-btn active" data-view="dashboard">仪表盘 <span class="count" data-stat="total">0</span></button>
+    <button class="view-nav-btn" data-view="implemented">已实现 <span class="count" data-stat="implemented-plain">0</span></button>
+    <button class="view-nav-btn" data-view="pending">待开发 <span class="count" data-stat="pending">0</span></button>
+    <button class="view-nav-btn" data-view="categories">分类</button>
+    <button class="view-nav-btn" data-view="favorites">收藏</button>
+    <button class="view-nav-btn" data-view="stats">统计</button>
+    <button class="view-nav-btn" data-view="settings">设置</button>
+  </nav>
+
+  <div class="controls">
+    <div class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+      <input id="search" type="text" placeholder="搜索动效 / prompt / 标签..." />
+      <span class="kbd">⌘ K</span>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="view-toggle">
+      <button class="active" data-view="grid">⊞ GRID</button>
+      <button data-view="list">≡ LIST</button>
+    </div>
+  </div>
+
+  <div id="view-dashboard" class="view active">
+    <div id="motion-dashboard-summary" class="motion-dashboard-summary"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div id="view-implemented" class="view">
+    <div class="view-header">
+      <div>
+        <div class="crumb">// VIEW · IMPLEMENTED</div>
+        <h2>已实现模块</h2>
+        <p>已经由 Codex 实现并可直接预览的动效。点击任意一张卡片查看完整 prompt 与源码栈信息。</p>
+      </div>
+      <div class="header-stats"><div class="stat"><div class="label">Total</div><div class="val" id="impl-count" data-stat="implemented-plain">0</div></div></div>
+    </div>
+    <div class="grid" id="grid-impl"></div>
+  </div>
+
+  <div id="view-pending" class="view">
+    <div class="view-header">
+      <div>
+        <div class="crumb">// VIEW · PENDING</div>
+        <h2>待开发模块</h2>
+        <p>占位模块，等待 Codex 根据 prompt 生成对应动效代码。Hover 卡片底部查看 prompt 详情，生成时优先考虑性能预算和低动效版本。</p>
+      </div>
+      <div class="header-stats"><div class="stat"><div class="label">Queue</div><div class="val" id="pend-count" data-stat="pending">0</div></div></div>
+    </div>
+    <div class="grid" id="grid-pend"></div>
+  </div>
+
+  <div id="view-categories" class="view">
+    <div class="view-header">
+      <div>
+        <div class="crumb">// VIEW · CATEGORIES</div>
+        <h2>动效分类</h2>
+        <p>动效类别会随模块库自动统计。点击任意分类回到仪表盘并自动筛选该类。</p>
+      </div>
+    </div>
+    <div class="cat-grid" id="cat-grid"></div>
+  </div>
+
+  <div id="view-favorites" class="view">
+    <div class="view-header">
+      <div>
+        <div class="crumb">// VIEW · FAVORITES</div>
+        <h2>我的收藏</h2>
+        <p>对每张卡片打星即可加入这里。功能开发中。</p>
+      </div>
+    </div>
+    <div class="empty-state">
+      <div class="icon">☆</div>
+      <h3>暂未收藏任何模块</h3>
+      <p>// FEATURE COMING SOON</p>
+    </div>
+  </div>
+
+  <div id="view-stats" class="view">
+    <div class="view-header">
+      <div>
+        <div class="crumb">// VIEW · STATS</div>
+        <h2>项目进度</h2>
+        <p>当前 Motion Lab 的实现完成度、分类分布与最近活动。</p>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stats-card"><div class="lbl">Implemented</div><div class="num"><span data-stat="implemented-plain">0</span><span style="font-size:18px;color:var(--text-dim)">/<span data-stat="total">0</span></span></div><div class="delta"><b>+3</b> 本周</div></div>
+      <div class="stats-card"><div class="lbl">Pending</div><div class="num" style="color:var(--c-loader)" data-stat="pending">0</div><div class="delta">等待 Codex 实现</div></div>
+      <div class="stats-card"><div class="lbl">Categories</div><div class="num" data-stat="categories">0</div><div class="delta">活跃分类</div></div>
+      <div class="stats-card"><div class="lbl">Completion</div><div class="num" data-stat="completion">0%</div><div class="delta" data-stat="pending-copy">距离 v1.0 还有 0 个</div></div>
+    </div>
+    <div class="stats-card performance-note">
+      <div class="lbl">Performance Guardrails</div>
+      <ul>
+        <li>Canvas / heavy preview only starts when the card enters viewport.</li>
+        <li>Offscreen animation is paused by IntersectionObserver.</li>
+        <li>Generated snippets should prefer transform / opacity and include reduced-motion fallback.</li>
+      </ul>
+    </div>
+    <div class="stats-card" style="margin-top:16px">
+      <div class="lbl">分类分布</div>
+      <div class="progress-row" id="cat-progress"></div>
+    </div>
+  </div>
+
+  <div id="view-settings" class="view">
+    <div class="view-header">
+      <div>
+        <div class="crumb">// VIEW · SETTINGS</div>
+        <h2>设置</h2>
+        <p>暂无可配置项。</p>
+      </div>
+    </div>
+    <div class="empty-state"><div class="icon">⚙</div><h3>设置面板开发中</h3><p>// COMING SOON</p></div>
+  </div>
+
+  <footer>
+    <div>MOTION-LAB / DASHBOARD · BUILD 2026.05.12</div>
+    <div class="legend" id="legend"></div>
+  </footer>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal" id="modal-card" style="--cc: var(--c-particles)">
+    <div class="modal-preview" id="modal-preview"></div>
+    <button class="modal-close" id="modal-close">×</button>
+    <div class="modal-body">
+      <div class="modal-cat" id="m-cat">PARTICLES</div>
+      <div>
+        <h2 id="m-title">模块名称</h2>
+        <div class="en-title" id="m-en">module_name</div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">PROMPT — 设计思路</div>
+        <div class="modal-prompt" id="m-prompt"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">TAGS</div>
+        <div class="modal-tags" id="m-tags"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">DETAILS</div>
+        <div style="font-size: 12px; color: var(--text-dim); line-height: 1.7; font-family: var(--mono);">
+          <div>ID: <span id="m-id" style="color:var(--text)"></span></div>
+          <div>STATUS: <span id="m-status" style="color:var(--text)"></span></div>
+          <div>STACK: <span id="m-stack" style="color:var(--text)"></span></div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn primary" id="m-codex-edit" type="button"><span>→</span> CODEX 编辑</button>
+        <button class="btn" id="m-copy-prompt" type="button">复制 PROMPT</button>
+        <button class="btn" id="m-view-source" type="button">查看源码</button>
+      </div>
+      <div class="modal-source" id="m-source" hidden></div>
+    </div>
+  </div>
+</div>
+
+<script src="./assets/motion-lab.js?v=20260513-2"></script>
+</body>
+</html>

@@ -5,26 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>UI/UED Coach Viewer</title>
     <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700;900&family=Noto+Serif+SC:wght@400;500;600;700;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/site-rail.css" />
     <link rel="stylesheet" href="./assets/site.css" />
+    <script src="./assets/style-registry.js"></script>
+    <script src="./assets/site-rail.js"></script>
   </head>
-  <body data-page="viewer">
+  <body data-page="viewer" data-viewer-style="risograph">
     <div class="viewer-shell">
       <header class="viewer-topbar">
-        <a class="text-link" href="./index.html">返回首页</a>
+        <a id="viewer-back-link" class="text-link" href="./index.html">返回首页</a>
+        <div id="viewer-style-tabs" class="viewer-style-tabs" role="tablist" aria-label="阅读风格">
+          <div class="viewer-style-tab" role="tab" tabindex="-1" data-style="motion" aria-selected="false">
+            <span class="viewer-style-index">4</span>
+            <span class="viewer-style-copy">
+              <span class="viewer-style-name">Motion Lab</span>
+              <span class="viewer-style-desc">深夜实验室 · 仪表盘</span>
+              <span class="viewer-style-fit" data-style-fit="motion"></span>
+            </span>
+            <button class="viewer-copy-prompt" type="button" data-copy-style="motion" aria-label="复制 Motion Lab prompt">复制</button>
+          </div>
+          <div class="viewer-style-tab" role="tab" tabindex="0" data-style="risograph" aria-selected="true">
+            <span class="viewer-style-index">1</span>
+            <span class="viewer-style-copy">
+              <span class="viewer-style-name">Risograph</span>
+              <span class="viewer-style-desc">印刷拼贴 · 默认</span>
+              <span class="viewer-style-fit" data-style-fit="risograph"></span>
+            </span>
+            <button class="viewer-copy-prompt" type="button" data-copy-style="risograph" aria-label="复制 Risograph prompt">复制</button>
+          </div>
+          <div class="viewer-style-tab" role="tab" tabindex="-1" data-style="terminal" aria-selected="false">
+            <span class="viewer-style-index">2</span>
+            <span class="viewer-style-copy">
+              <span class="viewer-style-name">Terminal</span>
+              <span class="viewer-style-desc">工程终端 · 命令行</span>
+              <span class="viewer-style-fit" data-style-fit="terminal"></span>
+            </span>
+            <button class="viewer-copy-prompt" type="button" data-copy-style="terminal" aria-label="复制 Terminal prompt">复制</button>
+          </div>
+          <div class="viewer-style-tab" role="tab" tabindex="-1" data-style="editorial" aria-selected="false">
+            <span class="viewer-style-index">3</span>
+            <span class="viewer-style-copy">
+              <span class="viewer-style-name">Editorial</span>
+              <span class="viewer-style-desc">杂志内页 · 多栏</span>
+              <span class="viewer-style-fit" data-style-fit="editorial"></span>
+            </span>
+            <button class="viewer-copy-prompt" type="button" data-copy-style="editorial" aria-label="复制 Editorial prompt">复制</button>
+          </div>
+        </div>
         <div id="viewer-nav" class="viewer-nav"></div>
       </header>
 
       <main class="viewer-layout">
+        <aside class="motion-reader-rail" aria-label="Motion Lab 快捷视图">
+          <a class="motion-rail-logo" href="./motion-lab.html" aria-label="打开 Motion Lab">
+            <span></span>
+          </a>
+          <nav class="motion-rail-nav" aria-label="Motion Lab navigation">
+            <a class="motion-rail-btn" href="./index.html" aria-label="HOME" data-tip="HOME">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.2 12 4l8 7.2v8.3a.5.5 0 0 1-.5.5h-5v-6h-5v6h-5a.5.5 0 0 1-.5-.5z"/></svg>
+            </a>
+            <a class="motion-rail-btn" href="./motion-lab.html" aria-label="LAB" data-tip="LAB">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v5.8L5.6 18.2A2 2 0 0 0 7.4 21h9.2a2 2 0 0 0 1.8-2.8L14 8.8V3"/><path d="M8.2 15h7.6"/></svg>
+            </a>
+            <button class="motion-rail-btn" type="button" aria-label="DOC" data-tip="DOC">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h4M9 13h6M9 17h4"/></svg>
+            </button>
+            <button class="motion-rail-btn" type="button" aria-label="SYNC" data-tip="SYNC">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 7.5A7 7 0 0 0 5.2 11M6 5v6H2"/><path d="M6.5 16.5A7 7 0 0 0 18.8 13M18 19v-6h4"/></svg>
+            </button>
+          </nav>
+        </aside>
         <aside class="viewer-aside">
+          <div class="motion-brand">
+            <div class="motion-brand-lockup">
+              <span class="motion-brand-mark"></span>
+              <span>
+                <span class="motion-brand-name">Motion Lab Reader</span>
+                <span class="motion-brand-build">v0.1 — DRAFT · BUILD 2026.05.12</span>
+              </span>
+            </div>
+            <div class="motion-brand-state">● LIVE PREVIEW</div>
+          </div>
           <p class="section-kicker">Document</p>
           <h1 id="viewer-title">加载中...</h1>
           <p id="viewer-meta" class="viewer-meta"></p>
+          <section id="viewer-style-judgment" class="viewer-style-judgment-slot" aria-label="阅读页风格判断"></section>
+          <section class="motion-reader-panel" aria-label="Motion Lab 实验面板">
+            <div class="motion-section-label">// VIEW · IMPLEMENTED</div>
+            <div class="motion-reader-stats">
+              <div><span>03</span><em>/</em><span>16</span><small>DONE</small></div>
+              <div><span>13</span><em>/</em><span>16</span><small>PENDING</small></div>
+            </div>
+            <div class="motion-section-label">// PROMPT — 设计思路</div>
+            <p class="motion-reader-note">// 当前阅读文档保持不变；外层切到 experimental console。</p>
+            <div id="motion-reader-cards" class="motion-reader-cards" aria-label="动效模块预览"></div>
+          </section>
         </aside>
 
         <article id="viewer-content" class="viewer-content"></article>
       </main>
     </div>
 
-    <script type="module" src="./assets/site.js"></script>
+    <script defer src="./assets/site.js?v=20260513-reader-nav"></script>
   </body>
 </html>

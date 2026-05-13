@@ -1,0 +1,619 @@
+/* ============================================================
+   motion-effects-b.css  —  Batch B (10 effects)
+   Class names are prefixed `mfx-<en>-` to avoid collisions.
+   Effects: holographic_card, liquid_loader, reveal_curtain,
+            cursor_aura, morphing_logo, smoke_trail, tilt_card_3d,
+            magnetic_cursor, command_palette, kpi_number_roll
+   ============================================================ */
+
+/* ---- shared helpers ---- */
+.mfx-stage-fill { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; }
+.mfx-center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+
+/* ============================================================
+   04 · holographic_card
+   ============================================================ */
+.mfx-holo {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  perspective: 900px;
+  background:
+    radial-gradient(120% 80% at 50% 10%, color-mix(in srgb, var(--cc) 14%, transparent), transparent 70%),
+    linear-gradient(180deg, color-mix(in srgb, var(--cc) 6%, transparent), transparent 70%);
+  cursor: crosshair;
+}
+.mfx-holo-card {
+  position: relative;
+  width: 64%;
+  aspect-ratio: 5 / 7;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--cc) 35%, var(--border-hi));
+  background:
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--cc) 12%, var(--panel-solid)) 0%,
+      color-mix(in srgb, var(--cc) 4%,  var(--panel-solid)) 100%);
+  transform-style: preserve-3d;
+  transform: rotateX(0deg) rotateY(0deg);
+  will-change: transform;
+  box-shadow:
+    0 12px 32px -10px rgba(0,0,0,0.55),
+    0 0 0 1px color-mix(in srgb, var(--cc) 25%, transparent),
+    0 0 24px -8px color-mix(in srgb, var(--cc) 70%, transparent);
+  overflow: hidden;
+  isolation: isolate;
+}
+.mfx-holo-sheen {
+  position: absolute; inset: 0;
+  background:
+    conic-gradient(from var(--mfx-holo-spin, 0deg) at var(--mfx-holo-x, 50%) var(--mfx-holo-y, 50%),
+      rgba(255,42,160,0.65),
+      rgba(255,206,0,0.65),
+      rgba(64,255,170,0.65),
+      rgba(0,196,255,0.65),
+      rgba(168,80,255,0.65),
+      rgba(255,42,160,0.65));
+  mix-blend-mode: color-dodge;
+  opacity: 0.55;
+  filter: blur(2px) saturate(1.4);
+  pointer-events: none;
+  transform: translateZ(40px);
+}
+[data-theme='light'] .mfx-holo-sheen { mix-blend-mode: overlay; opacity: 0.7; }
+.mfx-holo-grid {
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 14px),
+    repeating-linear-gradient(0deg,  rgba(255,255,255,0.04) 0 1px, transparent 1px 14px);
+  mix-blend-mode: overlay;
+  transform: translateZ(20px);
+  pointer-events: none;
+}
+.mfx-holo-content {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 14px;
+  transform: translateZ(60px);
+  height: 100%;
+  color: var(--text);
+}
+.mfx-holo-content .mfx-holo-tag {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em;
+  color: color-mix(in srgb, var(--cc) 70%, var(--text));
+  text-transform: uppercase;
+}
+.mfx-holo-content .mfx-holo-title {
+  font-family: var(--sans); font-weight: 700; font-size: 15px; line-height: 1.1;
+}
+.mfx-holo-content .mfx-holo-num {
+  margin-top: auto;
+  font-family: var(--mono); font-size: 11px; color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+.mfx-holo-glow {
+  position: absolute; inset: -30%;
+  background: radial-gradient(circle at var(--mfx-holo-x,50%) var(--mfx-holo-y,50%),
+    color-mix(in srgb, var(--cc) 55%, transparent) 0%,
+    transparent 55%);
+  filter: blur(28px);
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* ============================================================
+   06 · liquid_loader
+   ============================================================ */
+.mfx-liq {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at center, color-mix(in srgb, var(--cc) 6%, transparent), transparent 70%);
+}
+.mfx-liq-vessel {
+  position: relative;
+  width: 56%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 1.5px solid color-mix(in srgb, var(--cc) 45%, var(--border-hi));
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.04),
+    0 0 24px -10px color-mix(in srgb, var(--cc) 70%, transparent);
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--cc) 4%, transparent));
+}
+.mfx-liq-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.mfx-liq-label {
+  position: absolute; left: 0; right: 0; top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  font-family: var(--mono); font-weight: 600; font-size: 17px;
+  color: var(--text);
+  z-index: 2;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.45);
+  pointer-events: none;
+}
+.mfx-liq-ring {
+  position: absolute; inset: -8px;
+  border-radius: 50%;
+  border: 1px dashed color-mix(in srgb, var(--cc) 35%, transparent);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.mfx-liq-drop {
+  position: absolute;
+  left: 50%; top: -2%;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--cc) 80%, white);
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ============================================================
+   07 · reveal_curtain
+   ============================================================ */
+.mfx-rc {
+  position: absolute; inset: 0; overflow: hidden;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--cc) 8%, var(--bg-2)), var(--bg-2));
+}
+.mfx-rc-old, .mfx-rc-new {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); letter-spacing: 0.18em; text-transform: uppercase;
+  font-weight: 600;
+}
+.mfx-rc-old {
+  background:
+    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--cc) 22%, transparent), transparent 60%),
+    linear-gradient(135deg, var(--panel-solid), var(--bg-2));
+  color: var(--text-dim);
+}
+.mfx-rc-new {
+  background:
+    radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--cc) 28%, transparent), transparent 65%),
+    linear-gradient(135deg, color-mix(in srgb, var(--cc) 18%, var(--panel-solid)), var(--bg-2));
+  color: var(--text);
+  clip-path: polygon(150% 0, 150% 0, 150% 0, 150% 0); /* hidden initially */
+}
+.mfx-rc-title { font-size: 12px; }
+.mfx-rc-curtain {
+  position: absolute;
+  width: 220%;
+  height: 220%;
+  left: -60%;
+  top: -60%;
+  background: linear-gradient(180deg, #08080f 0%, #15151f 100%);
+  transform: translate(-130%, 0) rotate(20deg);
+  transform-origin: center;
+  pointer-events: none;
+  will-change: transform;
+}
+.mfx-rc-slit {
+  position: absolute;
+  width: 220%;
+  height: 2px;
+  left: -60%;
+  top: 50%;
+  background: linear-gradient(90deg,
+    transparent,
+    color-mix(in srgb, var(--cc) 70%, white) 45%,
+    white 50%,
+    color-mix(in srgb, var(--cc) 70%, white) 55%,
+    transparent);
+  transform: translate(-130%, 0) rotate(20deg);
+  transform-origin: center;
+  filter: blur(1px) drop-shadow(0 0 8px var(--cc));
+  pointer-events: none;
+}
+.mfx-rc-tick {
+  position: absolute; bottom: 10px; left: 0; right: 0;
+  display: flex; justify-content: center; gap: 6px;
+  font-family: var(--mono); font-size: 9px; color: var(--text-faint); letter-spacing: 0.1em;
+}
+.mfx-rc-tick i { width: 16px; height: 1px; background: var(--text-faint); align-self: center; opacity: 0.4; }
+
+/* ============================================================
+   08 · cursor_aura
+   ============================================================ */
+.mfx-aura {
+  position: absolute; inset: 0; overflow: hidden;
+  background:
+    linear-gradient(180deg, var(--bg-2) 0%, var(--panel-solid) 100%);
+  cursor: none;
+}
+.mfx-aura-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  pointer-events: none;
+}
+[data-theme='light'] .mfx-aura-grid {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+}
+.mfx-aura-hit {
+  position: absolute;
+  padding: 6px 12px;
+  border: 1px solid var(--border-hi);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+[data-theme='light'] .mfx-aura-hit { background: rgba(0,0,0,0.03); }
+.mfx-aura-hit[data-tone="action"] { border-color: color-mix(in srgb, var(--cc) 55%, var(--border-hi)); }
+.mfx-aura-hit[data-tone="muted"]  { color: var(--text-dim); }
+.mfx-aura-glow {
+  position: absolute; left: 0; top: 0;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--cc) 50%, white) 0%, color-mix(in srgb, var(--cc) 35%, transparent) 40%, transparent 65%);
+  transform: translate(-50%, -50%) scale(1);
+  filter: blur(8px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  will-change: transform;
+  transition: background 0.3s, transform 0.18s;
+}
+[data-theme='light'] .mfx-aura-glow { mix-blend-mode: multiply; }
+.mfx-aura-dot {
+  position: absolute; left: 0; top: 0;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--text);
+  box-shadow: 0 0 0 2px var(--bg-2);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ============================================================
+   09 · morphing_logo
+   ============================================================ */
+.mfx-morph {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--cc) 6%, transparent), transparent 60%),
+    var(--bg-2);
+}
+.mfx-morph-svg { width: 70%; height: 70%; overflow: visible; }
+.mfx-morph-shape {
+  fill: color-mix(in srgb, var(--cc) 75%, var(--text));
+  transition: transform 0.9s cubic-bezier(0.65,0,0.35,1), opacity 0.6s ease;
+  transform-origin: center;
+  transform-box: fill-box;
+  will-change: transform;
+}
+.mfx-morph-shape.is-circle { fill: color-mix(in srgb, var(--cc) 90%, white); }
+.mfx-morph-shape.is-square { fill: color-mix(in srgb, var(--cc) 55%, var(--text)); }
+.mfx-morph-shape.is-tri    { fill: color-mix(in srgb, var(--cc) 35%, var(--text-dim)); }
+.mfx-morph-baseline {
+  position: absolute; bottom: 14px; left: 0; right: 0;
+  text-align: center;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+  color: var(--text-faint); text-transform: uppercase;
+}
+
+/* ============================================================
+   11 · smoke_trail
+   ============================================================ */
+.mfx-smoke {
+  position: absolute; inset: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--bg-2) 0%, var(--panel-solid) 100%);
+  cursor: none;
+}
+.mfx-smoke canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.mfx-smoke-hint {
+  position: absolute; left: 12px; bottom: 10px;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em;
+  color: var(--text-faint); text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* ============================================================
+   13 · tilt_card_3d
+   ============================================================ */
+.mfx-tilt {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  perspective: 1100px;
+  background:
+    radial-gradient(140% 100% at 50% 110%, color-mix(in srgb, var(--cc) 14%, transparent), transparent 60%),
+    var(--bg-2);
+  cursor: crosshair;
+}
+.mfx-tilt-card {
+  position: relative;
+  width: 72%;
+  aspect-ratio: 4 / 3;
+  transform-style: preserve-3d;
+  transform: rotateX(0deg) rotateY(0deg);
+  will-change: transform;
+  border-radius: 10px;
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--cc) 14%, var(--panel-solid)),
+    color-mix(in srgb, var(--cc) 4%,  var(--bg-2)));
+  border: 1px solid color-mix(in srgb, var(--cc) 30%, var(--border-hi));
+  box-shadow: 0 24px 50px -20px rgba(0,0,0,0.55);
+  overflow: hidden;
+}
+.mfx-tilt-layer { position: absolute; inset: 0; pointer-events: none; }
+.mfx-tilt-bg {
+  background:
+    radial-gradient(120% 80% at 30% 30%, color-mix(in srgb, var(--cc) 30%, transparent), transparent 60%),
+    radial-gradient(80% 70% at 80% 70%, color-mix(in srgb, var(--cc) 18%, transparent), transparent 60%);
+  transform: translateZ(10px);
+}
+.mfx-tilt-mid {
+  display: flex; align-items: center; justify-content: center;
+  transform: translateZ(40px);
+}
+.mfx-tilt-mid svg { width: 38%; height: auto; color: color-mix(in srgb, var(--cc) 80%, white); }
+.mfx-tilt-text {
+  position: absolute; left: 12px; bottom: 12px; right: 12px;
+  display: flex; flex-direction: column; gap: 4px;
+  transform: translateZ(70px);
+}
+.mfx-tilt-text strong {
+  font-family: var(--sans); font-weight: 700; font-size: 15px;
+  color: var(--text);
+}
+.mfx-tilt-text small {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em;
+  color: var(--text-dim); text-transform: uppercase;
+}
+.mfx-tilt-shine {
+  background: linear-gradient(135deg,
+    transparent 35%,
+    rgba(255,255,255,0.22) 50%,
+    transparent 65%);
+  mix-blend-mode: overlay;
+  transform: translateZ(90px);
+  opacity: 0.9;
+}
+[data-theme='light'] .mfx-tilt-shine { mix-blend-mode: screen; opacity: 0.6; }
+
+/* ============================================================
+   16 · magnetic_cursor
+   ============================================================ */
+.mfx-mag {
+  position: absolute; inset: 0; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(60% 60% at 50% 50%, color-mix(in srgb, var(--cc) 6%, transparent), transparent 70%),
+    var(--bg-2);
+  cursor: none;
+}
+.mfx-mag-btn {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 12px 22px;
+  border: 1px solid color-mix(in srgb, var(--cc) 55%, var(--border-hi));
+  background: color-mix(in srgb, var(--cc) 18%, var(--panel-solid));
+  color: var(--text);
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  will-change: transform;
+  pointer-events: none;
+  user-select: none;
+  box-shadow: 0 8px 24px -8px color-mix(in srgb, var(--cc) 70%, transparent);
+}
+.mfx-mag-btn .mfx-mag-arrow {
+  display: inline-block; width: 14px; height: 14px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  position: relative;
+}
+.mfx-mag-btn .mfx-mag-arrow::after {
+  content: '→'; position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; line-height: 1;
+}
+.mfx-mag-label { position: relative; will-change: transform; }
+.mfx-mag-cursor {
+  position: absolute; left: 0; top: 0;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+[data-theme='light'] .mfx-mag-cursor { mix-blend-mode: normal; border-color: color-mix(in srgb, var(--cc) 65%, var(--text)); }
+
+/* ============================================================
+   18 · command_palette
+   ============================================================ */
+.mfx-cmd {
+  position: absolute; inset: 0;
+  overflow: hidden;
+  background: var(--bg-2);
+}
+.mfx-cmd-bg {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--cc) 4%, var(--panel-solid)) 0%,
+      var(--bg-2) 100%);
+  transition: filter 0.4s ease, opacity 0.4s ease;
+}
+.mfx-cmd-bg .mfx-cmd-fake-row {
+  height: 8px; margin: 12px 16px; border-radius: 2px;
+  background: color-mix(in srgb, var(--text-dim) 22%, transparent);
+}
+.mfx-cmd-bg .mfx-cmd-fake-row.short { width: 40%; }
+.mfx-cmd-bg .mfx-cmd-fake-row.mid   { width: 70%; }
+.mfx-cmd.is-open .mfx-cmd-bg { filter: blur(3px); opacity: 0.45; }
+.mfx-cmd-panel {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%) scale(0.92);
+  width: 80%;
+  max-width: 360px;
+  background: var(--panel-solid);
+  border: 1px solid color-mix(in srgb, var(--cc) 30%, var(--border-hi));
+  box-shadow:
+    0 20px 60px -20px rgba(0,0,0,0.55),
+    0 0 0 1px color-mix(in srgb, var(--cc) 25%, transparent),
+    0 0 28px -8px color-mix(in srgb, var(--cc) 60%, transparent);
+  opacity: 0;
+  transition: transform 0.32s cubic-bezier(0.2,0.8,0.2,1), opacity 0.22s ease;
+  will-change: transform, opacity;
+  font-family: var(--mono);
+}
+.mfx-cmd.is-open .mfx-cmd-panel { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+.mfx-cmd-input {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 12px;
+}
+.mfx-cmd-input .mfx-cmd-prompt { color: color-mix(in srgb, var(--cc) 70%, var(--text)); font-weight: 600; }
+.mfx-cmd-input .mfx-cmd-query { color: var(--text); }
+.mfx-cmd-input .mfx-cmd-caret {
+  display: inline-block; width: 6px; height: 12px;
+  background: var(--text); margin-left: 1px;
+  animation: mfx-cmd-blink 1s steps(1) infinite;
+}
+@keyframes mfx-cmd-blink { 50% { opacity: 0; } }
+.mfx-cmd-kbd {
+  margin-left: auto;
+  font-size: 9px; padding: 2px 6px;
+  border: 1px solid var(--border); color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+.mfx-cmd-results { position: relative; padding: 6px 0 8px; }
+.mfx-cmd-item {
+  position: relative;
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 14px;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s;
+  z-index: 2;
+}
+.mfx-cmd.is-open .mfx-cmd-item { opacity: 1; transform: translateY(0); }
+.mfx-cmd-item .mfx-cmd-icon {
+  width: 14px; height: 14px;
+  border: 1px solid var(--text-faint);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 9px;
+}
+.mfx-cmd-item.is-active { color: var(--text); }
+.mfx-cmd-highlight {
+  position: absolute;
+  left: 6px; right: 6px;
+  height: 30px;
+  border-left: 2px solid var(--cc);
+  background: color-mix(in srgb, var(--cc) 14%, transparent);
+  transition: transform 0.28s cubic-bezier(0.2,0.8,0.2,1), opacity 0.2s;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+}
+.mfx-cmd.is-open .mfx-cmd-highlight { opacity: 1; }
+
+/* ============================================================
+   29 · kpi_number_roll
+   ============================================================ */
+.mfx-kpi {
+  position: absolute; inset: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 14px 16px;
+  background:
+    linear-gradient(180deg, var(--panel-solid) 0%, var(--bg-2) 100%);
+  font-family: var(--mono);
+}
+.mfx-kpi-head {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--text-faint);
+}
+.mfx-kpi-head .mfx-kpi-dot {
+  display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cc); box-shadow: 0 0 6px var(--cc);
+  margin-right: 6px; vertical-align: middle;
+}
+.mfx-kpi-main {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 4px;
+}
+.mfx-kpi-num {
+  display: inline-flex; align-items: baseline;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 30px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  line-height: 1;
+  transition: color 0.4s ease;
+}
+.mfx-kpi-prefix { color: var(--text-dim); margin-right: 2px; font-weight: 500; font-size: 18px; }
+.mfx-kpi-digit {
+  position: relative;
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  text-align: center;
+  width: 0.62em;
+}
+.mfx-kpi-roll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(0);
+  transition: transform 0.7s cubic-bezier(0.7, 0, 0.2, 1);
+  will-change: transform;
+}
+.mfx-kpi-roll span { display: block; height: 1em; line-height: 1; }
+.mfx-kpi-static { color: var(--text-dim); }
+.mfx-kpi-delta {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border: 1px solid var(--border-hi);
+  color: var(--text-dim);
+  transition: color 0.4s ease, border-color 0.4s ease, background 0.4s ease;
+}
+.mfx-kpi.is-up   .mfx-kpi-num   { color: var(--c-transition); }
+.mfx-kpi.is-down .mfx-kpi-num   { color: var(--c-glitch); }
+.mfx-kpi.is-up   .mfx-kpi-delta { color: var(--c-transition); border-color: color-mix(in srgb, var(--c-transition) 55%, var(--border-hi)); background: color-mix(in srgb, var(--c-transition) 10%, transparent); }
+.mfx-kpi.is-down .mfx-kpi-delta { color: var(--c-glitch);     border-color: color-mix(in srgb, var(--c-glitch) 55%, var(--border-hi));     background: color-mix(in srgb, var(--c-glitch) 10%, transparent); }
+.mfx-kpi-foot {
+  display: flex; align-items: end; justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+}
+.mfx-kpi-spark {
+  display: flex; align-items: end; gap: 2px;
+  height: 22px;
+  flex: 1;
+}
+.mfx-kpi-spark i {
+  display: block;
+  width: 5px;
+  background: color-mix(in srgb, var(--cc) 55%, transparent);
+  transition: height 0.5s cubic-bezier(0.65,0,0.35,1), background 0.4s;
+}
+.mfx-kpi-spark i.is-current {
+  background: var(--cc);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--cc) 55%, transparent);
+}
+.mfx-kpi-foot .mfx-kpi-meta {
+  font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-faint);
+}

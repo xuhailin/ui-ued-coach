@@ -1,0 +1,141 @@
+{
+  "meta": {
+    "title": "Motion Prompt Lab",
+    "description": "创意动效实验与 prompt 可视化工作台",
+    "codexContract": {
+      "endpoint": "POST /api/motion-modules/:id/generate",
+      "input": {
+        "moduleId": "01",
+        "prompt": "模块 prompt",
+        "requirements": "HTML/CSS/JS 输出要求、交互边界、性能限制"
+      },
+      "output": {
+        "html": "<div>...</div>",
+        "css": ".module { ... }",
+        "js": "export function mount(node) { ... }"
+      }
+    }
+  },
+  "modules": [
+    {
+      "id": "01",
+      "title": "Aurora Cursor",
+      "prompt": "光晕鼠标效果，带渐变颜色和粒子光晕，hover 时触发闪光效果",
+      "status": "implemented",
+      "category": "cursor",
+      "tags": ["hover", "glow", "interactive"],
+      "summary": "鼠标附近出现柔和极光层，卡片 hover 后光斑扩散。",
+      "codeSnippet": "<div class=\"aurora-cursor\"></div>"
+    },
+    {
+      "id": "02",
+      "title": "Magnetic Nav",
+      "prompt": "磁吸式导航条，鼠标靠近时按钮被轻微牵引，当前项出现弹性背景",
+      "status": "placeholder",
+      "category": "navigation",
+      "tags": ["magnetic", "nav", "spring"],
+      "summary": "适合产品页顶部导航或工具栏的微交互。",
+      "codeSnippet": ""
+    },
+    {
+      "id": "03",
+      "title": "Liquid Button",
+      "prompt": "液态按钮动效，点击时边缘像水滴一样回弹，背景有流体高光",
+      "status": "implemented",
+      "category": "button",
+      "tags": ["click", "liquid", "micro-interaction"],
+      "summary": "按钮表面持续流动，点击区域保持清晰可读。",
+      "codeSnippet": "<button class=\"liquid-button\">Generate</button>"
+    },
+    {
+      "id": "04",
+      "title": "Morphing Blob",
+      "prompt": "多层 blob 图形缓慢形变，带半透明叠色和景深，适合 hero 背景",
+      "status": "implemented",
+      "category": "background",
+      "tags": ["blob", "ambient", "loop"],
+      "summary": "三层柔性形状错位运动，作为页面视觉锚点。",
+      "codeSnippet": "<div class=\"blob-stack\"></div>"
+    },
+    {
+      "id": "05",
+      "title": "Orbital Loader",
+      "prompt": "轨道加载动效，多个小点沿不同半径旋转，中心有呼吸式能量核心",
+      "status": "implemented",
+      "category": "loader",
+      "tags": ["loading", "orbit", "loop"],
+      "summary": "用于生成中、保存中等需要等待反馈的状态。",
+      "codeSnippet": "<div class=\"orbital-loader\"></div>"
+    },
+    {
+      "id": "06",
+      "title": "Kinetic Type",
+      "prompt": "文字逐字进入，字重和透明度错峰变化，形成编辑器输入感",
+      "status": "placeholder",
+      "category": "typography",
+      "tags": ["text", "stagger", "entrance"],
+      "summary": "适合标题、prompt 预览或模型生成结果的入场。",
+      "codeSnippet": ""
+    },
+    {
+      "id": "07",
+      "title": "Glass Spectrum",
+      "prompt": "玻璃拟态光谱卡片，移动时折射光条在表面滑过，边缘有细微彩色描边",
+      "status": "placeholder",
+      "category": "card",
+      "tags": ["glass", "spectrum", "hover"],
+      "summary": "用于高级感较强的内容卡片或作品封面。",
+      "codeSnippet": ""
+    },
+    {
+      "id": "08",
+      "title": "Particle Field",
+      "prompt": "粒子场背景，粒子根据鼠标位置形成轻微聚散，远处粒子更淡",
+      "status": "placeholder",
+      "category": "background",
+      "tags": ["particles", "depth", "interactive"],
+      "summary": "可作为深色实验页或生成状态的氛围层。",
+      "codeSnippet": ""
+    },
+    {
+      "id": "09",
+      "title": "Scroll Wave",
+      "prompt": "滚动时横向波纹推进，模块之间像时间轴一样逐段点亮",
+      "status": "placeholder",
+      "category": "scroll",
+      "tags": ["scroll", "wave", "timeline"],
+      "summary": "适合长页面章节过渡和故事型作品集。",
+      "codeSnippet": ""
+    },
+    {
+      "id": "10",
+      "title": "Neon Switch",
+      "prompt": "霓虹切换开关，开启时电流沿边框跑一圈，随后进入稳定发光状态",
+      "status": "implemented",
+      "category": "control",
+      "tags": ["toggle", "neon", "state"],
+      "summary": "状态切换明确，保留可访问的开关结构。",
+      "codeSnippet": "<button role=\"switch\" aria-checked=\"true\" class=\"neon-switch\"></button>"
+    },
+    {
+      "id": "11",
+      "title": "Depth Cards",
+      "prompt": "鼠标移动时卡片组产生轻微 3D 视差，前景内容和背景网格分层移动",
+      "status": "placeholder",
+      "category": "card",
+      "tags": ["parallax", "3d", "hover"],
+      "summary": "用于作品集合、案例列表或交互式目录。",
+      "codeSnippet": ""
+    },
+    {
+      "id": "12",
+      "title": "Shader Noise",
+      "prompt": "噪声纹理缓慢流动，像软质材质表面被光扫过，可用于等待和空状态",
+      "status": "placeholder",
+      "category": "texture",
+      "tags": ["noise", "material", "ambient"],
+      "summary": "先用 CSS 占位，未来可替换为 Canvas/WebGL 版本。",
+      "codeSnippet": ""
+    }
+  ]
+}

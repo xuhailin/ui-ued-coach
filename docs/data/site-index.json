@@ -18,19 +18,19 @@
       "index": 2,
       "day": 2,
       "title": "信息层级：用户先看到什么",
-      "status": "locked",
-      "journalFile": null,
-      "journalTitle": null,
-      "summary": ""
+      "status": "in_progress",
+      "journalFile": "journal/day-02-information-hierarchy.md",
+      "journalTitle": "Day 2 - 信息层级：用户先看到什么",
+      "summary": "Learn to judge whether a page is guiding attention in the right order."
     },
     {
       "index": 3,
       "day": 3,
       "title": "页面拆解：从整页到模块",
-      "status": "locked",
-      "journalFile": null,
-      "journalTitle": null,
-      "summary": ""
+      "status": "in_progress",
+      "journalFile": "journal/day-03-page-decomposition.md",
+      "journalTitle": "Day 3 - 页面拆解：从整页到模块",
+      "summary": "Learn to break a full page into functional modules instead of seeing it as one flat screen."
     },
     {
       "index": 4,
@@ -139,6 +139,20 @@
       "day": 1,
       "status": "completed",
       "summary": "Learn to judge a page by goal, structure, and attention flow before looking at visual style."
+    },
+    {
+      "title": "Day 2 - 信息层级：用户先看到什么",
+      "file": "journal/day-02-information-hierarchy.md",
+      "day": 2,
+      "status": "in_progress",
+      "summary": "Learn to judge whether a page is guiding attention in the right order."
+    },
+    {
+      "title": "Day 3 - 页面拆解：从整页到模块",
+      "file": "journal/day-03-page-decomposition.md",
+      "day": 3,
+      "status": "in_progress",
+      "summary": "Learn to break a full page into functional modules instead of seeing it as one flat screen."
     }
   ]
 }

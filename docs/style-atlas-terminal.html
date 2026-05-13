@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>风格图谱 · 终端版 · UI/UED Coach</title>
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/site-rail.css" />
+    <link rel="stylesheet" href="./assets/style-atlas.css" />
+    <script src="./assets/style-registry.js"></script>
+    <script src="./assets/site-rail.js"></script>
+  </head>
+  <body data-page="style-atlas" data-initial-atlas-style="terminal">
+    <main class="atlas-shell">
+      <header class="atlas-hero">
+        <div>
+          <p class="atlas-kicker">风格图谱</p>
+          <h1>风格模型与内容适配图谱</h1>
+        </div>
+        <div class="atlas-hero-side">
+          <p class="atlas-hero-copy">
+            用同一套判断框架看界面：内容是什么、适合哪类排版模型、哪些风格只是实验方向。
+          </p>
+          <nav class="atlas-style-pages" id="atlas-style-pages" aria-label="风格图谱排版切换"></nav>
+        </div>
+      </header>
+
+      <section class="atlas-workbench" aria-label="风格适配判断台">
+        <aside class="atlas-panel atlas-content-panel">
+          <div class="atlas-panel-head">
+            <span>01</span>
+            <h2>内容类型</h2>
+          </div>
+          <div id="content-types" class="content-type-list"></div>
+        </aside>
+
+        <section class="atlas-panel atlas-detail-panel" aria-live="polite">
+          <div class="atlas-panel-head">
+            <span>02</span>
+            <h2 id="selected-content-title">选择一个内容类型</h2>
+          </div>
+          <p id="selected-content-desc" class="atlas-detail-copy"></p>
+          <div class="fit-summary">
+            <div>
+              <span class="fit-label">最佳匹配</span>
+              <strong id="best-fit">-</strong>
+            </div>
+            <div>
+              <span class="fit-label">风险</span>
+              <strong id="fit-risk">-</strong>
+            </div>
+          </div>
+          <div id="style-fit-list" class="style-fit-list"></div>
+        </section>
+
+        <aside class="atlas-panel atlas-rule-panel">
+          <div class="atlas-panel-head">
+            <span>03</span>
+            <h2>判断规则</h2>
+          </div>
+          <ol class="rule-list">
+            <li>先判断内容主语义，再选择界面风格。</li>
+            <li>优先推荐能提升理解效率的风格。</li>
+            <li>实验风格可以打开想象力，但不默认作为交付方向。</li>
+            <li>风格模型要改变布局结构，而不只是换颜色。</li>
+          </ol>
+        </aside>
+      </section>
+
+      <section id="atlas-style-judgment" class="atlas-judgment-slot" aria-label="当前页面风格判断"></section>
+
+      <section class="atlas-section">
+        <div class="atlas-section-head">
+          <div>
+            <p class="atlas-kicker">风格模型</p>
+            <h2>本系统当前覆盖的风格模型</h2>
+          </div>
+          <span id="style-count" class="atlas-count"></span>
+        </div>
+        <div id="style-models" class="style-model-grid"></div>
+      </section>
+
+      <section class="atlas-section">
+        <div class="atlas-section-head">
+          <div>
+            <p class="atlas-kicker">适配矩阵</p>
+            <h2>内容类型与风格模型适配矩阵</h2>
+          </div>
+          <span class="atlas-count">5 = 推荐 · 1 = 谨慎</span>
+        </div>
+        <div class="matrix-wrap">
+          <table class="fit-matrix" id="fit-matrix"></table>
+        </div>
+      </section>
+    </main>
+
+    <script src="./assets/style-atlas.js"></script>
+  </body>
+</html>
