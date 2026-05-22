@@ -260,10 +260,8 @@ a {
 .am-filter button,
 .am-segmented button,
 .am-callout,
-.am-xq-hero p,
-.am-roadmap b,
 .am-ref-grid small,
-.am-local-reports span,
+.am-ref-report,
 .am-footer {
   font-family: var(--am-mono);
   letter-spacing: 0.08em;
@@ -570,8 +568,6 @@ a {
 
 .am-field-grid,
 .am-rule-grid,
-.am-scope-grid,
-.am-roadmap,
 .am-ref-grid,
 .am-timing-grid {
   display: grid;
@@ -584,10 +580,8 @@ a {
 
 .am-field-grid article,
 .am-rule-grid article,
-.am-scope-grid article,
-.am-roadmap article,
-.am-ref-grid a,
-.am-local-reports,
+.am-ref-grid > a,
+.am-ref-card,
 .am-memory-card {
   border: 1px solid var(--am-line);
   border-radius: var(--am-radius);
@@ -986,198 +980,33 @@ a {
   line-height: 1.55;
 }
 
-.am-xq-hero {
-  position: relative;
-  overflow: hidden;
-  padding: 30px;
-  border-radius: 10px;
-  background: var(--am-ink);
-  color: var(--am-paper);
-}
-
-.am-xq-hero::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 220px;
-  height: 100%;
-  background:
-    linear-gradient(90deg, transparent, rgba(29, 77, 79, 0.32)),
-    repeating-linear-gradient(135deg, transparent 0 12px, rgba(255, 255, 255, 0.05) 12px 13px);
-  pointer-events: none;
-}
-
-.am-xq-hero p {
-  margin: 0 0 12px;
-  color: color-mix(in oklab, var(--am-accent) 78%, white);
-  font-size: 11px;
-  text-transform: uppercase;
-}
-
-.am-xq-hero h3 {
-  position: relative;
-  z-index: 1;
-  max-width: 23ch;
-  margin: 0;
-  color: var(--am-paper);
-  font-size: clamp(1.9rem, 3vw, 2.6rem);
-  line-height: 1.12;
-  letter-spacing: -0.03em;
-}
-
-.am-xq-hero blockquote {
-  position: relative;
-  z-index: 1;
-  max-width: 62ch;
-  margin: 20px 0 0;
-  padding: 16px 20px;
-  border-left: 3px solid var(--am-accent);
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.86);
-  font-family: var(--am-serif);
-  font-size: 19px;
-  font-style: italic;
-  line-height: 1.5;
-}
-
-.am-xq-reasons {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 1px;
-  overflow: hidden;
-  margin-top: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--am-radius);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.am-xq-reasons span {
-  padding: 14px;
-  background: rgba(255, 255, 255, 0.035);
-  color: rgba(255, 255, 255, 0.86);
-  font-size: 12px;
-  line-height: 1.45;
-}
-
-.am-scope-grid {
-  grid-template-columns: 1.28fr 0.72fr;
-  margin-top: 18px;
-}
-
-.am-scope-grid article {
-  padding: 20px;
-}
-
-.am-scope-grid h3 {
-  margin: 0 0 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--am-line);
-  color: var(--am-ink);
-  font-size: 16px;
-}
-
-.am-scope-grid .is-dont {
-  background: color-mix(in oklab, var(--am-danger) 6%, var(--am-paper));
-  border-color: color-mix(in oklab, var(--am-danger) 18%, var(--am-line));
-}
-
-.am-scope-grid .is-dont h3 {
-  color: var(--am-danger);
-}
-
-.am-scope-grid ul {
-  display: grid;
-  gap: 10px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.am-scope-grid li {
-  display: grid;
-  gap: 2px;
-  color: var(--am-ink-2);
-  font-size: 13px;
-  line-height: 1.45;
-}
-
-.am-scope-grid li b {
-  color: var(--am-ink);
-}
-
-.am-scope-grid li span {
-  color: var(--am-ink-2);
-}
-
-.am-code {
-  overflow-x: auto;
-  margin: 20px 0 0;
-  padding: 18px 20px;
-  border: 1px solid var(--am-ink);
-  border-radius: var(--am-radius);
-  background: var(--am-ink);
-  color: #d8d3c6;
-  font: 500 12px/1.68 var(--am-mono);
-}
-
-.am-roadmap {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  margin-top: 18px;
-}
-
-.am-roadmap article {
-  padding: 14px;
-}
-
-.am-roadmap b {
-  display: inline-flex;
-  padding: 3px 8px;
-  border-radius: 999px;
-  background: var(--am-bg-2);
-  color: var(--am-ink-3);
-  font-size: 10px;
-}
-
-.am-roadmap .is-now b {
-  background: var(--am-accent);
-  color: var(--am-paper);
-}
-
-.am-roadmap span,
-.am-roadmap small {
-  display: block;
-}
-
-.am-roadmap span {
-  margin-top: 9px;
-  color: var(--am-ink);
-  font-weight: 700;
-  line-height: 1.35;
-}
-
-.am-roadmap small {
-  margin-top: 4px;
-  color: var(--am-ink-3);
-  font: 500 10px/1.45 var(--am-mono);
-}
-
 .am-ref-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.am-ref-grid a {
+.am-ref-grid > a,
+.am-ref-card {
   display: grid;
   gap: 7px;
   padding: 16px;
   transition: transform 160ms ease, border-color 160ms ease;
 }
 
-.am-ref-grid a:hover {
+.am-ref-grid > a:hover,
+.am-ref-card:hover {
   transform: translateY(-2px);
   border-color: var(--am-ink-3);
+}
+
+.am-ref-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.am-ref-head > a:first-child {
+  min-width: 0;
 }
 
 .am-ref-grid b {
@@ -1196,55 +1025,16 @@ a {
   line-height: 1.4;
 }
 
-.am-local-reports {
-  margin-top: 14px;
-  padding: 18px;
-  background: color-mix(in oklab, var(--am-info) 6%, var(--am-paper));
-  border-color: color-mix(in oklab, var(--am-info) 20%, var(--am-line));
+.am-ref-report {
+  flex: 0 0 auto;
+  color: var(--am-accent);
+  font-size: 9.5px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
-.am-local-reports h3 {
-  margin: 0 0 12px;
-  color: var(--am-ink);
-  font-size: 16px;
-}
-
-.am-local-reports a {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  margin-top: 7px;
-  padding: 11px 12px;
-  border: 1px solid var(--am-line);
-  border-radius: 6px;
-  background: var(--am-paper);
-  color: var(--am-ink-2);
-  font-family: var(--am-mono);
-  font-size: 12px;
-}
-
-.am-local-reports a:hover {
-  color: var(--am-ink);
-  border-color: var(--am-info);
-}
-
-.am-local-reports span {
+.am-ref-report:hover {
   color: var(--am-info);
-  font-size: 10px;
-  text-transform: uppercase;
-}
-
-.am-local-reports p {
-  margin: 12px 0 0;
-  color: var(--am-ink-3);
-  font-size: 12px;
-}
-
-.am-local-reports code {
-  padding: 0.1em 0.35em;
-  border-radius: 4px;
-  background: rgba(42, 79, 140, 0.08);
 }
 
 .am-footer {
@@ -1322,8 +1112,6 @@ a {
   }
 
   .am-map-branches,
-  .am-roadmap,
-  .am-xq-reasons,
   .am-context-row,
   .am-context-store,
   .am-timing-grid {
@@ -1374,10 +1162,7 @@ a {
   .am-map-branches,
   .am-map-children,
   .am-rule-grid,
-  .am-scope-grid,
-  .am-roadmap,
   .am-ref-grid,
-  .am-xq-reasons,
   .am-context-row,
   .am-context-store,
   .am-timing-grid {
@@ -1409,10 +1194,6 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .am-local-reports a {
-    align-items: flex-start;
-    flex-direction: column;
-  }
 }
 
 @media print {

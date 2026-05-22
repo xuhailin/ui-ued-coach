@@ -9,33 +9,33 @@
     "package_version": "0.16.8",
     "license": "Apache-2.0"
   },
-  "positioning": "Letta, formerly MemGPT, is an open-source Python server and API platform for building stateful LLM agents with long-term memory, tool execution, model/provider routing, and production-oriented observability.",
+  "positioning": "Letta（原 MemGPT）是一个开源 Python 服务端与 API 平台，用来构建带长期记忆、工具执行、模型/供应商路由和生产级可观测性的有状态 LLM Agent。",
   "verdict": {
-    "label": "Recommended for serious agent-memory experiments",
+    "label": "适合认真研究 Agent 记忆架构",
     "confidence": "High"
   },
   "snapshot": {
-    "What it is": "A full agent runtime and service layer, not just a memory library. The repo contains a FastAPI server, CLI entrypoint, agent loops, memory models, tool execution, MCP integration, provider adapters, persistence models, migrations, tests, Docker assets, OpenAPI/Fern API artifacts, and observability wiring.",
-    "Who it is for": "Teams building stateful AI agents, memory-backed assistants, tool-using agents, multi-agent workflows, or an internal agent API that needs persistence, streaming, SDKs, and provider flexibility.",
-    "Why it matters": "It packages the hard parts around long-lived agents: memory blocks, archival/recall state, tools, sandboxing, provider abstraction, API surface, migrations, and traces. That makes it a useful reference architecture even when not adopted wholesale.",
-    "When not to use it": "Avoid using it as a tiny embedded helper library or a low-complexity chatbot scaffold. The service-oriented architecture, database/migration surface, and tool execution model are more than many prototypes need."
+    "它是什么": "它不是一个单纯的“记忆库”，而是一整套 Agent 运行时和服务层。仓库里包含 FastAPI 服务、CLI 入口、Agent 循环、记忆模型、工具执行、MCP 集成、模型供应商适配、持久化模型、数据库迁移、测试、Docker 资产、OpenAPI/Fern API 产物和可观测性接入。",
+    "适合谁": "适合正在做有状态 AI Agent、带记忆的助手、会调用工具的 Agent、多 Agent 工作流，或需要持久化、流式输出、SDK 和多模型支持的内部 Agent API 的团队。",
+    "为什么值得看": "它把长期运行 Agent 的难点打包在一起：记忆块、归档/召回状态、工具、沙箱、供应商抽象、API 面、迁移和调用链追踪。即使不整套采用，也很适合作为参考架构。",
+    "什么时候不适合": "如果只是想做一个很小的嵌入式 helper library 或低复杂度聊天机器人脚手架，它会显得太重。它的服务化架构、数据库/迁移面和工具执行模型，超过了很多原型项目的需要。"
   },
   "facts": {
-    "Repository identity": "README.md names the project 'Letta (formerly MemGPT)' and describes it as a way to build AI with advanced memory that can learn and self-improve over time.",
-    "Primary language": "Python 3.11+ package with pyproject.toml, uv.lock, 536 Python source files under letta/, and 166 Python test files under tests/.",
-    "Runtime shape": "Typer CLI entrypoint launches a server by default via letta.main:app; FastAPI is used for the REST API; Docker and compose files support service deployment with Postgres/pgvector.",
-    "API surface": "fern/openapi.json identifies 'Letta API' version 1.0.0 with 239 paths. Major tags include agents, tools, sources/folders, conversations, runs, blocks, MCP servers, providers, jobs, messages, and archives.",
-    "Persistence": "SQLAlchemy/SQLModel models live in letta/orm; alembic/versions contains 167 migrations; compose.yaml uses ankane/pgvector for PostgreSQL vector storage.",
-    "Memory model": "letta/schemas/memory.py defines core memory blocks, file blocks, context window overview, and git-enabled memory rendering paths.",
-    "Tooling": "Tool execution uses a factory over core, memory, file, builtin, MCP, multi-agent, and sandboxed executors; local, E2B, and Modal sandbox paths appear in services/tool_sandbox.",
-    "Provider support": "pyproject.toml and letta/llm_api include adapters for OpenAI, Anthropic, Azure, Bedrock, Google Gemini/Vertex, Groq, Mistral, DeepSeek, Ollama, OpenRouter, Together, vLLM, xAI, Z.ai, and others.",
-    "Quality signals": "The repository includes unit/integration/docker/migration workflows, ruff/ty config, pytest config, a security policy, AI contribution policy, Apache license, and a large tests directory.",
-    "External dynamic metadata": "GitHub stars/forks/open issues were not recorded because GitHub API returned rate-limit 403 during this run."
+    "仓库身份": "README.md 将项目命名为 'Letta (formerly MemGPT)'，并描述为一种构建具备高级记忆、可随时间学习和自我改进的 AI 的方式。",
+    "主要语言": "Python 3.11+ 项目，包含 pyproject.toml、uv.lock；letta/ 下有 536 个 Python 源文件，tests/ 下有 166 个 Python 测试文件。",
+    "运行形态": "Typer CLI 入口默认通过 letta.main:app 启动服务；REST API 使用 FastAPI；Docker 与 compose 文件支持以 Postgres/pgvector 部署服务。",
+    "API 范围": "fern/openapi.json 标识 'Letta API' 版本 1.0.0，共 239 个路径。主要标签包括 agents、tools、sources/folders、conversations、runs、blocks、MCP servers、providers、jobs、messages 和 archives。",
+    "持久化": "SQLAlchemy/SQLModel 模型位于 letta/orm；alembic/versions 包含 167 个迁移；compose.yaml 使用 ankane/pgvector 作为 PostgreSQL 向量存储。",
+    "记忆模型": "letta/schemas/memory.py 定义核心记忆块、文件块、上下文窗口概览，以及支持 git 的记忆渲染路径。",
+    "工具系统": "工具执行通过工厂模式覆盖 core、memory、file、builtin、MCP、多 Agent 和沙箱执行器；services/tool_sandbox 中出现 local、E2B 和 Modal 沙箱路径。",
+    "供应商支持": "pyproject.toml 和 letta/llm_api 中包含 OpenAI、Anthropic、Azure、Bedrock、Google Gemini/Vertex、Groq、Mistral、DeepSeek、Ollama、OpenRouter、Together、vLLM、xAI、Z.ai 等适配器。",
+    "质量信号": "仓库包含 unit/integration/docker/migration 工作流、ruff/ty 配置、pytest 配置、安全策略、AI 贡献策略、Apache 许可证和较大的测试目录。",
+    "外部动态数据": "本次运行未记录 GitHub stars/forks/open issues，因为 GitHub API 返回了 rate-limit 403。"
   },
   "design_philosophy": [
     {
-      "claim": "Stateful agents are modeled as service-owned entities rather than transient prompt calls.",
-      "detail": "Agents, messages, blocks, tools, sources, archives, runs, steps, and provider traces are all first-class resources with managers, ORM models, schemas, and API routes.",
+      "claim": "有状态 Agent 被建模为服务拥有的实体，而不是一次性的 prompt 调用。",
+      "detail": "Agents、messages、blocks、tools、sources、archives、runs、steps 和 provider traces 都是一级资源，并有 managers、ORM models、schemas 和 API routes 支撑。",
       "confidence": "High",
       "evidence": [
         "letta/server/server.py",
@@ -46,8 +46,8 @@
       ]
     },
     {
-      "claim": "Memory is treated as editable structured state, not only vector retrieval.",
-      "detail": "Core memory blocks, archival/recall counts, file blocks, and git-enabled memory rendering show a layered memory design with both in-context and external projections.",
+      "claim": "记忆被视为可编辑的结构化状态，而不只是向量检索。",
+      "detail": "核心记忆块、归档/召回计数、文件块和支持 git 的记忆渲染，体现了分层记忆设计：既有上下文内状态，也有外部投影。",
       "confidence": "High",
       "evidence": [
         "letta/schemas/memory.py",
@@ -58,8 +58,8 @@
       ]
     },
     {
-      "claim": "The runtime favors pluggability across models, tools, storage, and execution backends.",
-      "detail": "Provider adapters are separated from the agent loop; tool executors are selected by ToolType; sandbox backends include local, E2B, and Modal; MCP has dedicated managers and clients.",
+      "claim": "运行时强调模型、工具、存储和执行后端的可插拔。",
+      "detail": "供应商适配器与 Agent loop 分离；工具执行器按 ToolType 选择；沙箱后端包括 local、E2B 和 Modal；MCP 有专门的 managers 与 clients。",
       "confidence": "High",
       "evidence": [
         "letta/llm_api/",
@@ -70,8 +70,8 @@
       ]
     },
     {
-      "claim": "The product surface is API-first, with SDK and documentation generation as part of the system.",
-      "detail": "OpenAPI generation appears in the FastAPI app, and Fern files/workflows are present for docs and Python/TypeScript SDK publishing.",
+      "claim": "产品表面是 API-first，并把 SDK 与文档生成纳入系统。",
+      "detail": "FastAPI app 中有 OpenAPI 生成路径，仓库中也有 Fern 文件和工作流，用于发布文档以及 Python/TypeScript SDK。",
       "confidence": "High",
       "evidence": [
         "letta/server/rest_api/app.py",
@@ -82,8 +82,8 @@
       ]
     },
     {
-      "claim": "Operational visibility is a core concern rather than an afterthought.",
-      "detail": "The app initializes Sentry/Datadog/OpenTelemetry paths, exposes run/step/trace endpoints, includes ClickHouse trace backends, and ships otel collector configs.",
+      "claim": "运行可见性是核心关注点，而不是后补能力。",
+      "detail": "应用初始化了 Sentry/Datadog/OpenTelemetry 路径，暴露 run/step/trace 端点，包含 ClickHouse trace 后端，并提供 otel collector 配置。",
       "confidence": "High",
       "evidence": [
         "letta/server/rest_api/app.py",
@@ -95,95 +95,95 @@
     }
   ],
   "architecture": {
-    "summary": "Letta is best read as a layered agent platform: API/SDK clients call FastAPI routers, routers delegate to a SyncServer facade, the facade coordinates domain managers, managers persist through ORM/storage, and agent loops orchestrate prompts, memory, model calls, tools, streaming, runs, and traces.",
+    "summary": "Letta 更适合被理解为一个分层 Agent 平台：API/SDK 客户端调用 FastAPI routers，routers 委托给 SyncServer 门面，门面协调领域 managers，managers 通过 ORM/storage 持久化，而 Agent loops 负责编排 prompt、记忆、模型调用、工具、流式输出、runs 和 traces。",
     "mermaid": "flowchart TD\n  User[CLI / Python SDK / TS SDK / REST clients] --> API[FastAPI REST API\\nletta/server/rest_api]\n  User --> CLI[Typer CLI\\nletta/main.py]\n  CLI --> API\n  API --> Server[SyncServer facade\\nletta/server/server.py]\n  Server --> Managers[Domain managers\\nAgent / Message / Block / Tool / Source / Run]\n  Managers --> ORM[SQLAlchemy ORM + Alembic\\nletta/orm + alembic]\n  ORM --> DB[(Postgres / pgvector\\nSQLite in tests/dev)]\n  Managers --> Memory[Memory system\\nblocks / archival / recall / git memory repo]\n  Memory --> MemRepo[Object-backed Git memory\\nservices/memory_repo]\n  Server --> AgentLoop[AgentLoop factory\\nV2 / V3 / sleeptime / voice]\n  AgentLoop --> Prompt[Prompt + context assembly\\nPromptGenerator / Memory.compile]\n  AgentLoop --> LLM[LLMClient + provider adapters\\nOpenAI / Anthropic / Gemini / Ollama / etc.]\n  AgentLoop --> Tools[ToolExecutionManager]\n  Tools --> Builtin[Core / memory / files tools]\n  Tools --> MCP[MCP tools + servers]\n  Tools --> Sandbox[Sandbox execution\\nLocal / E2B / Modal]\n  AgentLoop --> Streaming[Streaming responses + runs + steps]\n  Server --> Observability[OTel / Datadog / Sentry / provider traces]\n  API --> OpenAPI[Fern OpenAPI + SDK generation]",
     "modules": [
       {
-        "name": "CLI and entrypoint",
-        "responsibility": "Expose the letta command and default server launch path.",
+        "name": "CLI 与入口",
+        "responsibility": "暴露 letta 命令，并提供默认服务启动路径。",
         "files": [
           "letta/main.py",
           "letta/cli/cli.py",
           "pyproject.toml"
         ],
-        "notes": "pyproject declares project script letta = letta.main:app."
+        "notes": "pyproject 声明项目脚本 letta = letta.main:app。"
       },
       {
         "name": "REST API",
-        "responsibility": "FastAPI app, middleware, exception handling, routers, OpenAPI generation, streaming endpoints.",
+        "responsibility": "FastAPI app、中间件、异常处理、routers、OpenAPI 生成和流式端点。",
         "files": [
           "letta/server/rest_api/app.py",
           "letta/server/rest_api/routers/v1/agents.py",
           "letta/server/rest_api/routers/v1/tools.py",
           "letta/server/rest_api/routers/v1/conversations.py"
         ],
-        "notes": "OpenAPI surface is large: 239 paths in fern/openapi.json."
+        "notes": "OpenAPI 面很大：fern/openapi.json 中有 239 个路径。"
       },
       {
-        "name": "Server facade",
-        "responsibility": "Owns global managers and provider setup; coordinates the app's domain services.",
+        "name": "Server 门面",
+        "responsibility": "拥有全局 managers 和 provider 设置，协调应用的领域服务。",
         "files": [
           "letta/server/server.py"
         ],
-        "notes": "SyncServer initializes managers for agents, tools, memory, MCP, providers, runs, telemetry, files, jobs, groups, and more."
+        "notes": "SyncServer 初始化 agents、tools、memory、MCP、providers、runs、telemetry、files、jobs、groups 等 managers。"
       },
       {
-        "name": "Agent runtime",
-        "responsibility": "Load the correct agent loop and run blocking/streaming steps with messages, tool calls, credit checks, context, and stop reasons.",
+        "name": "Agent 运行时",
+        "responsibility": "加载正确的 Agent loop，并用 messages、tool calls、额度检查、上下文和停止原因来执行阻塞/流式步骤。",
         "files": [
           "letta/agents/agent_loop.py",
           "letta/agents/letta_agent_v2.py",
           "letta/agents/letta_agent_v3.py",
           "letta/agents/base_agent_v2.py"
         ],
-        "notes": "AgentLoop dispatches between V2, V3, sleeptime multi-agent, and voice variants."
+        "notes": "AgentLoop 在 V2、V3、sleeptime multi-agent 和 voice variants 之间分发。"
       },
       {
-        "name": "Memory system",
-        "responsibility": "Represent in-context memory, external memory summaries, blocks, git-backed memory projections, and file blocks.",
+        "name": "记忆系统",
+        "responsibility": "表示上下文内记忆、外部记忆摘要、blocks、git-backed 记忆投影和文件块。",
         "files": [
           "letta/schemas/memory.py",
           "letta/services/block_manager.py",
           "letta/services/block_manager_git.py",
           "letta/services/memory_repo/"
         ],
-        "notes": "Git-enabled memory treats git as source of truth and Postgres as cache for enabled agents."
+        "notes": "Git-enabled memory 将 git 视作 source of truth，将 Postgres 作为启用 Agent 的缓存。"
       },
       {
-        "name": "Persistence layer",
-        "responsibility": "Define database models, migrations, registry, and storage-backed state.",
+        "name": "持久化层",
+        "responsibility": "定义数据库模型、迁移、registry 和存储型状态。",
         "files": [
           "letta/orm/",
           "alembic/versions/",
           "letta/server/db.py",
           "compose.yaml"
         ],
-        "notes": "167 Alembic versions indicate an actively evolved schema."
+        "notes": "167 个 Alembic 版本说明 schema 正在持续演进。"
       },
       {
-        "name": "Tool and sandbox system",
-        "responsibility": "Create, list, run, and sandbox tools; support built-in tools, MCP, files, memory, multi-agent, local/E2B/Modal backends.",
+        "name": "工具与沙箱系统",
+        "responsibility": "创建、列出、运行和沙箱化工具；支持内置工具、MCP、文件、记忆、多 Agent、local/E2B/Modal 后端。",
         "files": [
           "letta/server/rest_api/routers/v1/tools.py",
           "letta/services/tool_executor/tool_execution_manager.py",
           "letta/services/tool_executor/sandbox_tool_executor.py",
           "letta/services/tool_sandbox/local_sandbox.py"
         ],
-        "notes": "Factory-based executor selection makes tool behavior extensible but also creates a broad security surface."
+        "notes": "基于工厂的执行器选择提升了扩展性，也带来更宽的安全面。"
       },
       {
-        "name": "Provider abstraction",
-        "responsibility": "Route model calls across many LLM and embedding providers.",
+        "name": "供应商抽象",
+        "responsibility": "在多个 LLM 与 embedding providers 之间路由模型调用。",
         "files": [
           "letta/llm_api/",
           "letta/schemas/providers/",
           "letta/services/provider_manager.py"
         ],
-        "notes": "Provider breadth is high; operational correctness depends on many external API behaviors."
+        "notes": "供应商覆盖面很广；运行正确性依赖许多外部 API 行为。"
       },
       {
-        "name": "API artifact and SDK generation",
-        "responsibility": "Maintain OpenAPI and Fern-driven docs/SDK publishing workflows.",
+        "name": "API 产物与 SDK 生成",
+        "responsibility": "维护 OpenAPI 和 Fern 驱动的文档/SDK 发布工作流。",
         "files": [
           "fern/openapi.json",
           "fern/openapi-overrides.yml",
@@ -191,14 +191,14 @@
           ".github/workflows/fern-sdk-python-publish.yml",
           ".github/workflows/fern-sdk-typescript-publish.yml"
         ],
-        "notes": "A strong signal that hosted/API usage is a first-class product path."
+        "notes": "这是一个强信号：托管/API 使用是项目的一等产品路径。"
       }
     ]
   },
   "highlights": [
     {
-      "claim": "Clear full-stack agent platform scope",
-      "detail": "The repo covers memory, agent runtime, API, SDK artifacts, provider adapters, tools, sandboxing, persistence, migrations, and observability in one coherent service.",
+      "claim": "完整的 Agent 平台范围很清晰",
+      "detail": "仓库在一个相对一致的服务架构中覆盖记忆、Agent 运行时、API、SDK 产物、供应商适配、工具、沙箱、持久化、迁移和可观测性。",
       "confidence": "High",
       "evidence": [
         "README.md",
@@ -209,8 +209,8 @@
       ]
     },
     {
-      "claim": "Memory architecture is more explicit than typical chat-agent projects",
-      "detail": "Memory is modeled with blocks, archival/recall counts, file blocks, core memory rendering, and optional git-backed state history.",
+      "claim": "记忆架构比常见聊天 Agent 项目更显式",
+      "detail": "记忆以 blocks、归档/召回计数、文件块、核心记忆渲染和可选 git-backed 状态历史来建模。",
       "confidence": "High",
       "evidence": [
         "letta/schemas/memory.py",
@@ -220,8 +220,8 @@
       ]
     },
     {
-      "claim": "Broad integration surface",
-      "detail": "The codebase supports many LLM providers, MCP tools/servers, sandbox backends, Docker deployment, OpenAPI, Python and TypeScript client usage, and provider traces.",
+      "claim": "集成面很宽",
+      "detail": "代码库支持许多 LLM providers、MCP tools/servers、沙箱后端、Docker 部署、OpenAPI、Python/TypeScript 客户端使用和 provider traces。",
       "confidence": "High",
       "evidence": [
         "letta/llm_api/",
@@ -232,8 +232,8 @@
       ]
     },
     {
-      "claim": "Good engineering maturity signals",
-      "detail": "The repository has 166 Python test files, CI workflows for unit/integration/docker/migration paths, ruff/ty/pytest config, security policy, AI contribution policy, and Apache license.",
+      "claim": "工程成熟度信号不错",
+      "detail": "仓库有 166 个 Python 测试文件，CI 覆盖 unit/integration/docker/migration 路径，并有 ruff/ty/pytest 配置、安全策略、AI 贡献策略和 Apache 许可证。",
       "confidence": "High",
       "evidence": [
         "tests/",
@@ -245,8 +245,8 @@
       ]
     },
     {
-      "claim": "API-first product surface",
-      "detail": "The README leads with Letta API and SDK examples; FastAPI and Fern artifacts indicate the repo is meant to be operated as a service and consumed from applications.",
+      "claim": "API-first 的产品表面",
+      "detail": "README 以 Letta API 和 SDK 示例开场；FastAPI 与 Fern 产物表明这个仓库预期以服务方式运行，并被应用侧消费。",
       "confidence": "High",
       "evidence": [
         "README.md",
@@ -257,8 +257,8 @@
       ]
     },
     {
-      "claim": "Useful reference for building production agent infrastructure",
-      "detail": "Even teams that do not adopt Letta can study its separation of routers, managers, schemas, ORM, provider adapters, tool executors, sandboxing, and traces.",
+      "claim": "适合作为生产级 Agent 基础设施参考",
+      "detail": "即使团队不直接采用 Letta，也可以研究它如何拆分 routers、managers、schemas、ORM、provider adapters、tool executors、sandboxing 和 traces。",
       "confidence": "Medium",
       "evidence": [
         "letta/server/rest_api/routers/v1/",
@@ -270,8 +270,8 @@
   ],
   "risks": [
     {
-      "claim": "High adoption complexity",
-      "detail": "Letta is a service platform with many moving pieces: Postgres/pgvector, migrations, provider credentials, tool sandboxing, background scheduling, API auth/middleware, OpenAPI/SDK artifacts, and observability. This is powerful but not lightweight.",
+      "claim": "采用复杂度较高",
+      "detail": "Letta 是一个服务平台，包含 Postgres/pgvector、迁移、供应商凭证、工具沙箱、后台调度、API auth/middleware、OpenAPI/SDK 产物和可观测性等多个部分。能力强，但不轻。",
       "confidence": "High",
       "evidence": [
         "compose.yaml",
@@ -282,8 +282,8 @@
       ]
     },
     {
-      "claim": "Security surface is broad because agents can execute tools",
-      "detail": "Tool execution supports local subprocesses, virtualenv setup, fetched credentials, environment variable injection, MCP, E2B, and Modal. Teams adopting it need strict sandbox and credential policies.",
+      "claim": "因为 Agent 可以执行工具，安全面很宽",
+      "detail": "工具执行支持本地子进程、virtualenv 设置、获取凭证、环境变量注入、MCP、E2B 和 Modal。采用它的团队需要严格的沙箱和凭证策略。",
       "confidence": "High",
       "evidence": [
         "letta/services/tool_executor/sandbox_tool_executor.py",
@@ -293,8 +293,8 @@
       ]
     },
     {
-      "claim": "Fast-moving schema and API surface may create upgrade work",
-      "detail": "The repo has 167 Alembic migrations, many API routes, deprecated endpoints in sources/groups/identities, and active SDK/Fern workflows. Integrators should expect migration and compatibility chores.",
+      "claim": "快速变化的 schema 和 API 面可能带来升级成本",
+      "detail": "仓库有 167 个 Alembic 迁移、许多 API routes、sources/groups/identities 中的 deprecated endpoints，以及活跃的 SDK/Fern 工作流。集成方要预期迁移和兼容性工作。",
       "confidence": "High",
       "evidence": [
         "alembic/versions/",
@@ -305,8 +305,8 @@
       ]
     },
     {
-      "claim": "README is product-focused and omits many operational details",
-      "detail": "README gives a concise API/CLI quickstart, but most operational complexity is spread across docs links, compose files, settings, workflows, migrations, and server code.",
+      "claim": "README 偏产品介绍，省略了很多运维细节",
+      "detail": "README 给出简洁的 API/CLI quickstart，但大多数运维复杂度分散在 docs 链接、compose 文件、settings、workflows、migrations 和 server code 中。",
       "confidence": "Medium",
       "evidence": [
         "README.md",
@@ -316,8 +316,8 @@
       ]
     },
     {
-      "claim": "Provider breadth increases testing and runtime variability",
-      "detail": "Supporting many providers is valuable, but behavior differences across model APIs, streaming, tool calling, reasoning, caching, usage accounting, and rate limits will complicate reliability.",
+      "claim": "供应商覆盖面增加了测试和运行时变量",
+      "detail": "支持很多 providers 很有价值，但不同模型 API 在 streaming、tool calling、reasoning、caching、usage accounting 和 rate limits 上的差异，会让可靠性更复杂。",
       "confidence": "Medium",
       "evidence": [
         "letta/llm_api/",
@@ -327,8 +327,8 @@
       ]
     },
     {
-      "claim": "External repository popularity metrics are missing from this run",
-      "detail": "GitHub API returned rate-limit 403 during analysis, so stars/forks/open issues were not captured in the memory file. Refresh this data before investor, adoption, or trend comparisons.",
+      "claim": "本次分析缺少外部仓库热度指标",
+      "detail": "分析时 GitHub API 返回 rate-limit 403，所以 memory file 未捕获 stars/forks/open issues。用于投资、采用或趋势比较前，应刷新这些数据。",
       "confidence": "High",
       "evidence": [
         "GitHub API 403 during analysis",
@@ -338,10 +338,10 @@
   ],
   "scenarios": [
     {
-      "scenario": "Build a stateful AI assistant with long-term memory",
+      "scenario": "构建带长期记忆的有状态 AI 助手",
       "fit": "High",
-      "why": "This is the core positioning of Letta/MemGPT, and the codebase has explicit agent, memory, block, message, archive, and source abstractions.",
-      "notes": "Start with hosted Letta API or Docker deployment, then test memory block updates and retrieval behavior against your domain.",
+      "why": "这是 Letta/MemGPT 的核心定位，代码库有明确的 agent、memory、block、message、archive 和 source 抽象。",
+      "notes": "可以从 hosted Letta API 或 Docker 部署开始，然后针对自己的领域测试 memory block 更新和检索行为。",
       "evidence": [
         "README.md",
         "letta/schemas/memory.py",
@@ -349,10 +349,10 @@
       ]
     },
     {
-      "scenario": "Internal agent platform with REST API and SDK consumers",
+      "scenario": "为内部 Agent 平台提供 REST API 和 SDK 消费端",
       "fit": "High",
-      "why": "FastAPI, OpenAPI/Fern, Python/TypeScript SDK flows, and many REST resources are already part of the repository shape.",
-      "notes": "Good fit if you want centralized agents, auth, runs, observability, and tool governance.",
+      "why": "FastAPI、OpenAPI/Fern、Python/TypeScript SDK 流程和大量 REST resources 已经是仓库形态的一部分。",
+      "notes": "如果你需要集中管理 agents、auth、runs、observability 和 tool governance，会比较匹配。",
       "evidence": [
         "fern/openapi.json",
         "letta/server/rest_api/app.py",
@@ -360,10 +360,10 @@
       ]
     },
     {
-      "scenario": "Tool-using agents with sandboxed execution",
+      "scenario": "带沙箱执行的工具型 Agent",
       "fit": "High",
-      "why": "Tool creation, MCP tools, local/E2B/Modal sandbox backends, and executor dispatch are built into the architecture.",
-      "notes": "Audit sandbox settings and credentials before production usage.",
+      "why": "工具创建、MCP tools、local/E2B/Modal 沙箱后端和 executor dispatch 都内建在架构里。",
+      "notes": "进入生产前先审计 sandbox settings 和 credentials。",
       "evidence": [
         "letta/server/rest_api/routers/v1/tools.py",
         "letta/services/tool_executor/",
@@ -371,10 +371,10 @@
       ]
     },
     {
-      "scenario": "Research reference for memory-agent architecture",
+      "scenario": "研究记忆型 Agent 架构",
       "fit": "High",
-      "why": "The repo is a rich reference for memory blocks, agent loops, summarization, context window management, tool calls, and provider abstraction.",
-      "notes": "Useful even without direct adoption; study managers and schemas first.",
+      "why": "仓库是很好的参考样本：memory blocks、agent loops、summarization、context window management、tool calls 和 provider abstraction 都比较完整。",
+      "notes": "即使不直接采用也有学习价值；建议先读 managers 和 schemas。",
       "evidence": [
         "letta/agents/",
         "letta/services/context_window_calculator/",
@@ -383,10 +383,10 @@
       ]
     },
     {
-      "scenario": "Small single-file chatbot or embedded library",
+      "scenario": "小型单文件聊天机器人或嵌入式库",
       "fit": "Low",
-      "why": "The repository is a service-oriented platform with persistence, migrations, routers, managers, and deployment concerns.",
-      "notes": "Use a smaller library or direct SDK approach unless memory/platform needs justify the overhead.",
+      "why": "这个仓库是服务化平台，包含持久化、迁移、routers、managers 和部署关注点。",
+      "notes": "除非记忆/平台需求足以抵消复杂度，否则建议用更小的库或直接 SDK。",
       "evidence": [
         "letta/server/",
         "letta/services/",
@@ -395,10 +395,10 @@
       ]
     },
     {
-      "scenario": "Regulated production agent system",
+      "scenario": "受监管的生产级 Agent 系统",
       "fit": "Medium",
-      "why": "Letta has observability, tests, security policy, and structured APIs, but tool execution and many provider integrations create a non-trivial risk/compliance surface.",
-      "notes": "Run a security review, disable unneeded sandboxes/providers, define credential isolation, and pin deployment versions.",
+      "why": "Letta 有可观测性、测试、安全策略和结构化 API，但工具执行与大量 provider 集成会带来不小的风险/合规面。",
+      "notes": "需要做安全审查、关闭不需要的 sandboxes/providers、定义凭证隔离，并固定部署版本。",
       "evidence": [
         "SECURITY.md",
         "letta/services/tool_sandbox/",
@@ -410,52 +410,52 @@
   "peers": [
     {
       "project": "Letta / MemGPT",
-      "positioning": "Stateful agent platform with long-term memory, tool execution, and API/SDK surface.",
-      "strengths": "Explicit memory model, broad provider/tool support, service architecture, strong API surface, tests and CI.",
-      "weaknesses": "Complex adoption surface; sandbox/provider/security governance required.",
-      "best_fit": "Teams building persistent AI agents or studying memory-agent infrastructure.",
+      "positioning": "带长期记忆、工具执行和 API/SDK 表面的有状态 Agent 平台。",
+      "strengths": "显式记忆模型、广泛 provider/tool 支持、服务化架构、强 API 面、测试和 CI。",
+      "weaknesses": "采用面复杂；需要 sandbox/provider/security 治理。",
+      "best_fit": "构建持久化 AI Agent，或研究记忆型 Agent 基础设施的团队。",
       "confidence": "High"
     },
     {
       "project": "LangGraph",
-      "positioning": "Graph/state-machine framework for controllable agent workflows.",
-      "strengths": "Excellent for workflow graphs, control flow, checkpoints, and composable orchestration.",
-      "weaknesses": "Memory product/API platform concerns are less turnkey than Letta's service model.",
-      "best_fit": "Teams wanting custom agent orchestration with explicit graph control.",
+      "positioning": "用于可控 Agent 工作流的 graph/state-machine 框架。",
+      "strengths": "很适合工作流图、控制流、checkpoints 和可组合编排。",
+      "weaknesses": "记忆产品/API 平台能力不像 Letta 的服务模型那样开箱即用。",
+      "best_fit": "想要自定义 Agent 编排，并明确控制 graph 的团队。",
       "confidence": "Medium"
     },
     {
       "project": "AutoGen",
-      "positioning": "Multi-agent conversation and orchestration framework.",
-      "strengths": "Strong multi-agent experimentation model and conversation patterns.",
-      "weaknesses": "Long-term memory/platform API is not the central abstraction in the same way.",
-      "best_fit": "Research and prototyping multi-agent collaborations.",
+      "positioning": "多 Agent 对话与编排框架。",
+      "strengths": "多 Agent 实验模型和对话模式较强。",
+      "weaknesses": "长期记忆/平台 API 不是同等中心化的抽象。",
+      "best_fit": "多 Agent 协作的研究与原型。",
       "confidence": "Medium"
     },
     {
       "project": "CrewAI",
-      "positioning": "Role/task oriented multi-agent framework.",
-      "strengths": "Quick to express role-based workflows and task delegation.",
-      "weaknesses": "Less obviously a full memory server/API platform.",
-      "best_fit": "Workflow-style agent teams and business process prototypes.",
+      "positioning": "面向角色/任务的多 Agent 框架。",
+      "strengths": "能快速表达角色型工作流和任务委派。",
+      "weaknesses": "不太像完整的 memory server/API platform。",
+      "best_fit": "工作流型 Agent team 和业务流程原型。",
       "confidence": "Medium"
     },
     {
       "project": "OpenAI Agents SDK / Assistants-style APIs",
-      "positioning": "Hosted/model-provider agent tooling with managed model integration.",
-      "strengths": "Lower infrastructure burden and tight provider ecosystem integration.",
-      "weaknesses": "Less open-source control over persistence, memory internals, and provider-neutral runtime.",
-      "best_fit": "Teams preferring managed infrastructure and provider-native workflows.",
+      "positioning": "由模型供应商托管的 Agent 工具与模型集成能力。",
+      "strengths": "基础设施负担更低，并与供应商生态紧密集成。",
+      "weaknesses": "对持久化、记忆内部结构和 provider-neutral runtime 的开源控制较少。",
+      "best_fit": "偏好托管基础设施和 provider-native 工作流的团队。",
       "confidence": "Medium"
     }
   ],
   "adoption": {
-    "Setup complexity": "Medium to high. The quickstart can use hosted API/SDK paths, but self-hosting involves Docker or Python environment setup, Postgres/pgvector, migrations, provider credentials, and sandbox settings.",
-    "Integration path": "For a product team, start from the Letta API and SDK examples in README.md. For a platform team, run Docker compose locally, inspect API resources with fern/openapi.json, then pilot one agent with memory blocks and a small controlled tool set.",
-    "Extension points": "Custom tools, MCP servers, provider configuration, sandbox config, memory blocks, sources/folders, archives, prompts/templates, and provider trace backends.",
-    "Learning curve": "High if modifying internals; medium if using the API. The manager/schema/ORM layering is consistent, but the domain is broad.",
-    "Suggested proof of concept": "Create one agent with persona/human memory blocks, send messages, mutate memory, attach a source/folder, run one safe tool, inspect run/step traces, and test persistence across server restart.",
-    "First files to read": "README.md, pyproject.toml, letta/server/server.py, letta/server/rest_api/app.py, letta/server/rest_api/routers/v1/agents.py, letta/schemas/memory.py, letta/services/tool_executor/tool_execution_manager.py."
+    "搭建复杂度": "中到高。quickstart 可以走 hosted API/SDK，但自托管会涉及 Docker 或 Python 环境、Postgres/pgvector、迁移、供应商凭证和沙箱设置。",
+    "集成路径": "产品团队可以从 README.md 的 Letta API 与 SDK 示例开始。平台团队可以先本地跑 Docker compose，查看 fern/openapi.json 的 API resources，再用 memory blocks 和一组受控工具试点一个 Agent。",
+    "扩展点": "自定义工具、MCP servers、provider configuration、sandbox config、memory blocks、sources/folders、archives、prompts/templates 和 provider trace backends。",
+    "学习曲线": "如果要改内部实现，学习曲线高；如果只用 API，中等。manager/schema/ORM 分层比较一致，但领域本身很宽。",
+    "建议的 PoC": "创建一个带 persona/human memory blocks 的 Agent，发送消息，修改记忆，挂载一个 source/folder，运行一个安全工具，检查 run/step traces，并测试服务重启后的持久化。",
+    "先读这些文件": "README.md, pyproject.toml, letta/server/server.py, letta/server/rest_api/app.py, letta/server/rest_api/routers/v1/agents.py, letta/schemas/memory.py, letta/services/tool_executor/tool_execution_manager.py."
   },
   "evidence": [
     "README.md",

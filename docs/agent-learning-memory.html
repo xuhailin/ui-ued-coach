@@ -24,7 +24,7 @@
         </a>
         <nav class="am-actions" aria-label="页面快捷操作">
           <a href="./viewer.html?file=plans%2Fagent-learning-memory-module-requirements.md">需求文档</a>
-          <a href="#xiaoqing">xiaoqing 方案</a>
+          <a href="#implementation">长对话流程</a>
           <button id="am-print" type="button">导出 PDF</button>
         </nav>
       </header>
@@ -36,8 +36,7 @@
         <a href="#memory"><span>记忆深度展开</span><b>02</b></a>
         <a href="#scenarios"><span>三类场景对比</span><b>03</b></a>
         <a href="#implementation"><span>记忆实现方式</span><b>04</b></a>
-        <a href="#xiaoqing"><span>xiaoqing 推荐方案</span><b>05</b></a>
-        <a href="#refs"><span>GitHub 与研究报告</span><b>06</b></a>
+        <a href="#refs"><span>GitHub 与研究报告</span><b>05</b></a>
         <div class="am-toc-foot">
           <span>源文档</span>
           <a href="./viewer.html?file=plans%2Fagent-learning-memory-module-requirements.md">requirements.md</a>
@@ -48,7 +47,7 @@
         <section class="am-masthead" id="intro">
           <p class="am-kicker"><span></span>module · agent learning & memory</p>
           <h1>从 Agent 怎么学，到不同产品场景该怎么记。</h1>
-          <p class="am-lede">这个模块不是技术科普，也不是仓库清单。它把 Agent 学习、记忆类型、产品定位和 xiaoqing 的首版策略放在同一个学习控制台里，方便快速扫视和反复查阅。</p>
+          <p class="am-lede">这个模块不是技术科普，也不是仓库清单。它把 Agent 学习、记忆类型、产品定位、长对话上下文生命周期和参考实现放在同一个学习控制台里，方便快速扫视和反复查阅。</p>
           <div class="am-question-grid">
             <article>
               <small>Q · 01</small>
@@ -67,8 +66,8 @@
             </article>
             <article>
               <small>Q · 04</small>
-              <h2>xiaoqing 应该怎么选？</h2>
-              <p>推荐定位为陪伴型偏助手，首版先做可见、可控、可编辑。</p>
+              <h2>长对话什么时候压缩、召回、写入？</h2>
+              <p>回答前召回，窗口快满或阶段切换时压缩，回答后抽取可保存的记忆候选。</p>
             </article>
           </div>
         </section>
@@ -166,7 +165,6 @@
                 <tr><td class="key">记忆粒度</td><td>偏任务和规则</td><td>偏用户状态和事件</td><td>偏关系细节</td></tr>
                 <tr><td class="key">情绪权重</td><td><span class="am-tag">低</span></td><td><span class="am-tag accent">中</span></td><td><span class="am-tag danger">高</span></td></tr>
                 <tr><td class="key">风险等级</td><td><span class="am-tag ok">中</span></td><td><span class="am-tag warm">中高</span></td><td><span class="am-tag danger">高</span></td></tr>
-                <tr><td class="key">推荐给 xiaoqing</td><td>部分适合</td><td><span class="am-tag accent">最适合</span></td><td><span class="am-tag danger">谨慎，不建议主定位</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -265,7 +263,7 @@
                 <tbody>
                   <tr><td class="key">原始聊天记录</td><td>保存完整对话，需要时检索或摘要。</td><td>实现简单，证据完整。</td><td>噪声大、成本高、隐私压力大。</td><td>审计、回放、轻量 MVP。</td></tr>
                   <tr><td class="key">摘要记忆</td><td>将对话压缩成阶段摘要。</td><td>成本低，读起来清楚。</td><td>容易丢细节和来源。</td><td>陪伴日志、阶段复盘。</td></tr>
-                  <tr><td class="key">结构化字段</td><td>用 profile、preference、project 等字段保存。</td><td>可控、可编辑、好展示。</td><td>灵活性较弱。</td><td><span class="am-tag accent">xiaoqing 首版</span></td></tr>
+                  <tr><td class="key">结构化字段</td><td>用 profile、preference、project 等字段保存。</td><td>可控、可编辑、好展示。</td><td>灵活性较弱。</td><td><span class="am-tag accent">首版记忆面板</span></td></tr>
                   <tr><td class="key">向量记忆</td><td>用 embedding 检索相关片段。</td><td>语义召回方便。</td><td>可能召回错、难解释。</td><td>通用助手、知识问答。</td></tr>
                   <tr><td class="key">关键词 / BM25</td><td>基于关键词检索。</td><td>可解释、成本低。</td><td>语义能力弱。</td><td>名称、项目、明确事实。</td></tr>
                   <tr><td class="key">混合检索</td><td>向量 + 关键词 + 重排。</td><td>召回更稳。</td><td>系统复杂度更高。</td><td>中长期产品。</td></tr>
@@ -284,7 +282,7 @@
               <article><b>工具事件写入</b><span>工具执行成功或失败后记录经验。适合工作流 Agent。</span></article>
               <article><b>用户确认后写入</b><span>Agent 提议保存，用户点确认。适合情绪、身份、关系类记忆。</span></article>
             </div>
-            <div class="am-callout">xiaoqing 首版建议：P0 记忆使用显式保存 + 提议保存；项目记忆可自动抽取但必须可编辑；情绪和关系类记忆必须确认后写入；反思记忆标注“推断 / 总结”。</div>
+            <div class="am-callout">首版建议：核心偏好使用显式保存 + 提议保存；项目记忆可自动抽取但必须可编辑；情绪和关系类记忆必须确认后写入；反思记忆标注“推断 / 总结”。</div>
           </div>
           <div class="am-impl-panel" id="impl-recall">
             <div class="am-rule-grid">
@@ -299,102 +297,35 @@
           </div>
         </section>
 
-        <section class="am-section" id="xiaoqing">
-          <div class="am-section-head">
-            <span>§ 05</span>
-            <h2>xiaoqing 推荐方案</h2>
-          </div>
-          <p class="am-section-lead">xiaoqing 更适合定位为“陪伴型偏助手”：保留长期理解和温度，但不进入伴侣型的强承诺和高风险关系系统。</p>
-          <div class="am-xq-hero">
-            <p>// POSITIONING · v0.1</p>
-            <h3>长期陪伴型 AI 助手，能力强于普通助手，关系弱于伴侣。</h3>
-            <blockquote>记得用户的项目、习惯、阶段目标和互动偏好，在日常工作、学习、创作和复盘中提供稳定陪跑。</blockquote>
-            <div class="am-xq-reasons">
-              <span>不只是聊天，而是长期理解和减少重复沟通。</span>
-              <span>保留温度，但不进入亲密承诺。</span>
-              <span>可做记忆地图、成长轨迹、项目上下文。</span>
-              <span>从偏好、项目、事件开始，逐步演进。</span>
-              <span>安全边界更清晰，避免单一情感关系框死。</span>
-            </div>
-          </div>
-
-          <div class="am-scope-grid">
-            <article>
-              <h3>首版做 · DO</h3>
-              <ul>
-                <li><b>P0 用户偏好</b><span>语言、回答长度、设计审美、工作方式、禁忌。</span></li>
-                <li><b>P0 项目记忆</b><span>当前项目、目标、目录、技术栈、规则、进展。</span></li>
-                <li><b>P1 事件记忆</b><span>最近完成的任务、重要反馈、阶段节点。</span></li>
-                <li><b>P1 反思记忆</b><span>用户纠正过的问题、下次应避免的做法。</span></li>
-                <li><b>P2 情绪 / 状态</b><span>用户最近节奏、压力、希望被如何提醒。</span></li>
-              </ul>
-            </article>
-            <article class="is-dont">
-              <h3>首版不做 · DON'T</h3>
-              <ul>
-                <li>恋爱化关系系统。</li>
-                <li>高强度情绪诊断。</li>
-                <li>自动保存所有聊天记录。</li>
-                <li>不可解释的黑箱画像。</li>
-                <li>用户无法删除的长期记忆。</li>
-              </ul>
-            </article>
-          </div>
-
-          <pre class="am-code"><code>type MemoryItem = {
-  id: string;
-  userId: string;
-  agentId: string;
-  type:
-    | "preference"
-    | "project"
-    | "event"
-    | "reflection"
-    | "relationship"
-    | "emotional_state"
-    | "safety_boundary";
-  title: string;
-  content: string;
-  source: "user_confirmed" | "agent_extracted" | "tool_event" | "manual";
-  confidence: number;
-  sensitivity: "low" | "medium" | "high";
-  createdAt: string;
-  updatedAt: string;
-  expiresAt?: string;
-  tags: string[];
-  relatedProjectId?: string;
-  relatedEntityIds?: string[];
-};</code></pre>
-
-          <div class="am-roadmap">
-            <article class="is-now"><b>V1</b><span>可见、可控、可编辑</span><small>结构化字段 + 手动确认。</small></article>
-            <article><b>V2</b><span>召回和项目连续性</span><small>向量检索 + 时间线。</small></article>
-            <article><b>V3</b><span>关系和状态变化理解</span><small>知识图谱 + 时间有效期。</small></article>
-            <article><b>V4</b><span>从纠错和失败中学习</span><small>反思记忆 + 经验库。</small></article>
-            <article><b>V5</b><span>多 Agent 共享上下文</span><small>用户级记忆空间 + Agent 级权限。</small></article>
-          </div>
-        </section>
-
         <section class="am-section" id="refs">
           <div class="am-section-head">
-            <span>§ 06</span>
+            <span>§ 05</span>
             <h2>GitHub 仓库与本地研究报告</h2>
           </div>
-          <p class="am-section-lead">这些仓库代表不同技术路线，适合参考而不是照搬。Letta 的已有研究报告已接入站内跳转。</p>
+          <p class="am-section-lead">这些仓库代表不同技术路线，适合参考而不是照搬。Letta 和 MemGAS 的本地研究报告已接入站内跳转。</p>
           <div class="am-ref-grid">
-            <a href="https://github.com/letta-ai/letta" target="_blank" rel="noopener"><b>letta-ai / letta</b><span>Stateful agents with advanced memory。</span><small>参考 Agent 记忆平台架构。</small></a>
+            <article class="am-ref-card">
+              <div class="am-ref-head">
+                <a href="https://github.com/letta-ai/letta" target="_blank" rel="noopener"><b>letta-ai / letta</b></a>
+                <a class="am-ref-report" href="./reports/repo-research/letta-research.html" target="_blank" rel="noopener">研究产物</a>
+              </div>
+              <span>Stateful agents with advanced memory。</span>
+              <small>参考 Agent 记忆平台架构。</small>
+            </article>
+            <article class="am-ref-card">
+              <div class="am-ref-head">
+                <a href="https://github.com/Applied-Machine-Learning-Lab/ICLR2026_MemGAS" target="_blank" rel="noopener"><b>Applied-Machine-Learning-Lab / ICLR2026_MemGAS</b></a>
+                <a class="am-ref-report" href="./reports/repo-research/memgas-research.html" target="_blank" rel="noopener">研究产物</a>
+              </div>
+              <span>Multi-granularity memory association and selection。</span>
+              <small>参考长对话记忆的多粒度召回算法。</small>
+            </article>
             <a href="https://github.com/mem0ai/mem0" target="_blank" rel="noopener"><b>mem0ai / mem0</b><span>Universal memory layer for AI agents。</span><small>参考轻量接入和 SDK 体验。</small></a>
             <a href="https://github.com/langchain-ai/langmem" target="_blank" rel="noopener"><b>langchain-ai / langmem</b><span>LangGraph 生态记忆工具。</span><small>参考 Agent 何时主动管理记忆。</small></a>
             <a href="https://github.com/getzep/graphiti" target="_blank" rel="noopener"><b>getzep / graphiti</b><span>Temporal context graph for AI agents。</span><small>参考关系和时间变化记忆。</small></a>
             <a href="https://github.com/topoteretes/cognee" target="_blank" rel="noopener"><b>topoteretes / cognee</b><span>Memory control plane / graph memory。</span><small>参考项目记忆和知识库融合。</small></a>
             <a href="https://github.com/supermemoryai/supermemory" target="_blank" rel="noopener"><b>supermemoryai / supermemory</b><span>Memory engine and API。</span><small>参考产品化 memory API。</small></a>
             <a href="https://github.com/vectorize-io/hindsight" target="_blank" rel="noopener"><b>vectorize-io / hindsight</b><span>Agent memory that learns from experience。</span><small>参考 retain / recall / reflect。</small></a>
-          </div>
-          <div class="am-local-reports">
-            <h3>已有 Letta 研究产物</h3>
-            <a href="./reports/repo-research/letta-research.html">Letta / MemGPT 深度研究报告 <span>打开 HTML</span></a>
-            <a href="./reports/repo-research/letta-memory.json">Letta 结构化研究数据 <span>打开 JSON</span></a>
-            <p>已放在 <code>docs/reports/</code> 下，站内页面和 GitHub Pages 都可以直接跳转。</p>
           </div>
         </section>
 
@@ -409,14 +340,14 @@
           <h2>FILE</h2>
           <p><span>type</span><b>study module</b></p>
           <p><span>version</span><b>v0.1 draft</b></p>
-          <p><span>sections</span><b>6 / 6</b></p>
+          <p><span>sections</span><b>5 / 5</b></p>
           <p><span>updated</span><b>2026.05.22</b></p>
         </section>
         <section>
           <h2>QUICK READ</h2>
-          <a href="#xiaoqing"><b>直接看 xiaoqing 方案</b><span>陪伴型偏助手 · 5 类记忆</span></a>
+          <a href="#implementation"><b>长对话流程</b><span>压缩 / 召回 / 写入</span></a>
           <a href="#scenarios"><b>场景对比</b><span>助手 / 陪伴 / 伴侣</span></a>
-          <a href="#implementation"><b>实现路线</b><span>存储 / 写入 / 召回</span></a>
+          <a href="#refs"><b>参考实现</b><span>GitHub / 本地报告</span></a>
         </section>
       </aside>
     </div>
