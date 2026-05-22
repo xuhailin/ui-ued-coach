@@ -35,6 +35,13 @@
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 5h7v6H4zM13 3h7v8h-7zM4 13h7v6H4zM13 13h7v6h-7z"/><path d="M7.5 11v2M16.5 11v2M11 8h2"/></svg>'
     },
     {
+      page: 'color-palettes',
+      href: './color-palettes.html',
+      label: '色卡分类',
+      sub: '色卡',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 5h16v4H4zM4 10h5v9H4zM10 10h5v9h-5zM16 10h4v9h-4z"/><path d="M6 7h3M12 7h3M18 7h.2"/></svg>'
+    },
+    {
       page: 'docs',
       href: './docs.html',
       label: '文档库',

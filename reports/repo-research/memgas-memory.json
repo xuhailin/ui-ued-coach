@@ -1,0 +1,397 @@
+{
+  "repo": {
+    "name": "MemGAS",
+    "url": "https://github.com/Applied-Machine-Learning-Lab/ICLR2026_MemGAS",
+    "path": "/tmp/repo-research-memgas",
+    "commit": "c2d4e9fdc331074802a711baf4371197f9194399",
+    "branch": "main",
+    "analyzed_at": "2026-05-22 Asia/Shanghai",
+    "paper": "From Single to Multi-Granularity: Toward Long-Term Memory Association and Selection of Conversational Agents",
+    "license": "未发现 LICENSE 文件"
+  },
+  "positioning": "MemGAS 是一套面向长对话 Agent 记忆检索的论文复现与 quickstart 代码：它把会话、轮次、摘要、关键词等多粒度记忆表示连成关联图，再用路由权重和 Personalized PageRank 做记忆选择。",
+  "verdict": {
+    "label": "值得研究算法思路，谨慎直接产品化采用",
+    "confidence": "高"
+  },
+  "snapshot": {
+    "它是什么": "这是 ICLR 2026 论文 MemGAS 的开源实现，仓库同时包含实验复现代码和一个 quickstart/ 目录。quickstart 封装了 add/retrieve/save/load 形式的基础记忆 API，原始 src/ 目录则覆盖多粒度信息生成、embedding、关联图构建、检索、生成和评估。",
+    "适合谁": "适合正在研究长对话记忆召回、会话级/轮次级/摘要级/关键词级多粒度检索、或者想比较 Mem0/Letta/Graphiti 之外算法路线的工程与研究团队。",
+    "为什么值得看": "它把“记忆该按什么粒度召回”这个问题拆得很清楚：先为同一会话构造多种语义视图，再用图结构表达记忆之间的关联，最后通过 query 相关的重启概率传播选择记忆。这个思路对 xiaoqing 这类长期陪伴/助手型 Agent 很有参考价值。",
+    "什么时候不适合": "如果目标是开箱即用的生产级 memory server、权限系统、可视化管理、用户可编辑记忆或完整 API 平台，MemGAS 不是直接答案。仓库更像研究代码加轻量 API 封装，缺少测试、许可证、服务层和安全治理。"
+  },
+  "facts": {
+    "仓库身份": "README.md 将项目命名为 MemGAS，并声明论文 From Single to Multi-Granularity: Toward Long-Term Memory Association and Selection of Conversational Agents 已被 ICLR 2026 接收。",
+    "主要语言": "仓库主体是 Python 代码，关键目录包括 quickstart/、src/construct/、src/retrieval/、src/generation/、src/evaluation/ 和 data/。",
+    "运行形态": "不是独立服务或 Web 应用，而是研究复现脚本加 Python API 封装。README.md 提供 conda 环境、pip requirements、数据处理、检索、生成和评估命令。",
+    "quickstart API": "quickstart/memory.py 暴露 MemGASMemory，支持 add(session, conversation_id, metadata)、retrieve(query, topk, conversation_id, mode)、save() 和 load()。",
+    "记忆表示": "quickstart/store.py 固定保存 session、turn、summary、keyword、hybrid 五类 embedding；quickstart/schemas.py 保存 session 原文、summary、keywords、metadata 和时间戳。",
+    "检索算法": "quickstart/retriever.py 中 MultiGranRetriever 支持 session_level、turn_level、summary_level、keyword_level、hybrid_level、lite 和 memgas 模式；memgas 模式会构造多粒度节点图并执行 personalized_pagerank。",
+    "多粒度生成": "quickstart/llm_client.py 调用 OpenAI-compatible chat completion 生成 summary 和 keywords；src/construct/multigran_generation.py 则为复现实验生成 summary_level 和 keyword_level 日志。",
+    "依赖信号": "requirements.txt 包含 torch、transformers、sentence-transformers、openai、vllm、python-igraph、scikit-learn、rank-bm25、rouge、evaluate 等研究/评估依赖。",
+    "数据来源": "README.md 要求下载 LongMemEval、LoCoMo-10、Long-MT-Bench+，data/README.md 指向 HuggingFace 数据集 derongxuaa/MemGAS_data。",
+    "质量与治理": "仓库未发现 LICENSE、tests/、CI workflow 或安全文档；存在 quickstart/__pycache__ 被提交，以及复现代码中需要手动填 API key/base_url 的位置。"
+  },
+  "design_philosophy": [
+    {
+      "claim": "把长对话记忆拆成多种粒度，而不是只保存一条摘要或一组向量。",
+      "detail": "代码同时维护 session、turn、summary、keyword、hybrid 表示，并允许按单粒度、混合粒度或 MemGAS 图传播方式检索。",
+      "confidence": "高",
+      "evidence": [
+        "README.md",
+        "quickstart/store.py",
+        "quickstart/retriever.py",
+        "src/retrieval/run_retrieval.py"
+      ]
+    },
+    {
+      "claim": "检索不是单纯相似度排序，而是通过关联图扩散候选记忆。",
+      "detail": "MemGAS 模式将每条记忆的多个粒度展开为节点，通过相似度和 GMM 选择边，再使用 personalized_pagerank 汇总回会话级分数。",
+      "confidence": "高",
+      "evidence": [
+        "quickstart/retriever.py",
+        "src/construct/construct_asso.py",
+        "src/retrieval/run_retrieval.py"
+      ]
+    },
+    {
+      "claim": "路由权重根据 query 与不同粒度的区分度动态调整。",
+      "detail": "quickstart/retriever.py 和 src/retrieval/run_retrieval.py 都使用基于 softmax 熵的权重逻辑：某一粒度对当前 query 越有区分度，权重越高。",
+      "confidence": "高",
+      "evidence": [
+        "quickstart/retriever.py",
+        "src/retrieval/run_retrieval.py"
+      ]
+    },
+    {
+      "claim": "仓库优先服务论文复现，同时补了一个便于试用的轻量 API。",
+      "detail": "README.md 明确说 quickstart/ 是新封装的基础 memory API，不改变原始复现代码；src/ 仍保留以数据集、日志和命令行为中心的实验流程。",
+      "confidence": "高",
+      "evidence": [
+        "README.md",
+        "quickstart/memory.py",
+        "src/construct/",
+        "src/retrieval/"
+      ]
+    },
+    {
+      "claim": "它关注“选哪段历史更相关”，不是完整的长期记忆产品治理。",
+      "detail": "MemoryRecord 中没有用户可见性、敏感级别、失效时间、确认来源或权限字段；仓库也没有服务 API、管理界面、删除审计或安全策略。",
+      "confidence": "高",
+      "evidence": [
+        "quickstart/schemas.py",
+        "quickstart/store.py",
+        "README.md"
+      ]
+    }
+  ],
+  "architecture": {
+    "summary": "MemGAS 可以理解为两层：quickstart/ 提供最小可用记忆 API，src/ 提供论文复现实验管线。核心流程是：会话写入后由 LLM 生成摘要与关键词，embedder 生成多粒度向量，store 持久化 record 与 embedding；检索时 query embedding 进入多粒度路由和图传播，最终返回会话级 memory hits。复现管线则把数据处理、摘要/关键词生成、embedding、图构建、检索、生成和评估拆成脚本。",
+    "mermaid": "flowchart TD\n  User[Python caller / reproduction scripts] --> API[quickstart.MemGASMemory]\n  API --> Add[add session]\n  Add --> LLM[OpenAI-compatible LLM\\nsummary + keywords]\n  Add --> Embed[TextEmbedder\\nContriever / SBERT]\n  LLM --> Store[MemoryStore\\nrecords + embeddings]\n  Embed --> Store\n  User --> Query[retrieve query]\n  Query --> QEmb[query embedding]\n  QEmb --> Router[entropy router\\nper granularity weights]\n  Store --> Nodes[multi-granularity nodes\\nsession / turn / summary / keyword]\n  Router --> Graph[association graph\\nGMM edge selection]\n  Nodes --> Graph\n  Graph --> PPR[personalized PageRank]\n  PPR --> Hits[ranked memory hits]\n  Data[LongMemEval / LoCoMo / Long-MT-Bench+] --> Scripts[src construct / retrieval / generation / evaluation]\n  Scripts --> Logs[process_data / embeddings / graph_cache / retrieval_logs / generation_logs]",
+    "modules": [
+      {
+        "name": "quickstart API",
+        "responsibility": "封装最小可用记忆增删查入口，负责 add/retrieve/save/load。",
+        "files": [
+          "quickstart/memory.py",
+          "quickstart/__init__.py"
+        ],
+        "notes": "对工程试用最友好，但不是服务端 API。"
+      },
+      {
+        "name": "配置与 Schema",
+        "responsibility": "定义 embedder、LLM、检索模式、图参数和记忆记录结构。",
+        "files": [
+          "quickstart/config.py",
+          "quickstart/schemas.py"
+        ],
+        "notes": "MemoryRecord 字段较轻，没有隐私、确认、失效和用户可编辑治理字段。"
+      },
+      {
+        "name": "向量与 LLM 生成",
+        "responsibility": "生成 session/turn/summary/keyword/hybrid 表示，并调用 LLM 生成摘要与关键词。",
+        "files": [
+          "quickstart/embedder.py",
+          "quickstart/llm_client.py",
+          "src/construct/multigran_generation.py",
+          "src/construct/construct_emb.py"
+        ],
+        "notes": "支持 Contriever 和多个 sentence-transformers 模型；LLM 接口兼容 OpenAI/vLLM。"
+      },
+      {
+        "name": "存储层",
+        "responsibility": "保存 MemoryRecord 列表和多粒度 embedding 张量。",
+        "files": [
+          "quickstart/store.py"
+        ],
+        "notes": "使用 torch.save 写入 memory_state.pt，适合本地实验，不是多用户数据库。"
+      },
+      {
+        "name": "多粒度检索器",
+        "responsibility": "提供单粒度、lite 加权、多粒度图传播检索策略。",
+        "files": [
+          "quickstart/retriever.py",
+          "src/retrieval/run_retrieval.py"
+        ],
+        "notes": "核心是熵路由、GMM 选边和 personalized_pagerank。"
+      },
+      {
+        "name": "关联图构建",
+        "responsibility": "在不同记忆节点之间建立关联边，缓存图结构。",
+        "files": [
+          "src/construct/construct_asso.py"
+        ],
+        "notes": "复现脚本按 conversation 构图，quickstart 则在检索时动态构建。"
+      },
+      {
+        "name": "生成与评估",
+        "responsibility": "基于检索结果过滤历史、生成 QA 回答，并计算指标或进行 LLM judge。",
+        "files": [
+          "src/generation/generation_multigran.py",
+          "src/generation/metrics.py",
+          "src/evaluation/llm_judge_single.py",
+          "src/evaluation/eval_query_type.py"
+        ],
+        "notes": "服务论文实验，不是产品监控评估体系。"
+      }
+    ]
+  },
+  "highlights": [
+    {
+      "claim": "多粒度记忆模型非常贴近长对话真实问题",
+      "detail": "用户问题有时需要原始会话，有时需要单轮细节，有时摘要足够，有时关键词最能命中实体。MemGAS 把这些视图同时保留下来，而不是押注单一表示。",
+      "confidence": "高",
+      "evidence": [
+        "README.md",
+        "quickstart/store.py",
+        "quickstart/retriever.py"
+      ]
+    },
+    {
+      "claim": "图传播让召回有机会跨相邻记忆扩散",
+      "detail": "personalized_pagerank 可以把 query 命中的种子节点扩散到关联记忆，对多会话、跨时间线的关系召回有启发。",
+      "confidence": "高",
+      "evidence": [
+        "quickstart/retriever.py",
+        "src/construct/construct_asso.py"
+      ]
+    },
+    {
+      "claim": "quickstart 降低了从论文代码到工程试验的门槛",
+      "detail": "MemGASMemory 把生成摘要/关键词、embedding、存储和检索包装成简单 API，适合快速做小样本验证。",
+      "confidence": "高",
+      "evidence": [
+        "README.md",
+        "quickstart/memory.py"
+      ]
+    },
+    {
+      "claim": "复现实验链路覆盖较完整",
+      "detail": "仓库提供数据处理、多粒度生成、embedding、检索、生成、评估脚本，并列出 LongMemEval、LoCoMo、Long-MT-Bench+ 等数据集。",
+      "confidence": "高",
+      "evidence": [
+        "README.md",
+        "data/dataprocess.py",
+        "src/construct/",
+        "src/retrieval/run_retrieval.py",
+        "src/generation/generation_multigran.py"
+      ]
+    },
+    {
+      "claim": "对 xiaoqing 的记忆召回策略有直接参考价值",
+      "detail": "xiaoqing 首版可以不照搬图算法，但可以采用“原文片段 + 摘要 + 关键词 + 混合表示”的检索观念，并用显式策略决定召回粒度。",
+      "confidence": "中",
+      "evidence": [
+        "quickstart/retriever.py",
+        "quickstart/store.py"
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "claim": "不是生产级记忆平台",
+      "detail": "仓库没有服务端 API、权限、审计、管理界面、并发数据库或用户可编辑记忆能力。MemoryStore 使用本地 torch 文件保存状态。",
+      "confidence": "高",
+      "evidence": [
+        "quickstart/store.py",
+        "quickstart/schemas.py",
+        "README.md"
+      ]
+    },
+    {
+      "claim": "治理字段不足，不能直接承载敏感陪伴型记忆",
+      "detail": "MemoryRecord 没有 sensitivity、source confirmation、expires_at、visibility、delete audit 等字段；用于陪伴型产品前必须补充用户确认、删除和权限设计。",
+      "confidence": "高",
+      "evidence": [
+        "quickstart/schemas.py"
+      ]
+    },
+    {
+      "claim": "工程质量偏研究代码",
+      "detail": "仓库未发现 tests、CI workflow 和 LICENSE；quickstart/__pycache__ 被提交；部分复现代码需要在源码中手动填 API key/base_url。",
+      "confidence": "高",
+      "evidence": [
+        "README.md",
+        "quickstart/__pycache__/",
+        "src/construct/multigran_generation.py"
+      ]
+    },
+    {
+      "claim": "依赖和运行成本较重",
+      "detail": "requirements 包含 torch、vLLM、flash-attn、sentence-transformers、igraph 等，README 推荐 CUDA 12.1 PyTorch 环境；对轻量应用或前端原型偏重。",
+      "confidence": "高",
+      "evidence": [
+        "README.md",
+        "requirements.txt"
+      ]
+    },
+    {
+      "claim": "图构建和 PageRank 参数需要实证调优",
+      "detail": "mem_threshold、n_components、num_seednodes、damping、temp 都会影响结果。不同数据集、用户规模、记忆密度下未必能直接沿用默认值。",
+      "confidence": "中",
+      "evidence": [
+        "quickstart/config.py",
+        "src/retrieval/run_retrieval.py"
+      ]
+    },
+    {
+      "claim": "部分复现代码存在明显粗糙点",
+      "detail": "src/retrieval/run_retrieval.py 和 src/construct/construct_asso.py 中存在 torch.load() 空参数分支，可能是疏漏；这提示复现前需要实际跑通并修补。",
+      "confidence": "高",
+      "evidence": [
+        "src/retrieval/run_retrieval.py",
+        "src/construct/construct_asso.py"
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario": "研究长对话 Agent 的记忆召回算法",
+      "fit": "高",
+      "why": "仓库直接围绕多粒度记忆关联与选择展开，并提供论文复现脚本。",
+      "notes": "优先读 README.md、quickstart/retriever.py、src/retrieval/run_retrieval.py、src/construct/construct_asso.py。",
+      "evidence": [
+        "README.md",
+        "quickstart/retriever.py",
+        "src/retrieval/run_retrieval.py"
+      ]
+    },
+    {
+      "scenario": "为 xiaoqing 设计 V2/V3 记忆召回路线",
+      "fit": "中高",
+      "why": "多粒度表示和粒度路由值得借鉴，但需要改造成可解释、可控、用户可编辑的产品记忆系统。",
+      "notes": "首版只借鉴“多视图索引 + 小规模召回评测”，不要直接上复杂图传播。",
+      "evidence": [
+        "quickstart/store.py",
+        "quickstart/retriever.py",
+        "quickstart/schemas.py"
+      ]
+    },
+    {
+      "scenario": "快速嵌入一个本地 memory retriever 原型",
+      "fit": "中",
+      "why": "quickstart API 可用，但依赖较重，并且 LLM 摘要/关键词生成需要 API key 或 vLLM。",
+      "notes": "适合研究验证，不适合直接放进多用户生产服务。",
+      "evidence": [
+        "README.md",
+        "quickstart/memory.py",
+        "requirements.txt"
+      ]
+    },
+    {
+      "scenario": "生产级长期记忆服务",
+      "fit": "低",
+      "why": "缺少服务层、权限、数据治理、审计、可观测性、测试和数据库设计。",
+      "notes": "可以借算法思想，产品基础设施需要另建。",
+      "evidence": [
+        "quickstart/store.py",
+        "quickstart/schemas.py"
+      ]
+    },
+    {
+      "scenario": "论文复现和基准比较",
+      "fit": "高",
+      "why": "README 明确给出数据下载、处理、检索、生成和评估命令。",
+      "notes": "需要准备数据集、GPU 环境、OpenAI/vLLM 接口，并注意源码中的硬编码 API 配置点。",
+      "evidence": [
+        "README.md",
+        "data/README.md",
+        "src/generation/generation_multigran.py",
+        "src/evaluation/"
+      ]
+    }
+  ],
+  "peers": [
+    {
+      "project": "MemGAS",
+      "positioning": "论文驱动的多粒度长期对话记忆选择算法与复现代码。",
+      "strengths": "多粒度表示、图关联、PageRank 传播、复现实验完整。",
+      "weaknesses": "非平台化，治理字段少，工程质量偏研究代码。",
+      "best_fit": "研究记忆召回算法，或为产品记忆召回做设计参考。",
+      "confidence": "高"
+    },
+    {
+      "project": "Letta",
+      "positioning": "有状态 Agent 平台，包含记忆、工具、API、持久化和可观测性。",
+      "strengths": "平台能力完整，适合参考服务架构和 Agent 资源模型。",
+      "weaknesses": "复杂度高，不是专门研究多粒度检索算法。",
+      "best_fit": "构建或研究完整 Agent memory platform。",
+      "confidence": "中"
+    },
+    {
+      "project": "mem0",
+      "positioning": "面向 AI Agent 的通用记忆层和 SDK。",
+      "strengths": "接入轻、产品化程度更高。",
+      "weaknesses": "与 MemGAS 的论文算法目标不同。",
+      "best_fit": "快速把长期记忆接入应用。",
+      "confidence": "中"
+    },
+    {
+      "project": "Graphiti",
+      "positioning": "面向 Agent 的时间化知识图谱/情境图。",
+      "strengths": "更强调实体关系、事件时间和图谱记忆。",
+      "weaknesses": "不是以多粒度会话检索为核心。",
+      "best_fit": "关系和时间线记忆。",
+      "confidence": "中"
+    },
+    {
+      "project": "LangMem",
+      "positioning": "LangGraph 生态中的 Agent 记忆工具。",
+      "strengths": "适合和 LangGraph 工作流结合。",
+      "weaknesses": "不是独立论文复现仓库。",
+      "best_fit": "LangGraph Agent 的记忆管理。",
+      "confidence": "中"
+    }
+  ],
+  "adoption": {
+    "设置复杂度": "中到高。quickstart 试用需要 Python 3.9、PyTorch、transformers/sentence-transformers、OpenAI-compatible LLM 或 vLLM；完整复现还要下载外部数据集并准备 GPU 环境。",
+    "集成路径": "建议先只用 quickstart/ 做小样本验证：构造几段用户长期对话，写入 MemGASMemory，比较 session_level、summary_level、keyword_level、lite 和 memgas 模式的召回差异。",
+    "扩展点": "可扩展 embedder、LLM provider、MemoryRecord 字段、router 权重策略、GMM 选边参数、PageRank 参数，以及是否把图缓存改成持久数据库。",
+    "学习曲线": "理解 quickstart API 不难；理解 MemGAS 算法需要读多粒度 embedding、熵路由、GMM 边选择和 personalized PageRank。完整复现对环境和数据要求更高。",
+    "建议的 PoC": "选择 20-50 条模拟 xiaoqing 对话，人工标注 10 个需要跨会话记忆的问题；分别用 summary、keyword、hybrid、memgas 检索 top-3；记录命中率、误召回、可解释性和延迟。",
+    "对 xiaoqing 的取舍": "V1 不建议直接采用完整 MemGAS；V2 可先做多视图索引；V3 再考虑实体/时间/关系图和图传播。敏感记忆必须先加用户确认和删除机制。"
+  },
+  "evidence": [
+    "README.md",
+    "requirements.txt",
+    "data/README.md",
+    "data/dataprocess.py",
+    "quickstart/__init__.py",
+    "quickstart/config.py",
+    "quickstart/embedder.py",
+    "quickstart/llm_client.py",
+    "quickstart/memory.py",
+    "quickstart/retriever.py",
+    "quickstart/schemas.py",
+    "quickstart/store.py",
+    "src/construct/multigran_generation.py",
+    "src/construct/construct_emb.py",
+    "src/construct/construct_asso.py",
+    "src/retrieval/run_retrieval.py",
+    "src/generation/generation_multigran.py",
+    "src/generation/metrics.py",
+    "src/evaluation/llm_judge_single.py",
+    "src/evaluation/eval_query_type.py",
+    "OpenReview: https://openreview.net/forum?id=i2yIvZARnG"
+  ]
+}

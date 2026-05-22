@@ -16,6 +16,7 @@ This workspace is a lightweight home for a 14-day UI/UED training track aimed at
 - `docs/data/motion-modules.json`: motion module prompts, status, tags, and future snippets
 - `docs/plans/14-day-outline.md`: the 14-day topic map
 - `docs/journal/`: daily training notes, submissions, and feedback
+- `docs/references/`: reusable knowledge cards and debugging heuristics
 - `docs/templates/day-note-template.md`: reusable note template
 - `scripts/generate_site_index.py`: regenerate the site data after adding new day notes
 

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>色卡分类 · UI/UED Coach</title>
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/site-rail.css" />
+    <link rel="stylesheet" href="./assets/color-palettes.css" />
+    <script src="./assets/site-rail.js"></script>
+  </head>
+  <body data-page="color-palettes">
+    <main class="palette-shell">
+      <header class="palette-hero">
+        <div>
+          <p class="palette-kicker">Color Tokens</p>
+          <h1>色卡分类与场景调色</h1>
+        </div>
+        <div class="palette-hero-side">
+          <p>
+            从参考 HTML 抽出标签、分类和 token 数据。色卡、预览、CSS 片段全部由数据动态渲染，后续新增场景只需要补 palette 配置。
+          </p>
+          <div class="palette-stats" id="palette-stats"></div>
+        </div>
+      </header>
+
+      <section class="palette-workbench" aria-label="色卡分类工作台">
+        <aside class="palette-panel palette-filter-panel">
+          <div class="palette-panel-head">
+            <span>01</span>
+            <h2>分类</h2>
+          </div>
+          <div class="palette-category-list" id="palette-category-list"></div>
+
+          <div class="palette-panel-head palette-panel-head--spaced">
+            <span>02</span>
+            <h2>标签</h2>
+          </div>
+          <div class="palette-tag-list" id="palette-tag-list"></div>
+        </aside>
+
+        <section class="palette-main" aria-live="polite">
+          <div class="palette-toolbar">
+            <div>
+              <p class="palette-kicker" id="active-category-kicker">All Palettes</p>
+              <h2 id="active-category-title">全部色卡</h2>
+            </div>
+            <div class="palette-tools">
+              <button class="palette-icon-btn" id="reset-filters" type="button" title="重置筛选" aria-label="重置筛选">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/></svg>
+              </button>
+              <button class="palette-icon-btn" id="copy-palette" type="button" title="复制当前色卡 CSS" aria-label="复制当前色卡 CSS">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M4 16V6a2 2 0 0 1 2-2h10"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="palette-grid" id="palette-grid"></div>
+        </section>
+
+      </section>
+    </main>
+
+    <script src="./assets/color-palettes.js"></script>
+  </body>
+</html>
