@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Letta / MemGPT Research Report</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --surface: #ffffff;
+      --surface-2: #eef2f7;
+      --text: #111827;
+      --muted: #5b6472;
+      --line: #d9e0ea;
+      --accent: #2563eb;
+      --accent-2: #0f766e;
+      --warn: #b45309;
+      --risk: #be123c;
+      --ok: #15803d;
+      --shadow: 0 18px 48px rgba(15, 23, 42, 0.08);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 28px 22px;
+      border-right: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(14px);
+      overflow: auto;
+    }
+
+    main {
+      width: min(1180px, calc(100vw - 320px));
+      margin: 0 auto;
+      padding: 36px 32px 72px;
+    }
+
+    .brand {
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .toc-title {
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .toc {
+      display: grid;
+      gap: 6px;
+      margin-top: 22px;
+    }
+
+    .toc a {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 7px 8px;
+      border-radius: 6px;
+    }
+
+    .toc a:hover {
+      background: var(--surface-2);
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .hero {
+      padding: 36px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 5vw, 64px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 860px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 26px;
+    }
+
+    .meta {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      min-width: 0;
+    }
+
+    .meta span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .meta strong {
+      display: block;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    section {
+      margin-top: 22px;
+      padding: 28px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 24px 0 10px;
+      font-size: 17px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: #fbfcfe;
+    }
+
+    .panel h3 { margin-top: 0; }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .badge.ok { color: var(--ok); background: #dcfce7; }
+    .badge.warn { color: var(--warn); background: #fef3c7; }
+    .badge.risk { color: var(--risk); background: #ffe4e6; }
+    .badge.accent { color: var(--accent); background: #dbeafe; }
+
+    .claim-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .claim {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+    }
+
+    .claim strong { display: block; margin-bottom: 6px; }
+    .claim p { margin: 0; color: var(--muted); }
+
+    .evidence {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      display: inline-flex;
+      padding: 3px 7px;
+      border-radius: 6px;
+      background: #eef2f7;
+      color: #334155;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: #334155;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      background: #f8fafc;
+    }
+
+    .diagram {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      background: #fbfcfe;
+      overflow: auto;
+    }
+
+    .mermaid { min-width: 520px; }
+
+    .note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    footer {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .shell { display: block; }
+      aside {
+        position: relative;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      main {
+        width: 100%;
+        padding: 22px 14px 48px;
+      }
+      .hero, section { padding: 20px; }
+      .meta-grid, .grid-2 { grid-template-columns: 1fr; }
+      .toc { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand">Repo Research</div>
+      <div class="toc-title">Letta / MemGPT</div>
+      <nav class="toc">
+        <a href="#executive-snapshot">Executive Snapshot</a><a href="#fact-memory">Fact Memory</a><a href="#core-design-philosophy">Core Design Philosophy</a><a href="#architecture">Architecture</a><a href="#highlights">Highlights</a><a href="#weaknesses-risks">Weaknesses / Risks</a><a href="#application-scenarios">Application Scenarios</a><a href="#peer-comparison">Peer Comparison</a><a href="#adoption-guide">Adoption Guide</a><a href="#evidence-appendix">Evidence Appendix</a>
+      </nav>
+    </aside>
+    <main>
+      <div class="hero"><h1>Letta / MemGPT</h1><p class="subtitle">Letta, formerly MemGPT, is an open-source Python server and API platform for building stateful LLM agents with long-term memory, tool execution, model/provider routing, and production-oriented observability.</p><div class="badge-row"><span class="badge accent">Recommended for serious agent-memory experiments</span><span class="badge warn">Confidence: High</span></div><div class="meta-grid"><div class="meta"><span>Repository</span><strong>Letta / MemGPT</strong></div><div class="meta"><span>Source</span><strong>https://github.com/letta-ai/letta</strong></div><div class="meta"><span>Commit</span><strong>1131535716e8a31c9a437f8695e25ac98f203a24</strong></div><div class="meta"><span>Analyzed</span><strong>2026-05-15 Asia/Shanghai</strong></div></div></div><section id="executive-snapshot"><h2>Executive Snapshot</h2><div class="grid-2"><div class="panel"><h3>What it is</h3><p>A full agent runtime and service layer, not just a memory library. The repo contains a FastAPI server, CLI entrypoint, agent loops, memory models, tool execution, MCP integration, provider adapters, persistence models, migrations, tests, Docker assets, OpenAPI/Fern API artifacts, and observability wiring.</p></div><div class="panel"><h3>Who it is for</h3><p>Teams building stateful AI agents, memory-backed assistants, tool-using agents, multi-agent workflows, or an internal agent API that needs persistence, streaming, SDKs, and provider flexibility.</p></div><div class="panel"><h3>Why it matters</h3><p>It packages the hard parts around long-lived agents: memory blocks, archival/recall state, tools, sandboxing, provider abstraction, API surface, migrations, and traces. That makes it a useful reference architecture even when not adopted wholesale.</p></div><div class="panel"><h3>When not to use it</h3><p>Avoid using it as a tiny embedded helper library or a low-complexity chatbot scaffold. The service-oriented architecture, database/migration surface, and tool execution model are more than many prototypes need.</p></div></div></section><section id="fact-memory"><h2>Fact Memory</h2><div class="grid-2"><div class="panel"><h3>Repository identity</h3><p>README.md names the project &#x27;Letta (formerly MemGPT)&#x27; and describes it as a way to build AI with advanced memory that can learn and self-improve over time.</p></div><div class="panel"><h3>Primary language</h3><p>Python 3.11+ package with pyproject.toml, uv.lock, 536 Python source files under letta/, and 166 Python test files under tests/.</p></div><div class="panel"><h3>Runtime shape</h3><p>Typer CLI entrypoint launches a server by default via letta.main:app; FastAPI is used for the REST API; Docker and compose files support service deployment with Postgres/pgvector.</p></div><div class="panel"><h3>API surface</h3><p>fern/openapi.json identifies &#x27;Letta API&#x27; version 1.0.0 with 239 paths. Major tags include agents, tools, sources/folders, conversations, runs, blocks, MCP servers, providers, jobs, messages, and archives.</p></div><div class="panel"><h3>Persistence</h3><p>SQLAlchemy/SQLModel models live in letta/orm; alembic/versions contains 167 migrations; compose.yaml uses ankane/pgvector for PostgreSQL vector storage.</p></div><div class="panel"><h3>Memory model</h3><p>letta/schemas/memory.py defines core memory blocks, file blocks, context window overview, and git-enabled memory rendering paths.</p></div><div class="panel"><h3>Tooling</h3><p>Tool execution uses a factory over core, memory, file, builtin, MCP, multi-agent, and sandboxed executors; local, E2B, and Modal sandbox paths appear in services/tool_sandbox.</p></div><div class="panel"><h3>Provider support</h3><p>pyproject.toml and letta/llm_api include adapters for OpenAI, Anthropic, Azure, Bedrock, Google Gemini/Vertex, Groq, Mistral, DeepSeek, Ollama, OpenRouter, Together, vLLM, xAI, Z.ai, and others.</p></div><div class="panel"><h3>Quality signals</h3><p>The repository includes unit/integration/docker/migration workflows, ruff/ty config, pytest config, a security policy, AI contribution policy, Apache license, and a large tests directory.</p></div><div class="panel"><h3>External dynamic metadata</h3><p>GitHub stars/forks/open issues were not recorded because GitHub API returned rate-limit 403 during this run.</p></div></div></section><section id="core-design-philosophy"><h2>Core Design Philosophy</h2><ul class="claim-list"><li class="claim"><strong>Stateful agents are modeled as service-owned entities rather than transient prompt calls.</strong><p>Agents, messages, blocks, tools, sources, archives, runs, steps, and provider traces are all first-class resources with managers, ORM models, schemas, and API routes.</p><div class="badge-row"><span class="badge ok">High</span></div><div class="evidence"><span class="chip">letta/server/server.py</span><span class="chip">letta/services/agent_manager.py</span><span class="chip">letta/orm/agent.py</span><span class="chip">letta/server/rest_api/routers/v1/agents.py</span><span class="chip">fern/openapi.json</span></div></li><li class="claim"><strong>Memory is treated as editable structured state, not only vector retrieval.</strong><p>Core memory blocks, archival/recall counts, file blocks, and git-enabled memory rendering show a layered memory design with both in-context and external projections.</p><div class="badge-row"><span class="badge ok">High</span></div><div class="evidence"><span class="chip">letta/schemas/memory.py</span><span class="chip">letta/schemas/block.py</span><span class="chip">letta/services/block_manager.py</span><span class="chip">letta/services/block_manager_git.py</span><span class="chip">letta/services/memory_repo/</span></div></li><li class="claim"><strong>The runtime favors pluggability across models, tools, storage, and execution backends.</strong><p>Provider adapters are separated from the agent loop; tool executors are selected by ToolType; sandbox backends include local, E2B, and Modal; MCP has dedicated managers and clients.</p><div class="badge-row"><span class="badge ok">High</span></div><div class="evidence"><span class="chip">letta/llm_api/</span><span class="chip">letta/services/tool_executor/tool_execution_manager.py</span><span class="chip">letta/services/tool_sandbox/</span><span class="chip">letta/services/mcp/</span><span class="chip">letta/schemas/providers/</span></div></li><li class="claim"><strong>The product surface is API-first, with SDK and documentation generation as part of the system.</strong><p>OpenAPI generation appears in the FastAPI app, and Fern files/workflows are present for docs and Python/TypeScript SDK publishing.</p><div class="badge-row"><span class="badge ok">High</span></div><div class="evidence"><span class="chip">letta/server/rest_api/app.py</span><span class="chip">fern/openapi.json</span><span class="chip">.github/workflows/fern-sdk-python-publish.yml</span><span class="chip">.github/workflows/fern-sdk-typescript-publish.yml</span><span class="chip">README.md</span></div></li><li class="claim"><strong>Operational visibility is a core concern rather than an afterthought.</strong><p>The app initializes Sentry/Datadog/OpenTelemetry paths, exposes run/step/trace endpoints, includes ClickHouse trace backends, and ships otel collector configs.</p><div class="badge-row"><span class="badge ok">High</span></div><div class="evidence"><span class="chip">letta/server/rest_api/app.py</span><span class="chip">letta/services/provider_trace_backends/</span><span class="chip">letta/server/rest_api/routers/v1/runs.py</span><span class="chip">letta/server/rest_api/routers/v1/steps.py</span><span class="chip">otel/</span></div></li></ul></section><section id="architecture"><h2>Architecture</h2><div class="diagram"><pre class="mermaid">flowchart TD
+  User[CLI / Python SDK / TS SDK / REST clients] --&gt; API[FastAPI REST API\nletta/server/rest_api]
+  User --&gt; CLI[Typer CLI\nletta/main.py]
+  CLI --&gt; API
+  API --&gt; Server[SyncServer facade\nletta/server/server.py]
+  Server --&gt; Managers[Domain managers\nAgent / Message / Block / Tool / Source / Run]
+  Managers --&gt; ORM[SQLAlchemy ORM + Alembic\nletta/orm + alembic]
+  ORM --&gt; DB[(Postgres / pgvector\nSQLite in tests/dev)]
+  Managers --&gt; Memory[Memory system\nblocks / archival / recall / git memory repo]
+  Memory --&gt; MemRepo[Object-backed Git memory\nservices/memory_repo]
+  Server --&gt; AgentLoop[AgentLoop factory\nV2 / V3 / sleeptime / voice]
+  AgentLoop --&gt; Prompt[Prompt + context assembly\nPromptGenerator / Memory.compile]
+  AgentLoop --&gt; LLM[LLMClient + provider adapters\nOpenAI / Anthropic / Gemini / Ollama / etc.]
+  AgentLoop --&gt; Tools[ToolExecutionManager]
+  Tools --&gt; Builtin[Core / memory / files tools]
+  Tools --&gt; MCP[MCP tools + servers]
+  Tools --&gt; Sandbox[Sandbox execution\nLocal / E2B / Modal]
+  AgentLoop --&gt; Streaming[Streaming responses + runs + steps]
+  Server --&gt; Observability[OTel / Datadog / Sentry / provider traces]
+  API --&gt; OpenAPI[Fern OpenAPI + SDK generation]</pre></div><p class="note">Letta is best read as a layered agent platform: API/SDK clients call FastAPI routers, routers delegate to a SyncServer facade, the facade coordinates domain managers, managers persist through ORM/storage, and agent loops orchestrate prompts, memory, model calls, tools, streaming, runs, and traces.</p><table><thead><tr><th>Module</th><th>Responsibility</th><th>Key files</th><th>Notes</th></tr></thead><tbody><tr><td>CLI and entrypoint</td><td>Expose the letta command and default server launch path.</td><td>letta/main.py, letta/cli/cli.py, pyproject.toml</td><td>pyproject declares project script letta = letta.main:app.</td></tr><tr><td>REST API</td><td>FastAPI app, middleware, exception handling, routers, OpenAPI generation, streaming endpoints.</td><td>letta/server/rest_api/app.py, letta/server/rest_api/routers/v1/agents.py, letta/server/rest_api/routers/v1/tools.py, letta/server/rest_api/routers/v1/conversations.py</td><td>OpenAPI surface is large: 239 paths in fern/openapi.json.</td></tr><tr><td>Server facade</td><td>Owns global managers and provider setup; coordinates the app&#x27;s domain services.</td><td>letta/server/server.py</td><td>SyncServer initializes managers for agents, tools, memory, MCP, providers, runs, telemetry, files, jobs, groups, and more.</td></tr><tr><td>Agent runtime</td><td>Load the correct agent loop and run blocking/streaming steps with messages, tool calls, credit checks, context, and stop reasons.</td><td>letta/agents/agent_loop.py, letta/agents/letta_agent_v2.py, letta/agents/letta_agent_v3.py, letta/agents/base_agent_v2.py</td><td>AgentLoop dispatches between V2, V3, sleeptime multi-agent, and voice variants.</td></tr><tr><td>Memory system</td><td>Represent in-context memory, external memory summaries, blocks, git-backed memory projections, and file blocks.</td><td>letta/schemas/memory.py, letta/services/block_manager.py, letta/services/block_manager_git.py, letta/services/memory_repo/</td><td>Git-enabled memory treats git as source of truth and Postgres as cache for enabled agents.</td></tr><tr><td>Persistence layer</td><td>Define database models, migrations, registry, and storage-backed state.</td><td>letta/orm/, alembic/versions/, letta/server/db.py, compose.yaml</td><td>167 Alembic versions indicate an actively evolved schema.</td></tr><tr><td>Tool and sandbox system</td><td>Create, list, run, and sandbox tools; support built-in tools, MCP, files, memory, multi-agent, local/E2B/Modal backends.</td><td>letta/server/rest_api/routers/v1/tools.py, letta/services/tool_executor/tool_execution_manager.py, letta/services/tool_executor/sandbox_tool_executor.py, letta/services/tool_sandbox/local_sandbox.py</td><td>Factory-based executor selection makes tool behavior extensible but also creates a broad security surface.</td></tr><tr><td>Provider abstraction</td><td>Route model calls across many LLM and embedding providers.</td><td>letta/llm_api/, letta/schemas/providers/, letta/services/provider_manager.py</td><td>Provider breadth is high; operational correctness depends on many external API behaviors.</td></tr><tr><td>API artifact and SDK generation</td><td>Maintain OpenAPI and Fern-driven docs/SDK publishing workflows.</td><td>fern/openapi.json, fern/openapi-overrides.yml, .github/workflows/fern-docs-publish.yml, .github/workflows/fern-sdk-python-publish.yml, .github/workflows/fern-sdk-typescript-publish.yml</td><td>A strong signal that hosted/API usage is a first-class product path.</td></tr></tbody></table></section><section id="highlights"><h2>Highlights</h2><ul class="claim-list"><li class="claim"><strong>Clear full-stack agent platform scope</strong><p>The repo covers memory, agent runtime, API, SDK artifacts, provider adapters, tools, sandboxing, persistence, migrations, and observability in one coherent service.</p><div class="badge-row"><span class="badge ok">High</span></div><div class="evidence"><span class="chip">README.md</span><span class="chip">pyproject.toml</span><span class="chip">letta/server/server.py</span><span class="chip">letta/server/rest_api/routers/v1/</span><span class="chip">letta/services/</span></div></li><li class="claim"><strong>Memory architecture is more explicit than typical chat-agent projects</strong><p>Memory is modeled with blocks, archival/recall counts, file blocks, core memory rendering, and optional git-backed state history.</p><div class="badge-row"><span class="badge ok">High</span></div><div class="evidence"><span class="chip">letta/schemas/memory.py</span><span class="chip">letta/services/block_manager_git.py</span><span class="chip">letta/services/memory_repo/git_operations.py</span><span class="chip">tests/test_memory.py</span></div></li><li class="claim"><strong>Broad integration surface</strong><p>The codebase supports many LLM providers, MCP tools/servers, sandbox backends, Docker deployment, OpenAPI, Python and TypeScript client usage, and provider traces.</p><div class="badge-row"><span class="badge ok">High</span></div><div class="evidence"><span class="chip">letta/llm_api/</span><span class="chip">letta/services/mcp/</span><span class="chip">letta/services/tool_sandbox/</span><span class="chip">Dockerfile</span><span class="chip">fern/openapi.json</span></div></li><li class="claim"><strong>Good engineering maturity signals</strong><p>The repository has 166 Python test files, CI workflows for unit/integration/docker/migration paths, ruff/ty/pytest config, security policy, AI contribution policy, and Apache license.</p><div class="badge-row"><span class="badge ok">High</span></div><div class="evidence"><span class="chip">tests/</span><span class="chip">.github/workflows/</span><span class="chip">pyproject.toml</span><span class="chip">SECURITY.md</span><span class="chip">AI_POLICY.md</span><span class="chip">LICENSE</span></div></li><li class="claim"><strong>API-first product surface</strong><p>The README leads with Letta API and SDK examples; FastAPI and Fern artifacts indicate the repo is meant to be operated as a service and consumed from applications.</p><div class="badge-row"><span class="badge ok">High</span></div><div class="evidence"><span class="chip">README.md</span><span class="chip">letta/server/rest_api/app.py</span><span class="chip">fern/openapi.json</span><span class="chip">.github/workflows/fern-sdk-python-publish.yml</span><span class="chip">.github/workflows/fern-sdk-typescript-publish.yml</span></div></li><li class="claim"><strong>Useful reference for building production agent infrastructure</strong><p>Even teams that do not adopt Letta can study its separation of routers, managers, schemas, ORM, provider adapters, tool executors, sandboxing, and traces.</p><div class="badge-row"><span class="badge warn">Medium</span></div><div class="evidence"><span class="chip">letta/server/rest_api/routers/v1/</span><span class="chip">letta/services/</span><span class="chip">letta/schemas/</span><span class="chip">letta/orm/</span></div></li></ul></section><section id="weaknesses-risks"><h2>Weaknesses / Risks</h2><ul class="claim-list"><li class="claim"><strong>High adoption complexity</strong><p>Letta is a service platform with many moving pieces: Postgres/pgvector, migrations, provider credentials, tool sandboxing, background scheduling, API auth/middleware, OpenAPI/SDK artifacts, and observability. This is powerful but not lightweight.</p><div class="badge-row"><span class="badge ok">High</span></div><div class="evidence"><span class="chip">compose.yaml</span><span class="chip">Dockerfile</span><span class="chip">pyproject.toml</span><span class="chip">letta/server/rest_api/app.py</span><span class="chip">alembic/versions/</span></div></li><li class="claim"><strong>Security surface is broad because agents can execute tools</strong><p>Tool execution supports local subprocesses, virtualenv setup, fetched credentials, environment variable injection, MCP, E2B, and Modal. Teams adopting it need strict sandbox and credential policies.</p><div class="badge-row"><span class="badge ok">High</span></div><div class="evidence"><span class="chip">letta/services/tool_executor/sandbox_tool_executor.py</span><span class="chip">letta/services/tool_sandbox/local_sandbox.py</span><span class="chip">letta/services/sandbox_credentials_service.py</span><span class="chip">SECURITY.md</span></div></li><li class="claim"><strong>Fast-moving schema and API surface may create upgrade work</strong><p>The repo has 167 Alembic migrations, many API routes, deprecated endpoints in sources/groups/identities, and active SDK/Fern workflows. Integrators should expect migration and compatibility chores.</p><div class="badge-row"><span class="badge ok">High</span></div><div class="evidence"><span class="chip">alembic/versions/</span><span class="chip">letta/server/rest_api/routers/v1/sources.py</span><span class="chip">letta/server/rest_api/routers/v1/groups.py</span><span class="chip">letta/server/rest_api/routers/v1/identities.py</span><span class="chip">fern/openapi.json</span></div></li><li class="claim"><strong>README is product-focused and omits many operational details</strong><p>README gives a concise API/CLI quickstart, but most operational complexity is spread across docs links, compose files, settings, workflows, migrations, and server code.</p><div class="badge-row"><span class="badge warn">Medium</span></div><div class="evidence"><span class="chip">README.md</span><span class="chip">compose.yaml</span><span class="chip">letta/settings.py</span><span class="chip">CONTRIBUTING.md</span></div></li><li class="claim"><strong>Provider breadth increases testing and runtime variability</strong><p>Supporting many providers is valuable, but behavior differences across model APIs, streaming, tool calling, reasoning, caching, usage accounting, and rate limits will complicate reliability.</p><div class="badge-row"><span class="badge warn">Medium</span></div><div class="evidence"><span class="chip">letta/llm_api/</span><span class="chip">tests/test_providers.py</span><span class="chip">tests/test_llm_clients.py</span><span class="chip">tests/test_provider_trace.py</span></div></li><li class="claim"><strong>External repository popularity metrics are missing from this run</strong><p>GitHub API returned rate-limit 403 during analysis, so stars/forks/open issues were not captured in the memory file. Refresh this data before investor, adoption, or trend comparisons.</p><div class="badge-row"><span class="badge ok">High</span></div><div class="evidence"><span class="chip">GitHub API 403 during analysis</span><span class="chip">analysis date: 2026-05-15</span></div></li></ul></section><section id="application-scenarios"><h2>Application Scenarios</h2><table><thead><tr><th>Scenario</th><th>Fit</th><th>Why</th><th>Adoption notes</th><th>Evidence</th></tr></thead><tbody><tr><td>Build a stateful AI assistant with long-term memory</td><td>High</td><td>This is the core positioning of Letta/MemGPT, and the codebase has explicit agent, memory, block, message, archive, and source abstractions.</td><td>Start with hosted Letta API or Docker deployment, then test memory block updates and retrieval behavior against your domain.</td><td>README.md, letta/schemas/memory.py, letta/server/rest_api/routers/v1/agents.py</td></tr><tr><td>Internal agent platform with REST API and SDK consumers</td><td>High</td><td>FastAPI, OpenAPI/Fern, Python/TypeScript SDK flows, and many REST resources are already part of the repository shape.</td><td>Good fit if you want centralized agents, auth, runs, observability, and tool governance.</td><td>fern/openapi.json, letta/server/rest_api/app.py, README.md</td></tr><tr><td>Tool-using agents with sandboxed execution</td><td>High</td><td>Tool creation, MCP tools, local/E2B/Modal sandbox backends, and executor dispatch are built into the architecture.</td><td>Audit sandbox settings and credentials before production usage.</td><td>letta/server/rest_api/routers/v1/tools.py, letta/services/tool_executor/, letta/services/tool_sandbox/</td></tr><tr><td>Research reference for memory-agent architecture</td><td>High</td><td>The repo is a rich reference for memory blocks, agent loops, summarization, context window management, tool calls, and provider abstraction.</td><td>Useful even without direct adoption; study managers and schemas first.</td><td>letta/agents/, letta/services/context_window_calculator/, letta/services/summarizer/, letta/schemas/</td></tr><tr><td>Small single-file chatbot or embedded library</td><td>Low</td><td>The repository is a service-oriented platform with persistence, migrations, routers, managers, and deployment concerns.</td><td>Use a smaller library or direct SDK approach unless memory/platform needs justify the overhead.</td><td>letta/server/, letta/services/, alembic/versions/, compose.yaml</td></tr><tr><td>Regulated production agent system</td><td>Medium</td><td>Letta has observability, tests, security policy, and structured APIs, but tool execution and many provider integrations create a non-trivial risk/compliance surface.</td><td>Run a security review, disable unneeded sandboxes/providers, define credential isolation, and pin deployment versions.</td><td>SECURITY.md, letta/services/tool_sandbox/, letta/server/rest_api/app.py, .github/workflows/</td></tr></tbody></table></section><section id="peer-comparison"><h2>Peer Comparison</h2><table><thead><tr><th>Project</th><th>Positioning</th><th>Strengths</th><th>Weaknesses</th><th>Best fit</th><th>Confidence</th></tr></thead><tbody><tr><td>Letta / MemGPT</td><td>Stateful agent platform with long-term memory, tool execution, and API/SDK surface.</td><td>Explicit memory model, broad provider/tool support, service architecture, strong API surface, tests and CI.</td><td>Complex adoption surface; sandbox/provider/security governance required.</td><td>Teams building persistent AI agents or studying memory-agent infrastructure.</td><td>High</td></tr><tr><td>LangGraph</td><td>Graph/state-machine framework for controllable agent workflows.</td><td>Excellent for workflow graphs, control flow, checkpoints, and composable orchestration.</td><td>Memory product/API platform concerns are less turnkey than Letta&#x27;s service model.</td><td>Teams wanting custom agent orchestration with explicit graph control.</td><td>Medium</td></tr><tr><td>AutoGen</td><td>Multi-agent conversation and orchestration framework.</td><td>Strong multi-agent experimentation model and conversation patterns.</td><td>Long-term memory/platform API is not the central abstraction in the same way.</td><td>Research and prototyping multi-agent collaborations.</td><td>Medium</td></tr><tr><td>CrewAI</td><td>Role/task oriented multi-agent framework.</td><td>Quick to express role-based workflows and task delegation.</td><td>Less obviously a full memory server/API platform.</td><td>Workflow-style agent teams and business process prototypes.</td><td>Medium</td></tr><tr><td>OpenAI Agents SDK / Assistants-style APIs</td><td>Hosted/model-provider agent tooling with managed model integration.</td><td>Lower infrastructure burden and tight provider ecosystem integration.</td><td>Less open-source control over persistence, memory internals, and provider-neutral runtime.</td><td>Teams preferring managed infrastructure and provider-native workflows.</td><td>Medium</td></tr></tbody></table></section><section id="adoption-guide"><h2>Adoption Guide</h2><div class="grid-2"><div class="panel"><h3>Setup complexity</h3><p>Medium to high. The quickstart can use hosted API/SDK paths, but self-hosting involves Docker or Python environment setup, Postgres/pgvector, migrations, provider credentials, and sandbox settings.</p></div><div class="panel"><h3>Integration path</h3><p>For a product team, start from the Letta API and SDK examples in README.md. For a platform team, run Docker compose locally, inspect API resources with fern/openapi.json, then pilot one agent with memory blocks and a small controlled tool set.</p></div><div class="panel"><h3>Extension points</h3><p>Custom tools, MCP servers, provider configuration, sandbox config, memory blocks, sources/folders, archives, prompts/templates, and provider trace backends.</p></div><div class="panel"><h3>Learning curve</h3><p>High if modifying internals; medium if using the API. The manager/schema/ORM layering is consistent, but the domain is broad.</p></div><div class="panel"><h3>Suggested proof of concept</h3><p>Create one agent with persona/human memory blocks, send messages, mutate memory, attach a source/folder, run one safe tool, inspect run/step traces, and test persistence across server restart.</p></div><div class="panel"><h3>First files to read</h3><p>README.md, pyproject.toml, letta/server/server.py, letta/server/rest_api/app.py, letta/server/rest_api/routers/v1/agents.py, letta/schemas/memory.py, letta/services/tool_executor/tool_execution_manager.py.</p></div></div></section><section id="evidence-appendix"><h2>Evidence Appendix</h2><div class="evidence"><span class="chip">README.md</span><span class="chip">pyproject.toml</span><span class="chip">letta/main.py</span><span class="chip">letta/server/rest_api/app.py</span><span class="chip">letta/server/server.py</span><span class="chip">letta/server/rest_api/routers/v1/agents.py</span><span class="chip">letta/server/rest_api/routers/v1/tools.py</span><span class="chip">letta/agents/agent_loop.py</span><span class="chip">letta/agents/letta_agent_v2.py</span><span class="chip">letta/services/agent_manager.py</span><span class="chip">letta/schemas/memory.py</span><span class="chip">letta/services/block_manager_git.py</span><span class="chip">letta/services/memory_repo/git_operations.py</span><span class="chip">letta/services/tool_executor/tool_execution_manager.py</span><span class="chip">letta/services/tool_executor/sandbox_tool_executor.py</span><span class="chip">letta/services/tool_sandbox/local_sandbox.py</span><span class="chip">letta/llm_api/</span><span class="chip">letta/schemas/providers/</span><span class="chip">letta/orm/</span><span class="chip">alembic/versions/</span><span class="chip">compose.yaml</span><span class="chip">Dockerfile</span><span class="chip">fern/openapi.json</span><span class="chip">.github/workflows/</span><span class="chip">tests/</span><span class="chip">SECURITY.md</span><span class="chip">AI_POLICY.md</span><span class="chip">LICENSE</span></div></section>
+      <footer>Generated as repository research memory. Verify critical adoption decisions against source code and current project status.</footer>
+    </main>
+  </div>
+  <script>mermaid.initialize({ startOnLoad: true, theme: "neutral" });</script>
+</body>
+</html>

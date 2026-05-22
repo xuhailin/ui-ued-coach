@@ -31,6 +31,7 @@ body[data-page="home"],
 body[data-page="ui"],
 body[data-page="inspo"],
 body[data-page="docs"],
+body[data-page="agent-memory"],
 body[data-page="style-atlas"],
 body[data-page="viewer"] {
   --rail-bg: rgba(255, 252, 246, 0.92);
@@ -49,6 +50,7 @@ body[data-page="home"]       { --rail-accent: #a23926; }  /* Home = 图录红 */
 body[data-page="motion-lab"] { --rail-accent: #00f0ff; }  /* 动效 = 电青 */
 body[data-page="style-atlas"] { --rail-accent: #2f7a6d; } /* 图谱 = 孔雀绿 */
 body[data-page="docs"]       { --rail-accent: #d29304; }  /* 文档 = 琥珀黄 */
+body[data-page="agent-memory"] { --rail-accent: #1d4d4f; } /* Agent 记忆 = 深青 */
 body[data-page="ui"]         { --rail-accent: #d96f3e; }  /* UI = 桃子橘 */
 body[data-page="templates"]  { --rail-accent: #4ade80; }  /* 模板 = 终端绿 */
 body[data-page="inspo"]      { --rail-accent: #b06ce6; }  /* 灵感 = 薰衣草 */

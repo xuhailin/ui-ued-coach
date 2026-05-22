@@ -42,6 +42,13 @@
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>'
     },
     {
+      page: 'agent-memory',
+      href: './agent-learning-memory.html',
+      label: 'Agent 记忆',
+      sub: '记忆',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M5 6.5A3.5 3.5 0 0 1 8.5 3h7A3.5 3.5 0 0 1 19 6.5v7a3.5 3.5 0 0 1-3.5 3.5H9l-4 4v-4.8A3.5 3.5 0 0 1 5 13.5z"/><path d="M8.5 8h7M8.5 11h4M15.5 15.5l2 2"/></svg>'
+    },
+    {
       page: 'ui',
       href: './ui.html',
       label: 'UI 组件',

@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent 学习与记忆 — UI/UED Coach</title>
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/site-rail.css" />
+    <link rel="stylesheet" href="./assets/agent-memory.css" />
+    <script src="./assets/site-rail.js"></script>
+  </head>
+  <body data-page="agent-memory">
+    <div class="am-shell">
+      <header class="am-topbar">
+        <a class="am-brand" href="./index.html" aria-label="返回 UI/UED Coach 首页">
+          <span class="am-brand-mark">AM</span>
+          <span>
+            <span class="am-brand-name">Agent 学习与记忆</span>
+            <span class="am-brand-meta">STUDY MODULE · DRAFT v0.1 · 2026.05.22</span>
+          </span>
+        </a>
+        <nav class="am-actions" aria-label="页面快捷操作">
+          <a href="./viewer.html?file=plans%2Fagent-learning-memory-module-requirements.md">需求文档</a>
+          <a href="#xiaoqing">xiaoqing 方案</a>
+          <button id="am-print" type="button">导出 PDF</button>
+        </nav>
+      </header>
+
+      <aside class="am-toc" aria-label="模块目录">
+        <p class="am-toc-label">目录 · Contents</p>
+        <a class="is-active" href="#intro"><span>入口与 4 个问题</span><b>00</b></a>
+        <a href="#learn-map"><span>Agent 学习总览</span><b>01</b></a>
+        <a href="#memory"><span>记忆深度展开</span><b>02</b></a>
+        <a href="#scenarios"><span>三类场景对比</span><b>03</b></a>
+        <a href="#implementation"><span>记忆实现方式</span><b>04</b></a>
+        <a href="#xiaoqing"><span>xiaoqing 推荐方案</span><b>05</b></a>
+        <a href="#refs"><span>GitHub 与研究报告</span><b>06</b></a>
+        <div class="am-toc-foot">
+          <span>源文档</span>
+          <a href="./viewer.html?file=plans%2Fagent-learning-memory-module-requirements.md">requirements.md</a>
+        </div>
+      </aside>
+
+      <main class="am-doc">
+        <section class="am-masthead" id="intro">
+          <p class="am-kicker"><span></span>module · agent learning & memory</p>
+          <h1>从 Agent 怎么学，到不同产品场景该怎么记。</h1>
+          <p class="am-lede">这个模块不是技术科普，也不是仓库清单。它把 Agent 学习、记忆类型、产品定位和 xiaoqing 的首版策略放在同一个学习控制台里，方便快速扫视和反复查阅。</p>
+          <div class="am-question-grid">
+            <article>
+              <small>Q · 01</small>
+              <h2>Agent 学习至少包括哪些能力？</h2>
+              <p>7 类能力，从短期上下文适应逐步走向长期演化。</p>
+            </article>
+            <article>
+              <small>Q · 02</small>
+              <h2>记忆在学习体系里处于什么位置？</h2>
+              <p>记忆是关键基础设施之一，但 Agent 学习不等于记忆。</p>
+            </article>
+            <article>
+              <small>Q · 03</small>
+              <h2>不同场景需要什么记忆？</h2>
+              <p>助手型、陪伴型、伴侣型共享基础设施，但边界完全不同。</p>
+            </article>
+            <article>
+              <small>Q · 04</small>
+              <h2>xiaoqing 应该怎么选？</h2>
+              <p>推荐定位为陪伴型偏助手，首版先做可见、可控、可编辑。</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="am-section" id="learn-map">
+          <div class="am-section-head">
+            <span>§ 01</span>
+            <h2>Agent 学习总览</h2>
+          </div>
+          <p class="am-section-lead">Agent 学习可以拆成 7 类能力。它们不是并列孤岛，而是从当前对话中的短期适应，逐步走向长期经验、策略和行为风格的演化。</p>
+          <div class="am-table-wrap">
+            <table class="am-table">
+              <thead>
+                <tr><th>学习能力</th><th>说明</th><th>典型产物</th><th>适合场景</th><th>阶段</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="key">上下文学习<small>in_context</small></td><td>在当前会话中理解任务、约束、语气、文件、工具状态。</td><td>当前对话上下文、临时任务状态。</td><td><span class="am-tag">所有 Agent</span></td><td><span class="am-tag accent">短期</span></td></tr>
+                <tr><td class="key">用户偏好学习<small>preference</small></td><td>记住用户喜欢什么、不喜欢什么、常用表达、工作习惯。</td><td>用户画像、偏好标签、写作风格。</td><td><span class="am-tag">助手型</span> <span class="am-tag">陪伴型</span></td><td><span class="am-tag accent">中长</span></td></tr>
+                <tr><td class="key">任务流程学习<small>workflow</small></td><td>记住用户反复执行的流程、步骤、项目规则。</td><td>Workflow、SOP、项目上下文。</td><td><span class="am-tag">办公助手</span> <span class="am-tag">开发助手</span></td><td><span class="am-tag accent">长期</span></td></tr>
+                <tr><td class="key">事实与关系学习<small>facts_relations</small></td><td>记住人物、项目、事件、组织、地点、对象之间的关系。</td><td>知识图谱、实体关系、时间线。</td><td><span class="am-tag">陪伴型</span> <span class="am-tag">企业 Agent</span></td><td><span class="am-tag accent">长期</span></td></tr>
+                <tr><td class="key">经验反思学习<small>reflection</small></td><td>从失败、纠正、反馈中总结下次怎么做得更好。</td><td>经验片段、反思规则、失败案例。</td><td><span class="am-tag">高阶助手</span> <span class="am-tag">自动化 Agent</span></td><td><span class="am-tag warm">演化</span></td></tr>
+                <tr><td class="key">行为风格学习<small>persona</small></td><td>学习如何表达、如何回应、边界在哪里、什么时候主动。</td><td>Persona、沟通策略、主动性规则。</td><td><span class="am-tag">陪伴型</span> <span class="am-tag">伴侣型</span></td><td><span class="am-tag warm">演化</span></td></tr>
+                <tr><td class="key">自我改进学习<small>self_improve</small></td><td>根据长期反馈调整工具使用、提示词、策略或子 Agent 分工。</td><td>Prompt 优化、技能选择、策略配置。</td><td><span class="am-tag">平台型</span> <span class="am-tag">高自主 Agent</span></td><td><span class="am-tag warm">演化</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="am-map">
+            <div class="am-map-root">Agent 学习 <small>umbrella</small></div>
+            <div class="am-map-branches">
+              <span>上下文学习</span>
+              <span class="is-memory">长期记忆</span>
+              <span>工具使用改进</span>
+              <span>策略与流程优化</span>
+              <span>多 Agent 协作经验</span>
+            </div>
+            <div class="am-map-children">
+              <b>长期记忆继续拆为</b>
+              <span>用户记忆</span><span>任务记忆</span><span>关系记忆</span><span>情绪互动</span><span>反思经验</span><span>程序性记忆</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="am-section" id="memory">
+          <div class="am-section-head">
+            <span>§ 02</span>
+            <h2>记忆深度展开</h2>
+          </div>
+          <p class="am-section-lead">在 Agent 产品里，记忆不是简单保存聊天记录，而是让 Agent 在未来交互中更懂用户、更稳定、更少重复、更能延续关系或任务。</p>
+          <div class="am-field-grid">
+            <article><b>内容</b><span>事实、偏好、事件、经验或规则。</span></article>
+            <article><b>类型</b><span>偏好、事实、关系、任务、情绪、反思、禁忌等。</span></article>
+            <article><b>来源</b><span>来自哪次对话、文件、用户确认、系统事件。</span></article>
+            <article><b>时间</b><span>发生时间、记录时间、更新时间、失效时间。</span></article>
+            <article><b>置信度</b><span>用户明确说的，还是 Agent 推断的。</span></article>
+            <article><b>可见性</b><span>用户是否能看到、编辑、删除。</span></article>
+            <article><b>使用条件</b><span>什么情况下应该召回，什么情况下不该用。</span></article>
+            <article><b>敏感级别</b><span>是否涉及隐私、关系、身份、健康、财务等。</span></article>
+          </div>
+
+          <div class="am-subhead">
+            <span>// MEM TYPES</span>
+            <h3>9 种记忆类型</h3>
+            <small>按类型筛选</small>
+          </div>
+          <div class="am-filter" id="memory-filter" aria-label="记忆类型筛选">
+            <button class="is-active" type="button" data-filter="all">全部 <small>9</small></button>
+            <button type="button" data-filter="short">短期 <small>1</small></button>
+            <button type="button" data-filter="long">长期 <small>6</small></button>
+            <button type="button" data-filter="meta">元 / 边界 <small>2</small></button>
+            <button type="button" data-filter="sensitive">敏感 <small>3</small></button>
+          </div>
+          <div class="am-memory-grid" id="memory-grid"></div>
+        </section>
+
+        <section class="am-section" id="scenarios">
+          <div class="am-section-head">
+            <span>§ 03</span>
+            <h2>三类场景：助手 / 陪伴 / 伴侣</h2>
+          </div>
+          <p class="am-section-lead">这三类是产品定位，不是技术栈。它们可以共享记忆基础设施，但记忆重点、交互边界和风险完全不同。</p>
+          <div class="am-segmented" id="scenario-tabs" aria-label="场景切换">
+            <button class="is-active" type="button" data-scenario="assist">助手型</button>
+            <button type="button" data-scenario="companion">陪伴型</button>
+            <button type="button" data-scenario="partner">伴侣型</button>
+          </div>
+          <div class="am-scenario-panel" id="scenario-panel"></div>
+          <div class="am-table-wrap">
+            <table class="am-table">
+              <thead><tr><th>对比项</th><th>助手型</th><th>陪伴型</th><th>伴侣型</th></tr></thead>
+              <tbody>
+                <tr><td class="key">核心目标</td><td>完成任务</td><td>长期陪跑</td><td>亲密关系体验</td></tr>
+                <tr><td class="key">用户关系</td><td>工具信任</td><td>熟悉与理解</td><td>情感依恋</td></tr>
+                <tr><td class="key">主动性</td><td>低到中</td><td>中</td><td>中到高</td></tr>
+                <tr><td class="key">记忆粒度</td><td>偏任务和规则</td><td>偏用户状态和事件</td><td>偏关系细节</td></tr>
+                <tr><td class="key">情绪权重</td><td><span class="am-tag">低</span></td><td><span class="am-tag accent">中</span></td><td><span class="am-tag danger">高</span></td></tr>
+                <tr><td class="key">风险等级</td><td><span class="am-tag ok">中</span></td><td><span class="am-tag warm">中高</span></td><td><span class="am-tag danger">高</span></td></tr>
+                <tr><td class="key">推荐给 xiaoqing</td><td>部分适合</td><td><span class="am-tag accent">最适合</span></td><td><span class="am-tag danger">谨慎，不建议主定位</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="am-section" id="implementation">
+          <div class="am-section-head">
+            <span>§ 04</span>
+            <h2>记忆实现方式</h2>
+          </div>
+          <p class="am-section-lead">分三层看：怎么存、怎么写、怎么召回。首版不需要全部上，但选型逻辑要先想清楚。</p>
+
+          <div class="am-subhead">
+            <span>// LONG CONTEXT</span>
+            <h3>长对话：什么时候压缩、召回、写入</h3>
+            <small>一轮对话的上下文生命周期</small>
+          </div>
+          <div class="am-context-flow" aria-label="长对话上下文生命周期示意图">
+            <div class="am-context-row">
+              <article class="am-context-node is-live">
+                <small>01 · 当前窗口</small>
+                <b>保留最近对话</b>
+                <span>用户刚说的约束、正在改的文件、当前任务状态，优先留在 active context。</span>
+              </article>
+              <article class="am-context-node is-recall">
+                <small>02 · 回答前召回</small>
+                <b>查相关记忆</b>
+                <span>按项目、实体、意图、时间窗口检索，只注入当前问题需要的少量记忆。</span>
+              </article>
+              <article class="am-context-node is-answer">
+                <small>03 · 生成回答</small>
+                <b>组装 prompt pack</b>
+                <span>系统规则 + 最近对话 + 滚动摘要 + 检索记忆 + 工具状态。</span>
+              </article>
+            </div>
+            <div class="am-context-row">
+              <article class="am-context-node is-compress">
+                <small>04 · 触发压缩</small>
+                <b>生成滚动摘要</b>
+                <span>当 token 接近阈值、话题切换、阶段完成、工具链很长时，把旧对话压成 summary。</span>
+              </article>
+              <article class="am-context-node is-write">
+                <small>05 · 回答后写入</small>
+                <b>抽取记忆候选</b>
+                <span>只从明确偏好、项目规则、重要事件、用户纠正、工具失败经验里抽取。</span>
+              </article>
+              <article class="am-context-node is-store">
+                <small>06 · 入库与下轮</small>
+                <b>确认后保存</b>
+                <span>普通项目事实可自动保存；身份、情绪、关系类必须让用户确认，再进入长期记忆。</span>
+              </article>
+            </div>
+            <div class="am-context-store">
+              <div>
+                <b>Context Window</b>
+                <span>最近 N 轮原文，负责“此刻不断片”。</span>
+              </div>
+              <div>
+                <b>Rolling Summary</b>
+                <span>旧对话压缩摘要，负责“长线不丢主线”。</span>
+              </div>
+              <div>
+                <b>Memory Store</b>
+                <span>结构化长期记忆，负责“跨会话可召回”。</span>
+              </div>
+            </div>
+          </div>
+          <div class="am-timing-grid">
+            <article>
+              <b>什么时候召回？</b>
+              <span>回答前。先判断当前问题需要项目规则、用户偏好、近期事件还是安全边界，再检索少量相关项。</span>
+            </article>
+            <article>
+              <b>什么时候压缩？</b>
+              <span>窗口快满、阶段结束、话题切换、工具执行链过长时。压缩的是旧上下文，不是高价值长期记忆。</span>
+            </article>
+            <article>
+              <b>什么时候写入？</b>
+              <span>回答后或后台批处理。用户明确说“记住”、纠正 Agent、确认项目规则、工具失败复盘时才写。</span>
+            </article>
+            <article>
+              <b>什么时候不写？</b>
+              <span>普通寒暄、一次性任务细节、不确定推断、敏感情绪和关系信息未确认时，都不要自动进长期记忆。</span>
+            </article>
+          </div>
+
+          <div class="am-segmented" id="implementation-tabs" aria-label="技术路线切换">
+            <button class="is-active" type="button" data-panel="store">存储形态</button>
+            <button type="button" data-panel="write">写入方式</button>
+            <button type="button" data-panel="recall">召回方式</button>
+          </div>
+          <div class="am-impl-panel is-active" id="impl-store">
+            <div class="am-table-wrap">
+              <table class="am-table">
+                <thead><tr><th>方式</th><th>说明</th><th>优点</th><th>缺点</th><th>适合</th></tr></thead>
+                <tbody>
+                  <tr><td class="key">原始聊天记录</td><td>保存完整对话，需要时检索或摘要。</td><td>实现简单，证据完整。</td><td>噪声大、成本高、隐私压力大。</td><td>审计、回放、轻量 MVP。</td></tr>
+                  <tr><td class="key">摘要记忆</td><td>将对话压缩成阶段摘要。</td><td>成本低，读起来清楚。</td><td>容易丢细节和来源。</td><td>陪伴日志、阶段复盘。</td></tr>
+                  <tr><td class="key">结构化字段</td><td>用 profile、preference、project 等字段保存。</td><td>可控、可编辑、好展示。</td><td>灵活性较弱。</td><td><span class="am-tag accent">xiaoqing 首版</span></td></tr>
+                  <tr><td class="key">向量记忆</td><td>用 embedding 检索相关片段。</td><td>语义召回方便。</td><td>可能召回错、难解释。</td><td>通用助手、知识问答。</td></tr>
+                  <tr><td class="key">关键词 / BM25</td><td>基于关键词检索。</td><td>可解释、成本低。</td><td>语义能力弱。</td><td>名称、项目、明确事实。</td></tr>
+                  <tr><td class="key">混合检索</td><td>向量 + 关键词 + 重排。</td><td>召回更稳。</td><td>系统复杂度更高。</td><td>中长期产品。</td></tr>
+                  <tr><td class="key">知识图谱</td><td>建实体、关系、时间与来源。</td><td>适合关系和时间推理。</td><td>建模和维护成本高。</td><td>长期陪伴、企业知识。</td></tr>
+                  <tr><td class="key">时间线记忆</td><td>按日期、事件、阶段组织。</td><td>适合回顾和陪伴感。</td><td>不适合复杂语义检索。</td><td>陪伴型、成长型。</td></tr>
+                  <tr><td class="key">反思 / 经验库</td><td>存失败、纠正和策略。</td><td>能让 Agent 越用越顺。</td><td>需要质量控制。</td><td>高阶助手。</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="am-impl-panel" id="impl-write">
+            <div class="am-rule-grid">
+              <article><b>用户显式保存</b><span>用户说“记住这个”或手动添加。适合高价值偏好和敏感信息。</span></article>
+              <article><b>Agent 自动抽取</b><span>每轮对话后抽取可能有用的记忆。适合普通偏好、项目事实。</span></article>
+              <article><b>后台批处理整理</b><span>定时总结、去重、合并、过期。适合长期陪伴和知识库。</span></article>
+              <article><b>工具事件写入</b><span>工具执行成功或失败后记录经验。适合工作流 Agent。</span></article>
+              <article><b>用户确认后写入</b><span>Agent 提议保存，用户点确认。适合情绪、身份、关系类记忆。</span></article>
+            </div>
+            <div class="am-callout">xiaoqing 首版建议：P0 记忆使用显式保存 + 提议保存；项目记忆可自动抽取但必须可编辑；情绪和关系类记忆必须确认后写入；反思记忆标注“推断 / 总结”。</div>
+          </div>
+          <div class="am-impl-panel" id="impl-recall">
+            <div class="am-rule-grid">
+              <article><b>固定注入</b><span>每次都把少量核心记忆放进系统上下文。</span></article>
+              <article><b>语义搜索</b><span>根据用户当前问题检索相关记忆。</span></article>
+              <article><b>时间窗口</b><span>召回最近一段时间事件，适合陪伴感和阶段复盘。</span></article>
+              <article><b>实体关系查询</b><span>根据人、项目、对象查询关系，适合图谱型记忆。</span></article>
+              <article><b>规则触发</b><span>特定任务或页面触发特定记忆。</span></article>
+              <article><b>Agent 自主搜索</b><span>Agent 判断何时查记忆，适合高级助手。</span></article>
+            </div>
+            <div class="am-callout">首版不要让所有记忆默认进入上下文。固定注入少量核心偏好，项目 / 事件记忆用语义搜索 + 时间窗口。</div>
+          </div>
+        </section>
+
+        <section class="am-section" id="xiaoqing">
+          <div class="am-section-head">
+            <span>§ 05</span>
+            <h2>xiaoqing 推荐方案</h2>
+          </div>
+          <p class="am-section-lead">xiaoqing 更适合定位为“陪伴型偏助手”：保留长期理解和温度，但不进入伴侣型的强承诺和高风险关系系统。</p>
+          <div class="am-xq-hero">
+            <p>// POSITIONING · v0.1</p>
+            <h3>长期陪伴型 AI 助手，能力强于普通助手，关系弱于伴侣。</h3>
+            <blockquote>记得用户的项目、习惯、阶段目标和互动偏好，在日常工作、学习、创作和复盘中提供稳定陪跑。</blockquote>
+            <div class="am-xq-reasons">
+              <span>不只是聊天，而是长期理解和减少重复沟通。</span>
+              <span>保留温度，但不进入亲密承诺。</span>
+              <span>可做记忆地图、成长轨迹、项目上下文。</span>
+              <span>从偏好、项目、事件开始，逐步演进。</span>
+              <span>安全边界更清晰，避免单一情感关系框死。</span>
+            </div>
+          </div>
+
+          <div class="am-scope-grid">
+            <article>
+              <h3>首版做 · DO</h3>
+              <ul>
+                <li><b>P0 用户偏好</b><span>语言、回答长度、设计审美、工作方式、禁忌。</span></li>
+                <li><b>P0 项目记忆</b><span>当前项目、目标、目录、技术栈、规则、进展。</span></li>
+                <li><b>P1 事件记忆</b><span>最近完成的任务、重要反馈、阶段节点。</span></li>
+                <li><b>P1 反思记忆</b><span>用户纠正过的问题、下次应避免的做法。</span></li>
+                <li><b>P2 情绪 / 状态</b><span>用户最近节奏、压力、希望被如何提醒。</span></li>
+              </ul>
+            </article>
+            <article class="is-dont">
+              <h3>首版不做 · DON'T</h3>
+              <ul>
+                <li>恋爱化关系系统。</li>
+                <li>高强度情绪诊断。</li>
+                <li>自动保存所有聊天记录。</li>
+                <li>不可解释的黑箱画像。</li>
+                <li>用户无法删除的长期记忆。</li>
+              </ul>
+            </article>
+          </div>
+
+          <pre class="am-code"><code>type MemoryItem = {
+  id: string;
+  userId: string;
+  agentId: string;
+  type:
+    | "preference"
+    | "project"
+    | "event"
+    | "reflection"
+    | "relationship"
+    | "emotional_state"
+    | "safety_boundary";
+  title: string;
+  content: string;
+  source: "user_confirmed" | "agent_extracted" | "tool_event" | "manual";
+  confidence: number;
+  sensitivity: "low" | "medium" | "high";
+  createdAt: string;
+  updatedAt: string;
+  expiresAt?: string;
+  tags: string[];
+  relatedProjectId?: string;
+  relatedEntityIds?: string[];
+};</code></pre>
+
+          <div class="am-roadmap">
+            <article class="is-now"><b>V1</b><span>可见、可控、可编辑</span><small>结构化字段 + 手动确认。</small></article>
+            <article><b>V2</b><span>召回和项目连续性</span><small>向量检索 + 时间线。</small></article>
+            <article><b>V3</b><span>关系和状态变化理解</span><small>知识图谱 + 时间有效期。</small></article>
+            <article><b>V4</b><span>从纠错和失败中学习</span><small>反思记忆 + 经验库。</small></article>
+            <article><b>V5</b><span>多 Agent 共享上下文</span><small>用户级记忆空间 + Agent 级权限。</small></article>
+          </div>
+        </section>
+
+        <section class="am-section" id="refs">
+          <div class="am-section-head">
+            <span>§ 06</span>
+            <h2>GitHub 仓库与本地研究报告</h2>
+          </div>
+          <p class="am-section-lead">这些仓库代表不同技术路线，适合参考而不是照搬。Letta 的已有研究报告已接入站内跳转。</p>
+          <div class="am-ref-grid">
+            <a href="https://github.com/letta-ai/letta" target="_blank" rel="noopener"><b>letta-ai / letta</b><span>Stateful agents with advanced memory。</span><small>参考 Agent 记忆平台架构。</small></a>
+            <a href="https://github.com/mem0ai/mem0" target="_blank" rel="noopener"><b>mem0ai / mem0</b><span>Universal memory layer for AI agents。</span><small>参考轻量接入和 SDK 体验。</small></a>
+            <a href="https://github.com/langchain-ai/langmem" target="_blank" rel="noopener"><b>langchain-ai / langmem</b><span>LangGraph 生态记忆工具。</span><small>参考 Agent 何时主动管理记忆。</small></a>
+            <a href="https://github.com/getzep/graphiti" target="_blank" rel="noopener"><b>getzep / graphiti</b><span>Temporal context graph for AI agents。</span><small>参考关系和时间变化记忆。</small></a>
+            <a href="https://github.com/topoteretes/cognee" target="_blank" rel="noopener"><b>topoteretes / cognee</b><span>Memory control plane / graph memory。</span><small>参考项目记忆和知识库融合。</small></a>
+            <a href="https://github.com/supermemoryai/supermemory" target="_blank" rel="noopener"><b>supermemoryai / supermemory</b><span>Memory engine and API。</span><small>参考产品化 memory API。</small></a>
+            <a href="https://github.com/vectorize-io/hindsight" target="_blank" rel="noopener"><b>vectorize-io / hindsight</b><span>Agent memory that learns from experience。</span><small>参考 retain / recall / reflect。</small></a>
+          </div>
+          <div class="am-local-reports">
+            <h3>已有 Letta 研究产物</h3>
+            <a href="./reports/repo-research/letta-research.html">Letta / MemGPT 深度研究报告 <span>打开 HTML</span></a>
+            <a href="./reports/repo-research/letta-memory.json">Letta 结构化研究数据 <span>打开 JSON</span></a>
+            <p>已放在 <code>docs/reports/</code> 下，站内页面和 GitHub Pages 都可以直接跳转。</p>
+          </div>
+        </section>
+
+        <footer class="am-footer">
+          <span>AGENT-LEARNING-MEMORY · UI/UED Coach</span>
+          <a href="./index.html">返回首页</a>
+        </footer>
+      </main>
+
+      <aside class="am-meta" aria-label="模块元信息">
+        <section>
+          <h2>FILE</h2>
+          <p><span>type</span><b>study module</b></p>
+          <p><span>version</span><b>v0.1 draft</b></p>
+          <p><span>sections</span><b>6 / 6</b></p>
+          <p><span>updated</span><b>2026.05.22</b></p>
+        </section>
+        <section>
+          <h2>QUICK READ</h2>
+          <a href="#xiaoqing"><b>直接看 xiaoqing 方案</b><span>陪伴型偏助手 · 5 类记忆</span></a>
+          <a href="#scenarios"><b>场景对比</b><span>助手 / 陪伴 / 伴侣</span></a>
+          <a href="#implementation"><b>实现路线</b><span>存储 / 写入 / 召回</span></a>
+        </section>
+      </aside>
+    </div>
+    <script src="./assets/agent-memory.js"></script>
+  </body>
+</html>
