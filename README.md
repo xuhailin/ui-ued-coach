@@ -18,14 +18,14 @@ This workspace is a lightweight home for a 14-day UI/UED training track aimed at
 - `docs/journal/`: daily training notes, submissions, and feedback
 - `docs/references/`: reusable knowledge cards and debugging heuristics
 - `docs/templates/day-note-template.md`: reusable note template
-- `scripts/generate_site_index.py`: regenerate the site data after adding new day notes
+- `scripts/generate_site_index.py`: regenerate the site data after adding day notes or reference cards
 
 ## Usage
 
 1. Open the current day note or create a new one from the template.
 2. Write the day's goal, exercise output, and review answers.
 3. Add coach feedback and next action before moving on.
-4. Run `python3 scripts/generate_site_index.py` so the homepage picks up the latest day note.
+4. Run `python3 scripts/generate_site_index.py` so the site picks up the latest day note or reference card.
 5. Use `docs/motion-lab.html` for motion prompt experiments when the work shifts from daily notes to interactive prototypes.
 
 ## Local Preview

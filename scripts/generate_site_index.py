@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCS_DIR = ROOT / "docs"
 OUTLINE_PATH = DOCS_DIR / "plans" / "14-day-outline.md"
 JOURNAL_DIR = DOCS_DIR / "journal"
+REFERENCE_DIR = DOCS_DIR / "references"
 OUTPUT_PATH = DOCS_DIR / "data" / "site-index.json"
 
 
@@ -94,6 +95,27 @@ def extract_summary(markdown: str) -> str:
     return ""
 
 
+def extract_section_summary(markdown: str, heading: str, prefer_list: bool = False) -> str:
+    lines = find_section(markdown, heading)
+    first_item = extract_first_list_item(lines)
+    if prefer_list and first_item:
+        return first_item
+
+    for line in lines:
+        stripped = line.strip()
+        if (
+            stripped
+            and not stripped.startswith("#")
+            and not stripped.startswith("- ")
+            and not stripped.startswith("```")
+        ):
+            return stripped
+
+    if first_item:
+        return first_item
+    return ""
+
+
 def extract_title(markdown: str, fallback: str) -> str:
     for line in markdown.splitlines():
         stripped = line.strip()
@@ -112,6 +134,24 @@ def extract_day_number(path: Path, title: str) -> int | None:
         return int(title_match.group(1))
 
     return None
+
+
+def extract_tags(markdown: str, path: Path) -> list[str]:
+    tags: list[str] = []
+    title = extract_title(markdown, path.stem)
+
+    if "design" in path.stem.lower() or "设计" in title:
+        tags.append("设计规范")
+    if "android" in path.stem.lower():
+        tags.append("Android")
+    if "dns" in path.stem.lower() or "DNS" in title:
+        tags.append("DNS")
+    if "host" in path.stem.lower() or "Host" in title:
+        tags.append("Host")
+    if "排障" in title or "debug" in path.stem.lower():
+        tags.append("排障")
+
+    return tags
 
 
 def parse_journal() -> list[dict]:
@@ -133,9 +173,40 @@ def parse_journal() -> list[dict]:
     return sorted(items, key=lambda item: (item["day"] is None, item["day"] or 999, item["file"]))
 
 
+def parse_references() -> list[dict]:
+    items: list[dict] = []
+
+    for index, path in enumerate(sorted(REFERENCE_DIR.glob("*.md")), start=1):
+        markdown = read_text(path)
+        title = extract_title(markdown, path.stem)
+        is_spec = "设计规范" in title or "design" in path.stem.lower()
+        summary = (
+            extract_section_summary(markdown, "关键判断")
+            or extract_section_summary(markdown, "场景")
+            or extract_summary(markdown)
+        )
+        items.append(
+            {
+                "title": title,
+                "file": path.relative_to(DOCS_DIR).as_posix(),
+                "type": "spec" if is_spec else "ref",
+                "seq": f"{'S' if is_spec else 'K'}-{index:03d}",
+                "summary": summary,
+                "scenario": extract_section_summary(markdown, "场景", prefer_list=True),
+                "judgment": extract_section_summary(markdown, "关键判断"),
+                "solution": extract_section_summary(markdown, "稳定解法"),
+                "tags": extract_tags(markdown, path),
+                "updated": path.stat().st_mtime,
+            }
+        )
+
+    return items
+
+
 def build_payload() -> dict:
     topics, rules = parse_outline()
     journal = parse_journal()
+    references = parse_references()
     journal_by_day = {
         entry["day"]: entry
         for entry in journal
@@ -155,12 +226,40 @@ def build_payload() -> dict:
             }
         )
 
+    documents = [
+        {
+            "title": "14-day UI/UED 训练路线",
+            "file": OUTLINE_PATH.relative_to(DOCS_DIR).as_posix(),
+            "type": "plan",
+            "seq": "P-001",
+            "summary": "14 天训练路线、完成顺序和推进节奏。",
+            "tags": ["训练路线"],
+            "updated": OUTLINE_PATH.stat().st_mtime,
+        },
+        *[
+            {
+                "title": entry["title"],
+                "file": entry["file"],
+                "type": "journal",
+                "seq": f"J-{entry['day']:03d}" if entry.get("day") else "J-000",
+                "summary": entry["summary"],
+                "status": entry["status"],
+                "tags": ["每日笔记"],
+                "updated": (DOCS_DIR / entry["file"]).stat().st_mtime,
+            }
+            for entry in journal
+        ],
+        *references,
+    ]
+
     return {
         "siteTitle": "UI/UED Coach",
         "outlineFile": OUTLINE_PATH.relative_to(DOCS_DIR).as_posix(),
         "completionRules": rules,
         "days": days,
         "journal": journal,
+        "references": [item for item in references if item["type"] == "ref"],
+        "documents": documents,
     }
 
 
@@ -175,4 +274,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

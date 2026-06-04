@@ -26,12 +26,86 @@
     "运行形态": "Typer CLI 入口默认通过 letta.main:app 启动服务；REST API 使用 FastAPI；Docker 与 compose 文件支持以 Postgres/pgvector 部署服务。",
     "API 范围": "fern/openapi.json 标识 'Letta API' 版本 1.0.0，共 239 个路径。主要标签包括 agents、tools、sources/folders、conversations、runs、blocks、MCP servers、providers、jobs、messages 和 archives。",
     "持久化": "SQLAlchemy/SQLModel 模型位于 letta/orm；alembic/versions 包含 167 个迁移；compose.yaml 使用 ankane/pgvector 作为 PostgreSQL 向量存储。",
-    "记忆模型": "letta/schemas/memory.py 定义核心记忆块、文件块、上下文窗口概览，以及支持 git 的记忆渲染路径。",
+    "记忆模型": "letta/schemas/memory.py 定义核心记忆块、文件块、上下文窗口概览，以及支持 git 的记忆渲染路径。更细地看，Letta 至少有四层记忆：Core memory blocks、Archival passages、Recall messages、Source/file passages。",
+    "记忆写入触发": "Core memory 主要由模型调用 core_memory_append/core_memory_replace/memory_replace/memory_insert 等核心工具触发；Archival memory 由 archival_memory_insert 触发；Recall memory 基本来自每轮对话消息自动落库；Source/file memory 来自连接器加载文件后切块和 embedding。",
+    "记忆落点": "Core memory 落在 block 表并通过 blocks_agents 关联 Agent；Archival memory 落在 archival_passages 表，带 archive_id、embedding、tags；Recall memory 落在 messages 表，可选同步到 Turbopuffer 做混合检索；外部文件切块落在 source_passages 表。",
+    "记忆召回入口": "Core memory 不需要搜索，会被 Memory.compile 渲染进系统提示；Recall memory 通过 conversation_search 搜索 message history；Archival memory 通过 archival_memory_search 语义检索 passages；Source/file passages 通过 source/file 相关检索路径进入上下文。",
     "工具系统": "工具执行通过工厂模式覆盖 core、memory、file、builtin、MCP、多 Agent 和沙箱执行器；services/tool_sandbox 中出现 local、E2B 和 Modal 沙箱路径。",
     "供应商支持": "pyproject.toml 和 letta/llm_api 中包含 OpenAI、Anthropic、Azure、Bedrock、Google Gemini/Vertex、Groq、Mistral、DeepSeek、Ollama、OpenRouter、Together、vLLM、xAI、Z.ai 等适配器。",
     "质量信号": "仓库包含 unit/integration/docker/migration 工作流、ruff/ty 配置、pytest 配置、安全策略、AI 贡献策略、Apache 许可证和较大的测试目录。",
     "外部动态数据": "本次运行未记录 GitHub stars/forks/open issues，因为 GitHub API 返回了 rate-limit 403。"
   },
+  "memory_mechanics": [
+    {
+      "claim": "Core memory 是始终进上下文的短而关键状态，不是向量库。",
+      "detail": "Memory.compile 会把 blocks 渲染到 <memory_blocks> 或 git-enabled 的 <self>/<memory> 结构里；系统提示重建时会把它放进首条 system message。典型内容是 persona、human、用户偏好、长期目标等必须每轮可见的信息。",
+      "confidence": "High",
+      "evidence": [
+        "letta/schemas/memory.py",
+        "letta/prompts/system_prompts/memgpt_chat.py",
+        "letta/services/agent_manager.py"
+      ]
+    },
+    {
+      "claim": "Core memory 的写入通常发生在模型主动调用记忆编辑工具之后。",
+      "detail": "core_memory_append/core_memory_replace/memory_replace/memory_insert 先改 AgentState.memory 中对应 block 的 value，再由 AgentManager.update_memory_if_changed_async 对比当前 system prompt，发现变化后调用 BlockManager.update_block_async 持久化，并重建系统提示。普通 block 存在 block 表，通过 blocks_agents 挂到 Agent；git-enabled block 还会走 block_manager_git 和 memory_repo 投影。",
+      "confidence": "High",
+      "evidence": [
+        "letta/services/tool_executor/core_tool_executor.py",
+        "letta/services/agent_manager.py",
+        "letta/services/block_manager.py",
+        "letta/orm/block.py",
+        "letta/orm/blocks_agents.py",
+        "letta/services/block_manager_git.py",
+        "letta/services/memory_repo/"
+      ]
+    },
+    {
+      "claim": "Archival memory 是外部长期语义库，适合写入自包含事实、总结、会议记录和反思。",
+      "detail": "archival_memory_insert 调用 PassageManager.insert_passage；insert_passage 会取 Agent 默认 archive，对文本生成 embedding，创建 Passage，然后写入 archival_passages。每条 passage 带 archive_id、text、embedding_config、embedding、tags、created_at；如果 archive 配置 Turbopuffer，还会双写到 Turbopuffer。",
+      "confidence": "High",
+      "evidence": [
+        "letta/services/tool_executor/core_tool_executor.py",
+        "letta/services/passage_manager.py",
+        "letta/schemas/passage.py",
+        "letta/orm/passage.py",
+        "letta/orm/passage_tag.py"
+      ]
+    },
+    {
+      "claim": "Archival memory 的召回是显式工具调用，不会自动把全部长期记忆塞进 prompt。",
+      "detail": "archival_memory_search 进入 AgentManager.search_agent_archival_memory_async，再调用 query_agent_passages_async。查询会按 query_text、tags、时间范围和 top_k 过滤；有 embedding_config 时走语义检索，Turbopuffer archive 使用 hybrid search，否则回退到 SQL passage 查询。返回内容包含 id、timestamp、content、tags 和相关性元数据。",
+      "confidence": "High",
+      "evidence": [
+        "letta/services/tool_executor/core_tool_executor.py",
+        "letta/services/agent_manager.py",
+        "letta/services/passage_manager.py"
+      ]
+    },
+    {
+      "claim": "Recall memory 主要是自动沉淀的对话历史，写入时机是消息创建，而不是模型专门选择保存。",
+      "detail": "每轮对话中的 user、assistant、tool 等消息会由 MessageManager.create_many_messages_async 写入 messages 表。开启消息向量/混合检索时，非 system message 会异步写入 Turbopuffer；conversation_search 再通过 MessageManager.search_messages_async 做 hybrid/vector/FTS 或 SQL LIKE 回退，并过滤 tool messages 与 conversation_search 自身结果，避免递归噪音。",
+      "confidence": "High",
+      "evidence": [
+        "letta/services/message_manager.py",
+        "letta/services/tool_executor/core_tool_executor.py",
+        "letta/orm/message.py",
+        "letta/schemas/message.py"
+      ]
+    },
+    {
+      "claim": "Source/file memory 是文档型知识的切块索引，和 Agent 自己写下的 archival memory 分表保存。",
+      "detail": "DataConnector.load_data 会读取 source 文件，按 embedding_chunk_size 切成 passage，调用 LLMClient.request_embeddings，再通过 PassageManager.create_many_passages_async 写入 source_passages。它更像挂载文档/知识库，而不是 Agent 对用户互动的自我记忆。",
+      "confidence": "High",
+      "evidence": [
+        "letta/data_sources/connectors.py",
+        "letta/services/passage_manager.py",
+        "letta/schemas/source.py",
+        "letta/orm/source.py",
+        "letta/orm/passage.py"
+      ]
+    }
+  ],
   "design_philosophy": [
     {
       "claim": "有状态 Agent 被建模为服务拥有的实体，而不是一次性的 prompt 调用。",
@@ -469,6 +543,19 @@
     "letta/agents/letta_agent_v2.py",
     "letta/services/agent_manager.py",
     "letta/schemas/memory.py",
+    "letta/schemas/block.py",
+    "letta/schemas/passage.py",
+    "letta/schemas/message.py",
+    "letta/orm/block.py",
+    "letta/orm/blocks_agents.py",
+    "letta/orm/passage.py",
+    "letta/orm/message.py",
+    "letta/services/block_manager.py",
+    "letta/services/passage_manager.py",
+    "letta/services/message_manager.py",
+    "letta/services/tool_executor/core_tool_executor.py",
+    "letta/data_sources/connectors.py",
+    "letta/prompts/system_prompts/memgpt_chat.py",
     "letta/services/block_manager_git.py",
     "letta/services/memory_repo/git_operations.py",
     "letta/services/tool_executor/tool_execution_manager.py",

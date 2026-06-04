@@ -5,46 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>文档库 — UI/UED Coach</title>
     <link rel="icon" href="data:," />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./assets/site-rail.css" />
-    <link rel="stylesheet" href="./assets/placeholder.css" />
+    <link rel="stylesheet" href="./assets/docs-library.css" />
     <script src="./assets/site-rail.js"></script>
   </head>
   <body data-page="docs">
-    <main class="placeholder-shell">
-      <header class="placeholder-hero">
-        <p class="placeholder-kicker">// 03 · COMING SOON</p>
-        <h1 class="placeholder-title">文档 <em>库</em></h1>
-        <p class="placeholder-en">Docs · amber × paper</p>
-        <p class="placeholder-desc">
-          所有 Markdown 笔记、设计参考、规范文档的集中入口。点击任意一项跳转到 Viewer 进行连续阅读。等你说一声 "实装文档库"，我就把现有 plans / journal / references 接进来。
-        </p>
-        <div class="placeholder-meta">
-          <div class="placeholder-meta-item">Plans<b>—</b></div>
-          <div class="placeholder-meta-item">Journal<b>—</b></div>
-          <div class="placeholder-meta-item">Refs<b>—</b></div>
-          <div class="placeholder-meta-item">Status<b>Planning</b></div>
+    <main class="docs-shell">
+      <header class="docs-topbar">
+        <div class="docs-brand">
+          <span class="docs-brand-mark" aria-hidden="true">D</span>
+          <span>
+            <span class="docs-brand-name">文档库 / Docs</span>
+            <span class="docs-brand-meta">INDEX · MARKDOWN · LIVE</span>
+          </span>
         </div>
+        <nav class="docs-actions" aria-label="文档快捷入口">
+          <a class="docs-action" href="./viewer.html?file=plans/14-day-outline.md&style=docs">学习地图</a>
+          <a id="latest-ref-link" class="docs-action docs-action-primary" href="./viewer.html?file=references/android-emulator-dns-host-header.md&style=docs&from=docs">最新知识卡</a>
+        </nav>
       </header>
 
-      <div class="placeholder-section-head">
-        <h2>文档预览 <small>// 占位中</small></h2>
-      </div>
-      <div class="placeholder-grid">
-        <div class="placeholder-card"><div><div class="placeholder-card-tag">// PLAN</div><div class="placeholder-card-glyph">📐</div></div><div><div class="placeholder-card-name">14-day Outline</div><div class="placeholder-card-foot">// PLACEHOLDER</div></div></div>
-        <div class="placeholder-card"><div><div class="placeholder-card-tag">// JOURNAL</div><div class="placeholder-card-glyph">📓</div></div><div><div class="placeholder-card-name">Daily Journal</div><div class="placeholder-card-foot">// PLACEHOLDER</div></div></div>
-        <div class="placeholder-card"><div><div class="placeholder-card-tag">// REF</div><div class="placeholder-card-glyph">📎</div></div><div><div class="placeholder-card-name">Design References</div><div class="placeholder-card-foot">// PLACEHOLDER</div></div></div>
-        <div class="placeholder-card"><div><div class="placeholder-card-tag">// SPEC</div><div class="placeholder-card-glyph">📋</div></div><div><div class="placeholder-card-name">Spec Sheet</div><div class="placeholder-card-foot">// PLACEHOLDER</div></div></div>
-        <div class="placeholder-card"><div><div class="placeholder-card-tag">// NOTE</div><div class="placeholder-card-glyph">✎</div></div><div><div class="placeholder-card-name">Quick Note</div><div class="placeholder-card-foot">// PLACEHOLDER</div></div></div>
-        <div class="placeholder-card"><div><div class="placeholder-card-tag">// CHEAT</div><div class="placeholder-card-glyph">⌘</div></div><div><div class="placeholder-card-name">Cheat Sheet</div><div class="placeholder-card-foot">// PLACEHOLDER</div></div></div>
+      <section class="docs-overview" aria-labelledby="docs-title">
+        <p class="docs-kicker"><span></span>WORKBENCH · KNOWLEDGE BASE</p>
+        <h1 id="docs-title">文档索引</h1>
+        <p class="docs-lede">统一收纳训练路线、每日笔记和知识卡。知识卡重点沉淀“场景 / 关键判断 / 稳定解法”，方便在下一次排障或设计判断时快速回看。</p>
+        <div class="docs-stats" aria-label="文档统计">
+          <div class="docs-stat">
+            <span>文档总数</span>
+            <b id="stat-total">-</b>
+            <small>DOCS</small>
+          </div>
+          <div class="docs-stat">
+            <span>知识卡</span>
+            <b id="stat-ref">-</b>
+            <small>REFERENCES</small>
+          </div>
+          <div class="docs-stat">
+            <span>训练笔记</span>
+            <b id="stat-journal">-</b>
+            <small>JOURNAL</small>
+          </div>
+          <div class="docs-stat">
+            <span>最近更新</span>
+            <b id="stat-last">-</b>
+            <small id="stat-last-file">UPDATED</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-toolbar" aria-label="文档筛选">
+        <label class="docs-search">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m16 16 4 4"></path>
+          </svg>
+          <input id="docs-search" type="search" placeholder="搜索标题、文件名、关键词" autocomplete="off" />
+        </label>
+        <div id="docs-tabs" class="docs-tabs" role="tablist" aria-label="文档分类"></div>
+        <div class="docs-view" aria-label="视图切换">
+          <button id="view-list" class="is-selected" type="button" aria-label="列表视图">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14"></path></svg>
+          </button>
+          <button id="view-grid" type="button" aria-label="网格视图">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h6v6H5zM13 5h6v6h-6zM5 13h6v6H5zM13 13h6v6h-6z"></path></svg>
+          </button>
+        </div>
+      </section>
+
+      <div class="docs-layout">
+        <aside class="docs-sidebar" aria-label="文档辅助筛选">
+          <section class="docs-panel">
+            <div class="docs-panel-head">
+              <h2>类型标签</h2>
+              <span id="tag-total">0</span>
+            </div>
+            <div id="tag-list" class="docs-tags"></div>
+          </section>
+          <section class="docs-panel">
+            <div class="docs-panel-head">
+              <h2>最近更新</h2>
+              <span>5</span>
+            </div>
+            <div id="recent-list" class="docs-recent"></div>
+          </section>
+          <section class="docs-note">
+            <h2>收录规则</h2>
+            <p>新增 Markdown 后运行 <code>python3 scripts/generate_site_index.py</code>，文档库会从索引读取最新文件。</p>
+          </section>
+        </aside>
+
+        <section class="docs-main" aria-labelledby="docs-result-title">
+          <div class="docs-result-head">
+            <h2 id="docs-result-title">全部文档</h2>
+            <p>匹配 <b id="result-count">0</b> / <span id="result-total">0</span></p>
+          </div>
+          <div id="active-filters" class="docs-active-filters"></div>
+          <div id="docs-list" class="docs-list"></div>
+        </section>
       </div>
 
-      <div class="placeholder-footnote">
-        <span>DOCS · BUILD —— · COMING SOON</span>
-        <a href="./viewer.html?file=plans/14-day-outline.md">→ 用 Viewer 直接打开 14 天大纲</a>
-      </div>
+      <footer class="docs-footer">
+        <span>DOCS · INDEX · UI/UED COACH</span>
+        <span>来源：docs/plans · docs/journal · docs/references</span>
+      </footer>
     </main>
+
+    <script defer src="./assets/docs-library.js?v=20260525-docs-return"></script>
   </body>
 </html>

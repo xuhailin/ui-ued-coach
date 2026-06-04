@@ -28,6 +28,18 @@ Pick one page and write:
 3. Which modules are repeated patterns rather than one-off visuals?
 4. If I remove one module, does the page still work?
 
+## Study Notes
+
+- 
+
+## User Submission
+
+Paste the day's work here.
+
+## Coach Feedback
+
+Add direct feedback, problems, and revision guidance here.
+
 ## Status
 
 - `in_progress`

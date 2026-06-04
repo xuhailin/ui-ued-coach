@@ -6,16 +6,28 @@ const STATUS_LABELS = {
   locked: "未开始",
   unknown: "未标记",
 };
-const VIEWER_STYLES = ["motion", "risograph", "terminal", "editorial"];
-const DEFAULT_VIEWER_STYLE = "risograph";
+const VIEWER_STYLES = ["docs", "motion", "risograph", "terminal", "editorial"];
+const DEFAULT_VIEWER_STYLE = "docs";
 const VIEWER_STYLE_STORAGE_KEY = "uiUedCoach.viewerStyle";
 const VIEWER_STYLE_TO_MODEL = {
+  docs: "reference",
   motion: "console",
   risograph: "risograph",
   terminal: "terminal",
   editorial: "editorial",
 };
 const VIEWER_STYLE_PROMPTS = {
+  docs: `我要一个文档库工作台风格的阅读页面，内容使用当前阅读文档本身，不要替换成风格说明。
+
+色板: 米白纸面 #f8f5ed / 浅暖灰 #efe8d8 / 墨黑 #1f1a17 / 次级文字 #6f6358 / 琥珀强调 #b06b00。中性色承担 85% 以上面积，强调色只用于当前位置、链接、选中态和少量状态。
+
+字体: Space Grotesk + Noto Sans SC 做标题和界面，JetBrains Mono 做路径、状态、序号和元信息。正文保持 15-16px、1.75 行高，优先阅读舒适。
+
+形态: 整页像 docs.html 的文档索引延伸：顶部是紧凑工具栏和风格 tab，内页使用左侧文档元信息 + 右侧正文的工作台布局。所有面板使用 1px 低对比边框、6-8px 圆角、轻透明纸面，不做厚重卡片墙。正文 h2 用细分割线建立节奏，代码块像可读的工程片段，blockquote 是低饱和提示块。
+
+文案语气: 工具型、克制、面向长期回看。按钮用明确动作词，不写营销话术。
+
+不要: 大 Hero、厚卡片墙、强渐变、玻璃过度模糊、emoji、圆角超过 8px、只靠颜色表达状态。`,
   motion: `我要一个 motion lab / experimental console 风格的阅读页面，内容使用当前阅读文档本身，不要替换成风格说明。
 
 色板: 近黑底 #06060c，叠加三层柔光 radial（品红 #ff2bd6 8%、青 #00f0ff 7%、紫 #b46bff 6%）和 48px grid，边缘用 radial mask 渐隐。文字 #e8e8f0，二级 #8a8aa3，三级 #4d4d66。每个动效类别只使用自己的霓虹色，不混用。
@@ -160,7 +172,8 @@ function docHref(file) {
 }
 
 function buildDocSequence(data) {
-  return [data.outlineFile, ...data.journal.map((item) => item.file)];
+  const documents = Array.isArray(data.documents) ? data.documents.map((item) => item.file) : [];
+  return [...new Set([data.outlineFile, ...data.journal.map((item) => item.file), ...documents])];
 }
 
 async function loadDocument(file) {
@@ -189,15 +202,32 @@ function getDocumentContext(data, safeFile) {
 
   const day = data.days.find((item) => item.journalFile === safeFile);
   const journal = data.journal.find((item) => item.file === safeFile);
+  const documentItem = Array.isArray(data.documents)
+    ? data.documents.find((item) => item.file === safeFile)
+    : null;
 
   return {
     summary:
       day?.summary ||
       journal?.summary ||
+      documentItem?.summary ||
       "当前文档已经载入，可以继续阅读练习要求、用户提交和教练反馈。",
-    status: day?.status || journal?.status || "unknown",
-    dayLabel: day?.day ? `Day ${String(day.day).padStart(2, "0")}` : "Journal",
+    status: day?.status || journal?.status || documentItem?.status || "unknown",
+    dayLabel: day?.day ? `Day ${String(day.day).padStart(2, "0")}` : documentTypeLabel(documentItem?.type),
   };
+}
+
+function documentTypeLabel(type) {
+  if (type === "ref") {
+    return "Reference";
+  }
+  if (type === "spec") {
+    return "Spec";
+  }
+  if (type === "plan") {
+    return "Roadmap";
+  }
+  return "Journal";
 }
 
 async function initHome() {
@@ -296,12 +326,9 @@ function initViewerStyleTabs(params) {
   }
 
   const requestedStyle = params.get("style");
-  const storedStyle = window.localStorage.getItem(VIEWER_STYLE_STORAGE_KEY);
   const initialStyle = VIEWER_STYLES.includes(requestedStyle)
     ? requestedStyle
-    : VIEWER_STYLES.includes(storedStyle)
-      ? storedStyle
-      : DEFAULT_VIEWER_STYLE;
+    : DEFAULT_VIEWER_STYLE;
 
   const setStyle = (style, shouldPersist = true) => {
     document.body.dataset.viewerStyle = style;
@@ -409,6 +436,13 @@ function extractTitle(markdown, fallback) {
 function renderViewerBackLink(data, safeFile, params) {
   const backLink = document.querySelector("#viewer-back-link");
   if (!backLink) {
+    return;
+  }
+
+  const source = params.get("from");
+  if (source === "docs" || (getCurrentViewerStyle() === "docs" && safeFile.startsWith("references/"))) {
+    backLink.href = "./docs.html";
+    backLink.textContent = "返回文档库";
     return;
   }
 

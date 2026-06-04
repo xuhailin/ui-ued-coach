@@ -13,13 +13,22 @@
     <script src="./assets/style-registry.js"></script>
     <script src="./assets/site-rail.js"></script>
   </head>
-  <body data-page="viewer" data-viewer-style="risograph">
+  <body data-page="viewer" data-viewer-style="docs">
     <div class="viewer-shell">
       <header class="viewer-topbar">
         <a id="viewer-back-link" class="text-link" href="./index.html">返回首页</a>
         <div id="viewer-style-tabs" class="viewer-style-tabs" role="tablist" aria-label="阅读风格">
+          <div class="viewer-style-tab" role="tab" tabindex="0" data-style="docs" aria-selected="true">
+            <span class="viewer-style-index">1</span>
+            <span class="viewer-style-copy">
+              <span class="viewer-style-name">Docs</span>
+              <span class="viewer-style-desc">文档库 · 默认</span>
+              <span class="viewer-style-fit" data-style-fit="docs"></span>
+            </span>
+            <button class="viewer-copy-prompt" type="button" data-copy-style="docs" aria-label="复制 Docs prompt">复制</button>
+          </div>
           <div class="viewer-style-tab" role="tab" tabindex="-1" data-style="motion" aria-selected="false">
-            <span class="viewer-style-index">4</span>
+            <span class="viewer-style-index">5</span>
             <span class="viewer-style-copy">
               <span class="viewer-style-name">Motion Lab</span>
               <span class="viewer-style-desc">深夜实验室 · 仪表盘</span>
@@ -27,17 +36,17 @@
             </span>
             <button class="viewer-copy-prompt" type="button" data-copy-style="motion" aria-label="复制 Motion Lab prompt">复制</button>
           </div>
-          <div class="viewer-style-tab" role="tab" tabindex="0" data-style="risograph" aria-selected="true">
-            <span class="viewer-style-index">1</span>
+          <div class="viewer-style-tab" role="tab" tabindex="-1" data-style="risograph" aria-selected="false">
+            <span class="viewer-style-index">2</span>
             <span class="viewer-style-copy">
               <span class="viewer-style-name">Risograph</span>
-              <span class="viewer-style-desc">印刷拼贴 · 默认</span>
+              <span class="viewer-style-desc">印刷拼贴 · 海报</span>
               <span class="viewer-style-fit" data-style-fit="risograph"></span>
             </span>
             <button class="viewer-copy-prompt" type="button" data-copy-style="risograph" aria-label="复制 Risograph prompt">复制</button>
           </div>
           <div class="viewer-style-tab" role="tab" tabindex="-1" data-style="terminal" aria-selected="false">
-            <span class="viewer-style-index">2</span>
+            <span class="viewer-style-index">3</span>
             <span class="viewer-style-copy">
               <span class="viewer-style-name">Terminal</span>
               <span class="viewer-style-desc">工程终端 · 命令行</span>
@@ -46,7 +55,7 @@
             <button class="viewer-copy-prompt" type="button" data-copy-style="terminal" aria-label="复制 Terminal prompt">复制</button>
           </div>
           <div class="viewer-style-tab" role="tab" tabindex="-1" data-style="editorial" aria-selected="false">
-            <span class="viewer-style-index">3</span>
+            <span class="viewer-style-index">4</span>
             <span class="viewer-style-copy">
               <span class="viewer-style-name">Editorial</span>
               <span class="viewer-style-desc">杂志内页 · 多栏</span>
@@ -83,8 +92,8 @@
             <div class="motion-brand-lockup">
               <span class="motion-brand-mark"></span>
               <span>
-                <span class="motion-brand-name">Motion Lab Reader</span>
-                <span class="motion-brand-build">v0.1 — DRAFT · BUILD 2026.05.12</span>
+                <span class="motion-brand-name">Docs Reader</span>
+                <span class="motion-brand-build">v0.2 — DOCS · BUILD 2026.05.25</span>
               </span>
             </div>
             <div class="motion-brand-state">● LIVE PREVIEW</div>
@@ -109,6 +118,6 @@
       </main>
     </div>
 
-    <script defer src="./assets/site.js?v=20260513-reader-nav"></script>
+    <script defer src="./assets/site.js?v=20260525-docs-return"></script>
   </body>
 </html>

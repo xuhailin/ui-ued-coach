@@ -154,5 +154,104 @@
       "status": "in_progress",
       "summary": "Learn to break a full page into functional modules instead of seeing it as one flat screen."
     }
+  ],
+  "references": [
+    {
+      "title": "Android 模拟器 DNS 与 Host 头排障卡",
+      "file": "references/android-emulator-dns-host-header.md",
+      "type": "ref",
+      "seq": "K-001",
+      "summary": "这个问题通常不是接口挂了，而是模拟器 DNS 和 macOS DNS 不是同一个环境。",
+      "scenario": "Mac 能访问内网域名，例如 `synyi-nurse-mobile-4828-develop.sy`。",
+      "judgment": "这个问题通常不是接口挂了，而是模拟器 DNS 和 macOS DNS 不是同一个环境。",
+      "solution": "当模拟器 DNS 不可靠，但已知域名解析结果时，可以：",
+      "tags": [
+        "Android",
+        "DNS",
+        "Host",
+        "排障"
+      ],
+      "updated": 1779440578.2350395
+    }
+  ],
+  "documents": [
+    {
+      "title": "14-day UI/UED 训练路线",
+      "file": "plans/14-day-outline.md",
+      "type": "plan",
+      "seq": "P-001",
+      "summary": "14 天训练路线、完成顺序和推进节奏。",
+      "tags": [
+        "训练路线"
+      ],
+      "updated": 1776394696.0053916
+    },
+    {
+      "title": "Day 1 - 页面不是长相，是结构",
+      "file": "journal/day-01-page-structure.md",
+      "type": "journal",
+      "seq": "J-001",
+      "summary": "Learn to judge a page by goal, structure, and attention flow before looking at visual style.",
+      "status": "completed",
+      "tags": [
+        "每日笔记"
+      ],
+      "updated": 1776394798.896898
+    },
+    {
+      "title": "Day 2 - 信息层级：用户先看到什么",
+      "file": "journal/day-02-information-hierarchy.md",
+      "type": "journal",
+      "seq": "J-002",
+      "summary": "Learn to judge whether a page is guiding attention in the right order.",
+      "status": "in_progress",
+      "tags": [
+        "每日笔记"
+      ],
+      "updated": 1776652438.0306745
+    },
+    {
+      "title": "Day 3 - 页面拆解：从整页到模块",
+      "file": "journal/day-03-page-decomposition.md",
+      "type": "journal",
+      "seq": "J-003",
+      "summary": "Learn to break a full page into functional modules instead of seeing it as one flat screen.",
+      "status": "in_progress",
+      "tags": [
+        "每日笔记"
+      ],
+      "updated": 1779868135.5808156
+    },
+    {
+      "title": "Android 模拟器 DNS 与 Host 头排障卡",
+      "file": "references/android-emulator-dns-host-header.md",
+      "type": "ref",
+      "seq": "K-001",
+      "summary": "这个问题通常不是接口挂了，而是模拟器 DNS 和 macOS DNS 不是同一个环境。",
+      "scenario": "Mac 能访问内网域名，例如 `synyi-nurse-mobile-4828-develop.sy`。",
+      "judgment": "这个问题通常不是接口挂了，而是模拟器 DNS 和 macOS DNS 不是同一个环境。",
+      "solution": "当模拟器 DNS 不可靠，但已知域名解析结果时，可以：",
+      "tags": [
+        "Android",
+        "DNS",
+        "Host",
+        "排障"
+      ],
+      "updated": 1779440578.2350395
+    },
+    {
+      "title": "阅读 · 设计规范 (design.md)",
+      "file": "references/阅读-design.md",
+      "type": "spec",
+      "seq": "S-002",
+      "summary": "> 生成时间：2026-04-19T16:28:04.793Z",
+      "scenario": "",
+      "judgment": "",
+      "solution": "",
+      "tags": [
+        "设计规范"
+      ],
+      "updated": 1776616447.9957333
+    }
   ]
 }
