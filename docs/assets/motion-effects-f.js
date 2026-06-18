@@ -1,7 +1,7 @@
 /* ============================================================
    motion-effects-f.js  —  Batch F (4 cursor-tracking effects)
    Effects: eye_follow_avatar, magnetic_blob_morph,
-            antenna_creature
+            antenna_creature, brushed_type_reveal
    Theme: center-anchored, deforms based on cursor direction/proximity
    ============================================================ */
 
@@ -754,6 +754,220 @@
         },
         stop() { raf.stop(); },
         destroy() { raf.stop(); pointer.destroy(); }
+      };
+    }
+  });
+
+  // ============================================================
+  // 50 · brushed_type_reveal (SVG text mask + gooey texture reveal)
+  // ============================================================
+  function brushedTypeSVG(uid, word) {
+    const label = word || 'EDSTAL';
+    return `
+      <div class="mfx-brush-stage-inner">
+        <svg class="mfx-brush-svg" viewBox="0 0 920 260" preserveAspectRatio="xMidYMid meet"
+             data-word="${label}" aria-hidden="true">
+          <defs>
+            <mask id="mfx-brush-mask-${uid}" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="920" height="260" mask-type="alpha">
+              <text x="50%" y="51%" fill="white" dominant-baseline="middle" text-anchor="middle">${label}</text>
+            </mask>
+            <filter id="mfx-brush-grain-${uid}" x="0" y="0" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.012 0.62" numOctaves="4" seed="12" result="noise"></feTurbulence>
+              <feColorMatrix in="noise" type="matrix"
+                values="0.62 0.62 0.62 0 0.12  0.62 0.62 0.62 0 0.12  0.62 0.62 0.62 0 0.12  0 0 0 1 0"
+                result="mono"></feColorMatrix>
+              <feGaussianBlur in="mono" stdDeviation="0.22 0" result="streaks"></feGaussianBlur>
+              <feComponentTransfer in="streaks" result="contrast">
+                <feFuncR type="gamma" amplitude="1.2" exponent="1.45" offset="-0.08"></feFuncR>
+                <feFuncG type="gamma" amplitude="1.2" exponent="1.45" offset="-0.08"></feFuncG>
+                <feFuncB type="gamma" amplitude="1.2" exponent="1.45" offset="-0.08"></feFuncB>
+              </feComponentTransfer>
+            </filter>
+            <linearGradient id="mfx-brush-shade-${uid}" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#f5f7f4"></stop>
+              <stop offset="38%" stop-color="#aeb4ad"></stop>
+              <stop offset="58%" stop-color="#292d29"></stop>
+              <stop offset="74%" stop-color="#dde1dc"></stop>
+              <stop offset="100%" stop-color="#5c625c"></stop>
+            </linearGradient>
+            <filter id="mfx-brush-goo-${uid}" x="-12%" y="-30%" width="124%" height="160%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="22" result="blur"></feGaussianBlur>
+              <feColorMatrix in="blur" type="matrix"
+                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 48 -9"
+                result="goo"></feColorMatrix>
+            </filter>
+            <mask id="mfx-brush-reveal-${uid}" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="920" height="260" mask-type="alpha">
+              <g class="mfx-brush-dots" filter="url(#mfx-brush-goo-${uid})"></g>
+            </mask>
+          </defs>
+          <g mask="url(#mfx-brush-mask-${uid})">
+            <rect class="mfx-brush-base-text" width="100%" height="100%"></rect>
+            <g class="mfx-brush-metal" mask="url(#mfx-brush-reveal-${uid})">
+              <rect width="100%" height="100%" fill="url(#mfx-brush-shade-${uid})"></rect>
+              <rect width="100%" height="100%" filter="url(#mfx-brush-grain-${uid})" opacity="0.76"></rect>
+              <rect class="mfx-brush-specular" width="100%" height="100%"></rect>
+            </g>
+          </g>
+        </svg>
+        <div class="mfx-brush-rule"></div>
+        <div class="mfx-brush-caption">// SVG MASK · GOOEY PARTICLES · BRUSHED TEXTURE</div>
+      </div>`;
+  }
+
+  window.MotionEffects.register('brushed_type_reveal', {
+    card({ module }) {
+      const uid = (module?.id || 'x') + '-brush-c';
+      return `<div class="mfx-brush-stage">${brushedTypeSVG(uid, 'EDSTAL')}</div>`;
+    },
+    modal({ module }) {
+      const uid = (module?.id || 'x') + '-brush-m';
+      return `<div class="mfx-brush-stage is-modal">${brushedTypeSVG(uid, 'EDSTAL')}</div>`;
+    },
+    init(stageEl, { prefersReducedMotion }) {
+      const svg = stageEl.querySelector('.mfx-brush-svg');
+      const dots = stageEl.querySelector('.mfx-brush-dots');
+      if (!svg || !dots) return {};
+
+      const pointer = {
+        x: 460,
+        y: 130,
+        tx: 460,
+        ty: 130,
+        presence: 0,
+        wantPresence: 0,
+        bounds: null
+      };
+      const particles = new Set();
+      const raf = makeRAF();
+      let lastEmit = 0;
+      let lastTime = 0;
+      let autopilot = 0;
+
+      const toSvgPoint = (clientX, clientY) => {
+        const rect = svg.getBoundingClientRect();
+        const x = ((clientX - rect.left) / Math.max(1, rect.width)) * 920;
+        const y = ((clientY - rect.top) / Math.max(1, rect.height)) * 260;
+        return {
+          x: clamp(x, 0, 920),
+          y: clamp(y, 0, 260)
+        };
+      };
+
+      const onEnter = () => { pointer.wantPresence = 1; };
+      const onLeave = () => { pointer.wantPresence = 0; };
+      const onMove = (event) => {
+        const p = toSvgPoint(event.clientX, event.clientY);
+        pointer.tx = p.x;
+        pointer.ty = p.y;
+        pointer.wantPresence = 1;
+      };
+
+      stageEl.addEventListener('pointerenter', onEnter);
+      stageEl.addEventListener('pointerleave', onLeave);
+      stageEl.addEventListener('pointermove', onMove);
+
+      function addParticle(x, y, speed, now) {
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        const size = clamp(22 + Math.sqrt(Math.max(1, speed)) * 8 + Math.random() * 30, 34, 132);
+        const particle = {
+          el: circle,
+          x: x + (Math.random() - 0.5) * 18,
+          y: y + (Math.random() - 0.5) * 12,
+          r: 0,
+          max: size,
+          born: now,
+          life: 1200 + Math.random() * 420,
+          driftX: (Math.random() - 0.5) * 18,
+          driftY: (Math.random() - 0.5) * 10
+        };
+        circle.setAttribute('cx', particle.x.toFixed(2));
+        circle.setAttribute('cy', particle.y.toFixed(2));
+        circle.setAttribute('r', '0');
+        circle.setAttribute('fill', 'white');
+        dots.appendChild(circle);
+        particles.add(particle);
+      }
+
+      function frame(now) {
+        const dt = lastTime ? Math.min(48, now - lastTime) : 16;
+        lastTime = now;
+        pointer.presence = lerp(pointer.presence, pointer.wantPresence, 0.08);
+
+        autopilot = now * 0.001;
+        const autoX = 460 + Math.cos(autopilot * 0.72) * 280;
+        const autoY = 130 + Math.sin(autopilot * 1.18) * 54;
+        const targetX = lerp(autoX, pointer.tx, pointer.presence);
+        const targetY = lerp(autoY, pointer.ty, pointer.presence);
+        const prevX = pointer.x;
+        const prevY = pointer.y;
+        pointer.x = lerp(pointer.x, targetX, 0.16);
+        pointer.y = lerp(pointer.y, targetY, 0.16);
+        const speed = Math.hypot(pointer.x - prevX, pointer.y - prevY);
+
+        const interval = pointer.presence > 0.2 ? 14 : 28;
+        if (now - lastEmit > interval) {
+          const count = pointer.presence > 0.35 ? 4 : 3;
+          for (let i = 0; i < count; i++) addParticle(pointer.x, pointer.y, speed, now);
+          lastEmit = now;
+        }
+
+        particles.forEach(particle => {
+          const age = now - particle.born;
+          const t = clamp(age / particle.life, 0, 1);
+          const grow = smoothstep(0, 0.22, t);
+          const fade = 1 - smoothstep(0.42, 1, t);
+          particle.r = particle.max * grow * fade;
+          particle.x += particle.driftX * dt / 1000;
+          particle.y += particle.driftY * dt / 1000;
+          particle.el.setAttribute('cx', particle.x.toFixed(2));
+          particle.el.setAttribute('cy', particle.y.toFixed(2));
+          particle.el.setAttribute('r', Math.max(0, particle.r).toFixed(2));
+          if (t >= 1 || particle.r < 0.2 && age > 240) {
+            particle.el.remove();
+            particles.delete(particle);
+          }
+        });
+
+        if (particles.size > 240) {
+          const excess = particles.size - 240;
+          Array.from(particles).slice(0, excess).forEach(particle => {
+            particle.el.remove();
+            particles.delete(particle);
+          });
+        }
+      }
+
+      function seedStatic() {
+        dots.innerHTML = '';
+        particles.clear();
+        const now = performance.now();
+        for (let i = 0; i < 30; i++) {
+          addParticle(260 + i * 14, 130 + Math.sin(i * 0.55) * 24, 48, now - i * 18);
+        }
+      }
+
+      return {
+        start() {
+          seedStatic();
+          if (prefersReducedMotion && prefersReducedMotion.matches) {
+            particles.forEach(particle => {
+              particle.el.setAttribute('r', String(particle.max * 0.86));
+            });
+            return;
+          }
+          lastTime = 0;
+          lastEmit = 0;
+          raf.start(frame);
+        },
+        stop() { raf.stop(); },
+        destroy() {
+          raf.stop();
+          stageEl.removeEventListener('pointerenter', onEnter);
+          stageEl.removeEventListener('pointerleave', onLeave);
+          stageEl.removeEventListener('pointermove', onMove);
+          dots.innerHTML = '';
+          particles.clear();
+        }
       };
     }
   });

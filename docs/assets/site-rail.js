@@ -27,6 +27,13 @@
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="2.5" fill="currentColor"/><circle cx="12" cy="12" r="9" stroke-dasharray="2 3"/><circle cx="21" cy="12" r="1.4" fill="currentColor"/></svg>'
     },
     {
+      page: 'webgl-scenes',
+      href: './webgl-scenes.html',
+      label: 'WebGL 场景',
+      sub: '3D',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3 4.5 7.2v8.6L12 20l7.5-4.2V7.2z"/><path d="M12 11.5 4.7 7.4M12 11.5l7.3-4.1M12 11.5V20"/><path d="m8.2 5.1 7.6 4.2"/></svg>'
+    },
+    {
       page: 'style-atlas',
       href: './style-atlas.html',
       label: '风格图谱',
@@ -40,6 +47,13 @@
       label: '色卡分类',
       sub: '色卡',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 5h16v4H4zM4 10h5v9H4zM10 10h5v9h-5zM16 10h4v9h-4z"/><path d="M6 7h3M12 7h3M18 7h.2"/></svg>'
+    },
+    {
+      page: 'fonts',
+      href: './fonts.html',
+      label: '字体预览',
+      sub: '字体',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5V4h16v2.5"/><path d="M12 4v16"/><path d="M8.5 20h7"/><path d="M5 14c1.4-2.2 2.9-3.3 4.5-3.3M19 14c-1.4-2.2-2.9-3.3-4.5-3.3"/></svg>'
     },
     {
       page: 'docs',

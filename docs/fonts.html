@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>免费字体场景预览 · UI/UED Coach</title>
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=clash-display@400,500,600,700&f[]=cabinet-grotesk@400,500,700&f[]=chillax@400,500,600&f[]=ranade@400,500,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/site-rail.css" />
+    <link rel="stylesheet" href="./assets/fonts.css" />
+    <script src="./assets/site-rail.js"></script>
+  </head>
+  <body data-page="fonts">
+    <main class="font-shell">
+      <section class="font-hero" aria-label="字体模块概览">
+        <div class="font-hero-copy">
+          <p class="font-kicker">Awwwards Source Review</p>
+          <h1>免费字体场景预览</h1>
+          <p class="font-lede">
+            基于 Awwwards 的 100 个免费字体索引，把字体从“收藏链接”整理成可筛选、可试字、可判断应用场景的工作台。
+          </p>
+          <div class="font-hero-actions">
+            <a class="font-button is-primary" href="#font-workbench">开始预览</a>
+            <a class="font-button" href="https://www.awwwards.com/best-free-fonts.html" target="_blank" rel="noreferrer">查看原文</a>
+          </div>
+        </div>
+        <figure class="font-hero-media">
+          <img src="https://assets.awwwards.com/awards/images/2025/07/free-fonts-2025.jpg" alt="Awwwards 免费字体文章封面" />
+        </figure>
+      </section>
+
+      <section class="font-analysis" aria-label="网页分析">
+        <article>
+          <span>01</span>
+          <h2>网页性质</h2>
+          <p>Awwwards 这页不是深度字体测评，而是面向设计师的免费字体资源索引，重点是快速发现、跳转下载与观看官方样张。</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h2>趋势线索</h2>
+          <p>页面强调大字号展示、serif/display 个性化、变量字体、强层级对比，以及字体配对对网页气质的影响。</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h2>使用提醒</h2>
+          <p>“Free”并不等于任意商用。部分字体只给个人、demo 或 trial 授权，落地项目前必须回到原链接确认许可。</p>
+        </article>
+      </section>
+
+      <section id="font-workbench" class="font-workbench" aria-label="字体预览工作台">
+        <header class="font-workbench-head">
+          <div>
+            <p class="font-kicker">Type Preview</p>
+            <h2>像 Google Fonts 一样整页试字</h2>
+          </div>
+          <div class="font-stats" aria-label="字体统计">
+            <span><b id="font-total">0</b> fonts</span>
+            <span><b id="font-visible">0</b> visible</span>
+          </div>
+        </header>
+
+        <div class="font-toolbar" aria-label="预览控制">
+          <label class="font-search">
+            <span>搜索</span>
+            <input id="font-search" type="search" placeholder="字体名 / 场景 / 来源" />
+          </label>
+          <label class="font-preview-input">
+            <span>试字</span>
+            <input id="font-preview-text" type="text" value="Shape the interface before it speaks." />
+          </label>
+          <label class="font-size-control">
+            <span>字号</span>
+            <input id="font-size" type="range" min="42" max="112" value="72" />
+          </label>
+        </div>
+
+        <nav id="font-filters" class="font-filters" aria-label="按场景筛选"></nav>
+        <div id="font-grid" class="font-grid" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <template id="font-card-template">
+      <article class="font-card">
+        <div class="font-card-top">
+          <div>
+            <span class="font-index"></span>
+            <h3></h3>
+          </div>
+          <span class="font-kind"></span>
+        </div>
+        <div class="font-specimen" contenteditable="true" spellcheck="false"></div>
+        <div class="font-card-body">
+          <figure class="font-source-image">
+            <img loading="lazy" alt="" />
+          </figure>
+          <div class="font-scenario">
+            <p class="font-scenario-title">适合场景</p>
+            <ul class="font-use-list"></ul>
+            <p class="font-risk"></p>
+            <p class="font-license"></p>
+          </div>
+        </div>
+        <footer class="font-card-links">
+          <a class="font-source-link" target="_blank" rel="noreferrer">字体来源</a>
+          <a class="font-awwwards-link" target="_blank" rel="noreferrer">Awwwards 条目</a>
+        </footer>
+      </article>
+    </template>
+
+    <script src="./assets/fonts.js"></script>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bonsai Morph · UI/UED Coach</title>
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/bonsai-morph.css" />
+    <script type="module" src="./assets/bonsai-morph.js"></script>
+  </head>
+  <body>
+    <main class="bonsai-page">
+      <section class="bonsai-hero" aria-label="Bonsai Morph">
+        <div class="bonsai-scene" id="bonsai-scene"></div>
+
+        <div class="bonsai-copy">
+          <p class="bonsai-kicker">WebGL study · morphology</p>
+          <h1>Bonsai Morph</h1>
+          <p class="bonsai-line">一株会安静重组的数字盆栽。</p>
+          <div class="bonsai-actions" aria-label="Bonsai controls">
+            <button class="bonsai-button is-primary" id="shape-button" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 3v3a4 4 0 0 1-4 4H2" />
+                <path d="M17 21v-3a4 4 0 0 1 4-4h1" />
+                <path d="M3 17h4a4 4 0 0 0 4-4v-2a4 4 0 0 1 4-4h6" />
+                <path d="m18 4 3 3-3 3" />
+                <path d="m6 14-3 3 3 3" />
+              </svg>
+              <span>变换</span>
+            </button>
+            <button class="bonsai-button" id="pause-button" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 5v14" />
+                <path d="M16 5v14" />
+              </svg>
+              <span>暂停</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="bonsai-status" aria-hidden="true">
+          <span id="shape-label">Canopy</span>
+          <span id="particle-label">1,980 instances</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

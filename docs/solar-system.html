@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Solar System Immersive · UI/UED Coach</title>
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/solar-system.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.184.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.184.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="./assets/solar-system.js"></script>
+  </head>
+  <body>
+    <main class="solar-app" aria-label="太阳系 3D 沉浸界面">
+      <div class="solar-stage" id="solar-stage"></div>
+
+      <header class="mission-header" aria-label="界面标题">
+        <a class="mission-link" href="./index.html">UI/UED Coach</a>
+        <div>
+          <p class="mission-kicker">WebGL Observatory</p>
+          <h1>Solar System</h1>
+        </div>
+      </header>
+
+      <section class="readout" aria-live="polite">
+        <p class="readout-index" id="planet-index">00 / Sun</p>
+        <h2 id="planet-title">太阳</h2>
+        <p id="planet-copy">恒星作为整个系统的视觉锚点，所有轨道、光照与镜头运动都围绕它建立。</p>
+        <dl>
+          <div>
+            <dt>类型</dt>
+            <dd id="planet-type">G 型主序星</dd>
+          </div>
+          <div>
+            <dt>距离</dt>
+            <dd id="planet-distance">0 AU</dd>
+          </div>
+          <div>
+            <dt>直径</dt>
+            <dd id="planet-diameter">1,392,700 km</dd>
+          </div>
+        </dl>
+      </section>
+
+      <nav class="planet-dock" aria-label="选择天体" id="planet-dock"></nav>
+
+      <div class="scene-controls" aria-label="场景控制">
+        <button class="control-button is-active" id="orbit-toggle" type="button" aria-pressed="true">巡航</button>
+        <button class="control-button" id="home-button" type="button">归位</button>
+      </div>
+
+      <p class="telemetry" id="telemetry">Camera locked · Heliocentric orbit plane</p>
+      <div class="focus-reticle" aria-hidden="true"></div>
+    </main>
+  </body>
+</html>

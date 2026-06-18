@@ -157,10 +157,70 @@
   ],
   "references": [
     {
+      "title": "智能体发展史时间轴卡",
+      "file": "references/agent-history-timeline.md",
+      "type": "ref",
+      "seq": "K-001",
+      "summary": "智能体的发展不是简单从“弱 AI”到“强 AI”，而是围绕一个反复出现的问题演进：上一代系统解决了某个能力短板，同时暴露新的边界。现代 LLM Agent 可以理解为历史上几条路线的融合：符号推理、模块协作、数据学习、强化反馈、预训练世界知识、工具调用、记忆与反思。",
+      "scenario": "",
+      "judgment": "智能体的发展不是简单从“弱 AI”到“强 AI”，而是围绕一个反复出现的问题演进：上一代系统解决了某个能力短板，同时暴露新的边界。现代 LLM Agent 可以理解为历史上几条路线的融合：符号推理、模块协作、数据学习、强化反馈、预训练世界知识、工具调用、记忆与反思。",
+      "solution": "",
+      "tags": [],
+      "updated": 1781675457.2449543
+    },
+    {
+      "title": "Agent 范式关键词分层索引卡",
+      "file": "references/agent-paradigm-layer-index.md",
+      "type": "ref",
+      "seq": "K-002",
+      "summary": "先问“它落在哪一层”，再讨论优劣。机制层回答能做什么，控制流范式层回答一个 Agent 怎么安排思考与行动，协作范式层回答多个 Agent 怎么分工；框架、workflow 选型视角和 Agentic RAG 这类组合体是横切概念。",
+      "scenario": "看到 Agent 领域的新名词时，很容易把机制、单 Agent 控制流、多 Agent 协作、框架和选型视角混在一起比较。",
+      "judgment": "先问“它落在哪一层”，再讨论优劣。机制层回答能做什么，控制流范式层回答一个 Agent 怎么安排思考与行动，协作范式层回答多个 Agent 怎么分工；框架、workflow 选型视角和 Agentic RAG 这类组合体是横切概念。",
+      "solution": "1. 如果它描述具体能力，例如 tool use、RAG、Memory、Structured output，归入机制层。",
+      "tags": [],
+      "updated": 1781677188.2156994
+    },
+    {
+      "title": "Agent Runtime 主循环架构图卡",
+      "file": "references/agent-runtime-loop-architecture.md",
+      "type": "ref",
+      "seq": "K-003",
+      "summary": "这张图不是在讲“一个模型怎么回答问题”，而是在讲“一个 Agent Runtime 怎么调度一次又一次模型调用”。",
+      "scenario": "看到一张 Agent Runtime 架构图，但容易只记住“LLM 调工具”这条线。",
+      "judgment": "这张图不是在讲“一个模型怎么回答问题”，而是在讲“一个 Agent Runtime 怎么调度一次又一次模型调用”。",
+      "solution": "以后看 Agent 架构图，可以按这 5 个问题拆：",
+      "tags": [],
+      "updated": 1780900425.060734
+    },
+    {
+      "title": "AI 3D 生成、3DGS 与 Three.js 关系卡",
+      "file": "references/ai-3d-generation-and-threejs.md",
+      "type": "ref",
+      "seq": "K-004",
+      "summary": "TripoSplat 这类工具不是简单在网页里放了一个 3D 模型，而是用 AI 从 2D 图片推断一个可从多角度渲染的 3D 表示。它更像“图片被补全成一个可看的空间资产”，而不是传统建模师手工做出的干净模型。",
+      "scenario": "看到 TripoSplat 这类网站：上传一张图，就能生成一个可旋转查看的 3D 物体。",
+      "judgment": "TripoSplat 这类工具不是简单在网页里放了一个 3D 模型，而是用 AI 从 2D 图片推断一个可从多角度渲染的 3D 表示。它更像“图片被补全成一个可看的空间资产”，而不是传统建模师手工做出的干净模型。",
+      "solution": "以后看到“AI 一张图生成 3D”的 demo，先问四个问题：",
+      "tags": [],
+      "updated": 1780901305.0678775
+    },
+    {
+      "title": "AI Companion 表情与贴纸素材库筛选卡",
+      "file": "references/ai-companion-sticker-resource-library.md",
+      "type": "ref",
+      "seq": "K-005",
+      "summary": "表情素材先按角色分三类，不要只按“好不好看”挑：",
+      "scenario": "给 AI companion、聊天产品、智能助手做“表情 / 贴纸 / 小动作”能力。",
+      "judgment": "表情素材先按角色分三类，不要只按“好不好看”挑：",
+      "solution": "给 AI companion 选表情素材时，按这个流程筛：",
+      "tags": [],
+      "updated": 1781074521.7061996
+    },
+    {
       "title": "Android 模拟器 DNS 与 Host 头排障卡",
       "file": "references/android-emulator-dns-host-header.md",
       "type": "ref",
-      "seq": "K-001",
+      "seq": "K-006",
       "summary": "这个问题通常不是接口挂了，而是模拟器 DNS 和 macOS DNS 不是同一个环境。",
       "scenario": "Mac 能访问内网域名，例如 `synyi-nurse-mobile-4828-develop.sy`。",
       "judgment": "这个问题通常不是接口挂了，而是模拟器 DNS 和 macOS DNS 不是同一个环境。",
@@ -172,6 +232,80 @@
         "排障"
       ],
       "updated": 1779440578.2350395
+    },
+    {
+      "title": "OpenAI / Claude Chat 与 Code Prompt 链路卡",
+      "file": "references/chat-code-prompt-flow-openai-claude.md",
+      "type": "ref",
+      "seq": "K-007",
+      "summary": "真实进入模型的通常不是裸用户输入，而是一个 prompt pack：系统 / 开发者规则、用户消息、会话历史、文件或图片、工具定义、检索结果、记忆、仓库规则和执行轨迹会被按产品规则组装进上下文。Chat 产品更偏回复与工具结果，Code Agent 更偏读仓库、改文件、跑命令、验证和汇报。",
+      "scenario": "理解 ChatGPT、Claude Chat、Codex、Claude Code 这类产品时，容易把“用户输入的一句话”误认为完整 prompt，也容易看不清它最终为什么会输出文本、工具调用、文件修改或命令结果。",
+      "judgment": "真实进入模型的通常不是裸用户输入，而是一个 prompt pack：系统 / 开发者规则、用户消息、会话历史、文件或图片、工具定义、检索结果、记忆、仓库规则和执行轨迹会被按产品规则组装进上下文。Chat 产品更偏回复与工具结果，Code Agent 更偏读仓库、改文件、跑命令、验证和汇报。",
+      "solution": "看一条 prompt 链路时，用四段拆：",
+      "tags": [],
+      "updated": 1781677860.557761
+    },
+    {
+      "title": "代码型 Agent 框架选型卡",
+      "file": "references/code-agent-framework-selection.md",
+      "type": "ref",
+      "seq": "K-008",
+      "summary": "读 Datawhale Hello Agents 第 6 章时，要把 AutoGen、AgentScope、CAMEL、LangGraph 放到“框架 / 脚手架”这一层，而不是和 ReAct、RAG、Memory 平级比较。",
+      "scenario": "读 Datawhale Hello Agents 第 6 章时，要把 AutoGen、AgentScope、CAMEL、LangGraph 放到“框架 / 脚手架”这一层，而不是和 ReAct、RAG、Memory 平级比较。",
+      "judgment": "",
+      "solution": "",
+      "tags": [],
+      "updated": 1781683560.2419634
+    },
+    {
+      "title": "低代码 Agent 平台选型卡",
+      "file": "references/lowcode-agent-platform-selection.md",
+      "type": "ref",
+      "seq": "K-009",
+      "summary": "学习 Agent 生态时，经常会把 Coze、Dify、FastGPT、n8n 和 ReAct、RAG、workflow 混在一起比较。正确看法是：这些是实现 Agent / LLM 应用的平台，不是单独的范式。",
+      "scenario": "学习 Agent 生态时，经常会把 Coze、Dify、FastGPT、n8n 和 ReAct、RAG、workflow 混在一起比较。正确看法是：这些是实现 Agent / LLM 应用的平台，不是单独的范式。",
+      "judgment": "",
+      "solution": "",
+      "tags": [],
+      "updated": 1781683168.1043568
+    },
+    {
+      "title": "产品动效资源库筛选卡",
+      "file": "references/product-motion-resource-library.md",
+      "type": "ref",
+      "seq": "K-010",
+      "summary": "产品动效参考不要只按“好看”收藏，要按用途分层：",
+      "scenario": "做产品动效、UI Motion、微交互、App 页面切换、网页滚动动画时，需要长期稳定的灵感来源。",
+      "judgment": "产品动效参考不要只按“好看”收藏，要按用途分层：",
+      "solution": "每次看动效参考时，用同一套拆解表，不要只收藏链接：",
+      "tags": [],
+      "updated": 1781745849.362989
+    },
+    {
+      "title": "ReAct 特点、局限性与调试技巧卡",
+      "file": "references/react-features-limits-debugging.md",
+      "type": "ref",
+      "seq": "K-011",
+      "summary": "读 Datawhale Hello Agents 第 4 章时，不能只把 ReAct 记成“边想边做”。真正要记住的是它的工程闭环：",
+      "scenario": "读 Datawhale Hello Agents 第 4 章时，不能只把 ReAct 记成“边想边做”。真正要记住的是它的工程闭环：",
+      "judgment": "",
+      "solution": "",
+      "tags": [
+        "排障"
+      ],
+      "updated": 1781678642.014188
+    },
+    {
+      "title": "WebGL 工作台沙盒背景卡",
+      "file": "references/webgl-workbench-sandbox-background.md",
+      "type": "ref",
+      "seq": "K-013",
+      "summary": "WebGL 沙盒背景不是装饰贴图，而是页面的情绪底座。业务操作仍然在清晰、半透明的 UI 层完成；3D 场景负责空间感、陪伴感和轻互动。",
+      "scenario": "一个原本偏工具型的工作台页面，想变得更有记忆点和情绪。",
+      "judgment": "WebGL 沙盒背景不是装饰贴图，而是页面的情绪底座。业务操作仍然在清晰、半透明的 UI 层完成；3D 场景负责空间感、陪伴感和轻互动。",
+      "solution": ".scene-stage {",
+      "tags": [],
+      "updated": 1781166154.960128
     }
   ],
   "documents": [
@@ -223,10 +357,70 @@
       "updated": 1779868135.5808156
     },
     {
+      "title": "智能体发展史时间轴卡",
+      "file": "references/agent-history-timeline.md",
+      "type": "ref",
+      "seq": "K-001",
+      "summary": "智能体的发展不是简单从“弱 AI”到“强 AI”，而是围绕一个反复出现的问题演进：上一代系统解决了某个能力短板，同时暴露新的边界。现代 LLM Agent 可以理解为历史上几条路线的融合：符号推理、模块协作、数据学习、强化反馈、预训练世界知识、工具调用、记忆与反思。",
+      "scenario": "",
+      "judgment": "智能体的发展不是简单从“弱 AI”到“强 AI”，而是围绕一个反复出现的问题演进：上一代系统解决了某个能力短板，同时暴露新的边界。现代 LLM Agent 可以理解为历史上几条路线的融合：符号推理、模块协作、数据学习、强化反馈、预训练世界知识、工具调用、记忆与反思。",
+      "solution": "",
+      "tags": [],
+      "updated": 1781675457.2449543
+    },
+    {
+      "title": "Agent 范式关键词分层索引卡",
+      "file": "references/agent-paradigm-layer-index.md",
+      "type": "ref",
+      "seq": "K-002",
+      "summary": "先问“它落在哪一层”，再讨论优劣。机制层回答能做什么，控制流范式层回答一个 Agent 怎么安排思考与行动，协作范式层回答多个 Agent 怎么分工；框架、workflow 选型视角和 Agentic RAG 这类组合体是横切概念。",
+      "scenario": "看到 Agent 领域的新名词时，很容易把机制、单 Agent 控制流、多 Agent 协作、框架和选型视角混在一起比较。",
+      "judgment": "先问“它落在哪一层”，再讨论优劣。机制层回答能做什么，控制流范式层回答一个 Agent 怎么安排思考与行动，协作范式层回答多个 Agent 怎么分工；框架、workflow 选型视角和 Agentic RAG 这类组合体是横切概念。",
+      "solution": "1. 如果它描述具体能力，例如 tool use、RAG、Memory、Structured output，归入机制层。",
+      "tags": [],
+      "updated": 1781677188.2156994
+    },
+    {
+      "title": "Agent Runtime 主循环架构图卡",
+      "file": "references/agent-runtime-loop-architecture.md",
+      "type": "ref",
+      "seq": "K-003",
+      "summary": "这张图不是在讲“一个模型怎么回答问题”，而是在讲“一个 Agent Runtime 怎么调度一次又一次模型调用”。",
+      "scenario": "看到一张 Agent Runtime 架构图，但容易只记住“LLM 调工具”这条线。",
+      "judgment": "这张图不是在讲“一个模型怎么回答问题”，而是在讲“一个 Agent Runtime 怎么调度一次又一次模型调用”。",
+      "solution": "以后看 Agent 架构图，可以按这 5 个问题拆：",
+      "tags": [],
+      "updated": 1780900425.060734
+    },
+    {
+      "title": "AI 3D 生成、3DGS 与 Three.js 关系卡",
+      "file": "references/ai-3d-generation-and-threejs.md",
+      "type": "ref",
+      "seq": "K-004",
+      "summary": "TripoSplat 这类工具不是简单在网页里放了一个 3D 模型，而是用 AI 从 2D 图片推断一个可从多角度渲染的 3D 表示。它更像“图片被补全成一个可看的空间资产”，而不是传统建模师手工做出的干净模型。",
+      "scenario": "看到 TripoSplat 这类网站：上传一张图，就能生成一个可旋转查看的 3D 物体。",
+      "judgment": "TripoSplat 这类工具不是简单在网页里放了一个 3D 模型，而是用 AI 从 2D 图片推断一个可从多角度渲染的 3D 表示。它更像“图片被补全成一个可看的空间资产”，而不是传统建模师手工做出的干净模型。",
+      "solution": "以后看到“AI 一张图生成 3D”的 demo，先问四个问题：",
+      "tags": [],
+      "updated": 1780901305.0678775
+    },
+    {
+      "title": "AI Companion 表情与贴纸素材库筛选卡",
+      "file": "references/ai-companion-sticker-resource-library.md",
+      "type": "ref",
+      "seq": "K-005",
+      "summary": "表情素材先按角色分三类，不要只按“好不好看”挑：",
+      "scenario": "给 AI companion、聊天产品、智能助手做“表情 / 贴纸 / 小动作”能力。",
+      "judgment": "表情素材先按角色分三类，不要只按“好不好看”挑：",
+      "solution": "给 AI companion 选表情素材时，按这个流程筛：",
+      "tags": [],
+      "updated": 1781074521.7061996
+    },
+    {
       "title": "Android 模拟器 DNS 与 Host 头排障卡",
       "file": "references/android-emulator-dns-host-header.md",
       "type": "ref",
-      "seq": "K-001",
+      "seq": "K-006",
       "summary": "这个问题通常不是接口挂了，而是模拟器 DNS 和 macOS DNS 不是同一个环境。",
       "scenario": "Mac 能访问内网域名，例如 `synyi-nurse-mobile-4828-develop.sy`。",
       "judgment": "这个问题通常不是接口挂了，而是模拟器 DNS 和 macOS DNS 不是同一个环境。",
@@ -240,10 +434,98 @@
       "updated": 1779440578.2350395
     },
     {
+      "title": "OpenAI / Claude Chat 与 Code Prompt 链路卡",
+      "file": "references/chat-code-prompt-flow-openai-claude.md",
+      "type": "ref",
+      "seq": "K-007",
+      "summary": "真实进入模型的通常不是裸用户输入，而是一个 prompt pack：系统 / 开发者规则、用户消息、会话历史、文件或图片、工具定义、检索结果、记忆、仓库规则和执行轨迹会被按产品规则组装进上下文。Chat 产品更偏回复与工具结果，Code Agent 更偏读仓库、改文件、跑命令、验证和汇报。",
+      "scenario": "理解 ChatGPT、Claude Chat、Codex、Claude Code 这类产品时，容易把“用户输入的一句话”误认为完整 prompt，也容易看不清它最终为什么会输出文本、工具调用、文件修改或命令结果。",
+      "judgment": "真实进入模型的通常不是裸用户输入，而是一个 prompt pack：系统 / 开发者规则、用户消息、会话历史、文件或图片、工具定义、检索结果、记忆、仓库规则和执行轨迹会被按产品规则组装进上下文。Chat 产品更偏回复与工具结果，Code Agent 更偏读仓库、改文件、跑命令、验证和汇报。",
+      "solution": "看一条 prompt 链路时，用四段拆：",
+      "tags": [],
+      "updated": 1781677860.557761
+    },
+    {
+      "title": "代码型 Agent 框架选型卡",
+      "file": "references/code-agent-framework-selection.md",
+      "type": "ref",
+      "seq": "K-008",
+      "summary": "读 Datawhale Hello Agents 第 6 章时，要把 AutoGen、AgentScope、CAMEL、LangGraph 放到“框架 / 脚手架”这一层，而不是和 ReAct、RAG、Memory 平级比较。",
+      "scenario": "读 Datawhale Hello Agents 第 6 章时，要把 AutoGen、AgentScope、CAMEL、LangGraph 放到“框架 / 脚手架”这一层，而不是和 ReAct、RAG、Memory 平级比较。",
+      "judgment": "",
+      "solution": "",
+      "tags": [],
+      "updated": 1781683560.2419634
+    },
+    {
+      "title": "低代码 Agent 平台选型卡",
+      "file": "references/lowcode-agent-platform-selection.md",
+      "type": "ref",
+      "seq": "K-009",
+      "summary": "学习 Agent 生态时，经常会把 Coze、Dify、FastGPT、n8n 和 ReAct、RAG、workflow 混在一起比较。正确看法是：这些是实现 Agent / LLM 应用的平台，不是单独的范式。",
+      "scenario": "学习 Agent 生态时，经常会把 Coze、Dify、FastGPT、n8n 和 ReAct、RAG、workflow 混在一起比较。正确看法是：这些是实现 Agent / LLM 应用的平台，不是单独的范式。",
+      "judgment": "",
+      "solution": "",
+      "tags": [],
+      "updated": 1781683168.1043568
+    },
+    {
+      "title": "产品动效资源库筛选卡",
+      "file": "references/product-motion-resource-library.md",
+      "type": "ref",
+      "seq": "K-010",
+      "summary": "产品动效参考不要只按“好看”收藏，要按用途分层：",
+      "scenario": "做产品动效、UI Motion、微交互、App 页面切换、网页滚动动画时，需要长期稳定的灵感来源。",
+      "judgment": "产品动效参考不要只按“好看”收藏，要按用途分层：",
+      "solution": "每次看动效参考时，用同一套拆解表，不要只收藏链接：",
+      "tags": [],
+      "updated": 1781745849.362989
+    },
+    {
+      "title": "ReAct 特点、局限性与调试技巧卡",
+      "file": "references/react-features-limits-debugging.md",
+      "type": "ref",
+      "seq": "K-011",
+      "summary": "读 Datawhale Hello Agents 第 4 章时，不能只把 ReAct 记成“边想边做”。真正要记住的是它的工程闭环：",
+      "scenario": "读 Datawhale Hello Agents 第 4 章时，不能只把 ReAct 记成“边想边做”。真正要记住的是它的工程闭环：",
+      "judgment": "",
+      "solution": "",
+      "tags": [
+        "排障"
+      ],
+      "updated": 1781678642.014188
+    },
+    {
+      "title": "SIRUP Playlist Site 视觉与动效拆解卡",
+      "file": "references/sirup-playlist-site-design-analysis.md",
+      "type": "spec",
+      "seq": "S-012",
+      "summary": "它有个性，不是因为堆了很多特效，而是因为三套语言同时成立：",
+      "scenario": "参考对象：[SIRUP - Apple Music : New Year Starters 2021 - Playlist Site](https://tote.design/sirup/)",
+      "judgment": "它有个性，不是因为堆了很多特效，而是因为三套语言同时成立：",
+      "solution": "",
+      "tags": [
+        "设计规范"
+      ],
+      "updated": 1781746763.093474
+    },
+    {
+      "title": "WebGL 工作台沙盒背景卡",
+      "file": "references/webgl-workbench-sandbox-background.md",
+      "type": "ref",
+      "seq": "K-013",
+      "summary": "WebGL 沙盒背景不是装饰贴图，而是页面的情绪底座。业务操作仍然在清晰、半透明的 UI 层完成；3D 场景负责空间感、陪伴感和轻互动。",
+      "scenario": "一个原本偏工具型的工作台页面，想变得更有记忆点和情绪。",
+      "judgment": "WebGL 沙盒背景不是装饰贴图，而是页面的情绪底座。业务操作仍然在清晰、半透明的 UI 层完成；3D 场景负责空间感、陪伴感和轻互动。",
+      "solution": ".scene-stage {",
+      "tags": [],
+      "updated": 1781166154.960128
+    },
+    {
       "title": "阅读 · 设计规范 (design.md)",
       "file": "references/阅读-design.md",
       "type": "spec",
-      "seq": "S-002",
+      "seq": "S-014",
       "summary": "> 生成时间：2026-04-19T16:28:04.793Z",
       "scenario": "",
       "judgment": "",

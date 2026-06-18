@@ -1,0 +1,518 @@
+:root {
+  --font-bg: #f6f7f2;
+  --font-ink: #121615;
+  --font-muted: #5f6963;
+  --font-faint: #9aa39c;
+  --font-line: rgba(18, 22, 21, 0.12);
+  --font-paper: rgba(255, 255, 251, 0.86);
+  --font-accent: #245f73;
+  --font-accent-2: #bd5a32;
+  --font-accent-3: #2f7a55;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --font-ui: "Space Grotesk", "Noto Sans SC", sans-serif;
+  --font-serif: "Instrument Serif", "Noto Serif SC", serif;
+  font-size: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body[data-page="fonts"] {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--font-ink);
+  font-family: var(--font-ui);
+  background:
+    linear-gradient(90deg, rgba(36, 95, 115, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(36, 95, 115, 0.06) 1px, transparent 1px),
+    linear-gradient(180deg, #fbfcf7 0%, var(--font-bg) 54%, #eef4f1 100%);
+  background-size: 44px 44px, 44px 44px, auto;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.font-shell {
+  width: min(1540px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 28px 0 72px;
+}
+
+.font-hero {
+  min-height: calc(100svh - 56px);
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+  gap: 40px;
+  align-items: center;
+  padding: 28px 0 48px;
+  border-bottom: 1px solid var(--font-line);
+}
+
+.font-hero-copy {
+  max-width: 680px;
+}
+
+.font-kicker {
+  margin: 0 0 14px;
+  color: var(--font-accent);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.font-hero h1 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(4rem, 11vw, 12rem);
+  font-weight: 400;
+  line-height: 0.86;
+  letter-spacing: 0;
+}
+
+.font-lede {
+  max-width: 560px;
+  margin: 28px 0 0;
+  color: var(--font-muted);
+  font-size: clamp(1.08rem, 1.4vw, 1.34rem);
+  line-height: 1.75;
+}
+
+.font-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.font-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 11px 16px;
+  border: 1px solid var(--font-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--font-ink);
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.font-button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(36, 95, 115, 0.35);
+  background: #ffffff;
+}
+
+.font-button.is-primary {
+  background: var(--font-ink);
+  color: #ffffff;
+}
+
+.font-hero-media {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  border: 1px solid var(--font-line);
+  background: #dfe5de;
+}
+
+.font-hero-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.font-analysis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0 0 34px;
+  border-bottom: 1px solid var(--font-line);
+  background: var(--font-line);
+}
+
+.font-analysis article {
+  min-height: 210px;
+  padding: 26px;
+  background: rgba(250, 252, 247, 0.88);
+}
+
+.font-analysis span,
+.font-index,
+.font-kind,
+.font-card-links,
+.font-stats,
+.font-toolbar span,
+.font-filters button,
+.font-scenario-title {
+  font-family: var(--font-mono);
+}
+
+.font-analysis span {
+  color: var(--font-accent-2);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.font-analysis h2 {
+  margin: 24px 0 12px;
+  font-size: 1.26rem;
+  line-height: 1.2;
+}
+
+.font-analysis p {
+  margin: 0;
+  color: var(--font-muted);
+  line-height: 1.72;
+}
+
+.font-workbench {
+  padding-top: 22px;
+}
+
+.font-workbench-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+.font-workbench-head h2 {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 5.4rem);
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+
+.font-stats {
+  display: flex;
+  gap: 10px;
+  color: var(--font-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.font-stats span {
+  padding: 8px 10px;
+  border: 1px solid var(--font-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.64);
+}
+
+.font-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(180px, 0.7fr) minmax(280px, 1.5fr) minmax(180px, 0.45fr);
+  gap: 10px;
+  padding: 12px 0;
+  border-top: 1px solid var(--font-line);
+  border-bottom: 1px solid var(--font-line);
+  background: rgba(246, 247, 242, 0.92);
+  backdrop-filter: blur(14px);
+}
+
+.font-toolbar label {
+  display: grid;
+  gap: 6px;
+}
+
+.font-toolbar span {
+  color: var(--font-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.font-toolbar input[type="search"],
+.font-toolbar input[type="text"] {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--font-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.76);
+  color: var(--font-ink);
+}
+
+.font-size-control input {
+  width: 100%;
+  accent-color: var(--font-accent);
+}
+
+.font-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 26px;
+}
+
+.font-filters button {
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--font-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--font-muted);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.font-filters button.is-active {
+  border-color: var(--font-ink);
+  background: var(--font-ink);
+  color: #ffffff;
+}
+
+.font-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.font-card {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  min-height: 560px;
+  border: 1px solid var(--font-line);
+  border-radius: 8px;
+  background: var(--font-paper);
+  overflow: hidden;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.font-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(36, 95, 115, 0.32);
+  box-shadow: 0 24px 54px rgba(22, 38, 35, 0.12);
+}
+
+.font-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 18px 0;
+}
+
+.font-card-top h3 {
+  margin: 4px 0 0;
+  font-size: 1.08rem;
+  line-height: 1.25;
+}
+
+.font-index,
+.font-kind {
+  color: var(--font-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.font-kind {
+  flex: 0 0 auto;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 8px;
+  border: 1px solid var(--font-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.font-specimen {
+  min-height: 178px;
+  display: flex;
+  align-items: end;
+  padding: 24px 18px 18px;
+  font-family: var(--preview-family, var(--font-ui));
+  font-size: var(--preview-size, 72px);
+  font-weight: var(--preview-weight, 600);
+  line-height: 0.93;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+  outline: none;
+}
+
+.font-card[data-kind="serif"] .font-specimen {
+  color: #1e2d2b;
+}
+
+.font-card[data-kind="mono"] .font-specimen {
+  color: #193d4b;
+}
+
+.font-card[data-kind="decorative"] .font-specimen {
+  color: #8b3525;
+}
+
+.font-card-body {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.85fr) minmax(0, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--font-line);
+}
+
+.font-source-image {
+  margin: 0;
+  min-height: 220px;
+  border-right: 1px solid var(--font-line);
+  background: #e6ebe8;
+}
+
+.font-source-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  object-fit: cover;
+}
+
+.font-scenario {
+  padding: 18px;
+}
+
+.font-scenario-title {
+  margin: 0 0 10px;
+  color: var(--font-accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.font-use-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.font-use-list li {
+  padding: 9px 0;
+  border-top: 1px solid rgba(18, 22, 21, 0.08);
+  color: var(--font-ink);
+  line-height: 1.48;
+}
+
+.font-risk,
+.font-license {
+  margin: 14px 0 0;
+  color: var(--font-muted);
+  font-size: 0.92rem;
+  line-height: 1.58;
+}
+
+.font-license {
+  color: var(--font-accent-2);
+}
+
+.font-card-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 1px;
+  border-top: 1px solid var(--font-line);
+  background: var(--font-line);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.font-card-links a {
+  flex: 1;
+  padding: 13px 14px;
+  background: rgba(255, 255, 255, 0.64);
+  text-align: center;
+  text-decoration: none;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.font-card-links a:hover {
+  background: var(--font-accent);
+  color: #ffffff;
+}
+
+.font-empty {
+  grid-column: 1 / -1;
+  padding: 70px 20px;
+  border: 1px solid var(--font-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--font-muted);
+  text-align: center;
+}
+
+@media (max-width: 1080px) {
+  .font-hero {
+    min-height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .font-hero-media {
+    aspect-ratio: 16 / 10;
+  }
+
+  .font-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .font-shell {
+    width: min(100% - 24px, 1540px);
+    padding-top: 18px;
+  }
+
+  .font-hero {
+    gap: 24px;
+    padding-bottom: 28px;
+  }
+
+  .font-analysis,
+  .font-toolbar,
+  .font-card-body {
+    grid-template-columns: 1fr;
+  }
+
+  .font-analysis article {
+    min-height: 0;
+  }
+
+  .font-workbench-head {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .font-toolbar {
+    position: static;
+  }
+
+  .font-source-image {
+    border-right: 0;
+    border-bottom: 1px solid var(--font-line);
+  }
+
+  .font-specimen {
+    min-height: 150px;
+  }
+}

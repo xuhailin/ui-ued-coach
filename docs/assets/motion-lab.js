@@ -304,6 +304,12 @@ const MODULES = [
     prompt: '中心一个圆形小生物头部，顶上伸出两根触角（贝塞尔曲线）。触角末端始终朝向光标方向弯曲，根部不动；hover 在 stage 内时触角末端有小光点闪烁。光标离开 stage 后触角抖动 1-2 次再弹性回归直立。整体像一只好奇的小怪物。',
     tags: ['creature', 'antenna', 'cute', '#interactive'],
     stack: 'SVG path · pointer event · transform'
+  },
+  {
+    id: '50', en: 'brushed_type_reveal', title: '拉丝文字显影', cat: 'typo', size: 'w', impl: true,
+    prompt: '参考 Duten brushed stainless steel 页面：底层是一行极大的白色文字，鼠标移动时在文字内部显影出拉丝金属纹理。实现上用 SVG text mask 限制字形区域，JS 持续生成圆形粒子轨迹，粒子经过 feGaussianBlur 和 feColorMatrix 变成 gooey 显影团，再用 feComposite 把本地生成的金属纹理裁入显影区域。空闲时有一段慢速自动扫光路径，避免卡片静止。',
+    tags: ['svg', 'mask', 'gooey', 'texture', '#interactive'],
+    stack: 'SVG filter · text mask · pointer particles'
   }
 ];
 
@@ -685,7 +691,7 @@ function motionSourceSummary(m) {
   if (!m) return '';
   const files = ['docs/assets/motion-lab.js'];
   if (m.impl && window.MotionEffects?.has(m.en)) {
-    files.push('docs/assets/motion-effects-a.js', 'docs/assets/motion-effects-b.js', 'docs/assets/motion-effects-c.js');
+    files.push('docs/assets/motion-effects-a.js', 'docs/assets/motion-effects-b.js', 'docs/assets/motion-effects-c.js', 'docs/assets/motion-effects-d.js', 'docs/assets/motion-effects-e.js', 'docs/assets/motion-effects-f.js');
   }
 
   return [
@@ -933,8 +939,9 @@ function cardMarkup(m) {
   if (currentMotionStyle === 'showcase') return showcaseCardMarkup(m, cat);
   const stage = buildCardStage(m, cat, false);
   const fxAttr = (m.impl && window.MotionEffects?.has(m.en)) ? ` data-fx-name="${m.en}"` : '';
+  const moduleClass = ` module-${m.en}`;
   return `
-    <div class="card size-${m.size} ${m.impl ? 'implemented' : ''}" data-id="${m.id}" style="--cc: ${cat.color}"${fxAttr}>
+    <div class="card size-${m.size} ${m.impl ? 'implemented' : ''}${moduleClass}" data-id="${m.id}" style="--cc: ${cat.color}"${fxAttr}>
       <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
       <div class="stage">${stage}</div>
       <div class="card-head">

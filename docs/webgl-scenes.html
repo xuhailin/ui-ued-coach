@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WebGL Scenes · UI/UED Coach</title>
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/site-rail.css" />
+    <link rel="stylesheet" href="./assets/webgl-scenes.css" />
+    <script src="./assets/site-rail.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.184.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.184.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="./assets/webgl-scenes.js"></script>
+  </head>
+  <body data-page="webgl-scenes" data-view="entry">
+    <main class="webgl-page">
+      <section class="scene-shell" aria-label="WebGL 场景入口">
+        <button class="scene-back" id="scene-back" type="button" aria-label="返回场景入口">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+          <span>返回</span>
+        </button>
+        <article class="scene-entry" id="scene-entry" role="button" tabindex="0" aria-label="打开阳光咖啡店 WebGL 场景">
+          <div class="scene-stage" id="sun-cafe-scene"></div>
+        </article>
+        <p class="scene-caption">阳光咖啡店 · WebGL Scene 001</p>
+      </section>
+
+      <section class="border-lab" aria-labelledby="border-lab-title">
+        <div class="border-lab-head">
+          <p class="border-lab-kicker">WebGL Border Lab</p>
+          <h1 id="border-lab-title">小晴 To-Do 卡片边框实验</h1>
+          <p>
+            三种边框都由透明 WebGL Canvas 包裹 DOM 卡片生成，状态接口会联动速度与密度。
+          </p>
+        </div>
+
+        <div class="border-lab-controls" aria-label="小晴推进状态控制">
+          <button class="border-state-toggle" id="xiaoqing-state-toggle" type="button" aria-pressed="false">
+            小晴推进
+          </button>
+          <label>
+            <span>Speed</span>
+            <input id="border-speed" type="range" min="0.4" max="2.4" value="0.82" step="0.02" />
+          </label>
+          <label>
+            <span>Density</span>
+            <input id="border-density" type="range" min="0.35" max="1.8" value="0.72" step="0.01" />
+          </label>
+        </div>
+
+        <div class="todo-board">
+          <article class="todo-card" data-border-effect="micro" data-state="idle">
+            <div class="todo-glow-frame" aria-hidden="true"></div>
+            <p class="todo-tag">01 / Minimal particles</p>
+            <h2>极简微光粒子</h2>
+            <p>细小光点沿矩形 Bounding Box 循环，平时像轻呼吸，推进时变密变快。</p>
+            <div class="todo-progress"><span style="--value: 58%"></span></div>
+          </article>
+
+          <article class="todo-card is-selected" data-border-effect="aurora" data-state="idle">
+            <div class="todo-glow-frame" aria-hidden="true"></div>
+            <p class="todo-tag">02 / Fluid aurora</p>
+            <h2>流体极光烟雾</h2>
+            <p>粉蓝与暖金噪声色场只裁切在外缘 4px-8px 范围，避开卡片正文。</p>
+            <div class="todo-progress"><span style="--value: 74%"></span></div>
+          </article>
+
+          <article class="todo-card" data-border-effect="cyber" data-state="idle">
+            <div class="todo-glow-frame" aria-hidden="true"></div>
+            <p class="todo-tag">03 / Cyber ribbon</p>
+            <h2>赛博数据流</h2>
+            <p>CatmullRomCurve3 闭合路径驱动多段发光 Ribbon，围绕四角高速飞驰。</p>
+            <div class="todo-progress"><span style="--value: 42%"></span></div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
