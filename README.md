@@ -8,6 +8,10 @@ This workspace is a lightweight home for a 14-day UI/UED training track aimed at
 - Store practice records and feedback
 - Accumulate page analysis notes and design judgment over time
 
+## Content Boundary
+
+This repository contains personal learning material. Company environments, internal services, business table structures, and work troubleshooting belong in the company work-base. Check ownership before adding a card, and remove its generated index entries when moving it out.
+
 ## Structure
 
 - `AGENTS.md`: working rules for the coaching thread
@@ -16,7 +20,7 @@ This workspace is a lightweight home for a 14-day UI/UED training track aimed at
 - `docs/data/motion-modules.json`: motion module prompts, status, tags, and future snippets
 - `docs/plans/14-day-outline.md`: the 14-day topic map
 - `docs/journal/`: daily training notes, submissions, and feedback
-- `docs/references/`: reusable knowledge cards and debugging heuristics
+- `docs/references/`: personal learning cards and general technical references
 - `docs/templates/day-note-template.md`: reusable note template
 - `scripts/generate_site_index.py`: regenerate the site data after adding day notes or reference cards
 
